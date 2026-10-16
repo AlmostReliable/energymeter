@@ -48,7 +48,7 @@ intended for private use or as a fallback if CurseForge and Modrinth are unavail
 Redistribution of builds or rehosting is strictly prohibited.
 
 <!-- Badge Images -->
-[version_badge]: https://img.shields.io/github/v/release/almostreliable/energymeter?include_prereleases&filter=v26.1-*&style=for-the-badge&logo=github&color=%23181717
+[version_badge]: https://img.shields.io/github/v/release/almostreliable/energymeter?include_prereleases&filter=v26.1*-*&style=for-the-badge&logo=github&color=%23181717
 [total_downloads_cf_badge]: https://img.shields.io/curseforge/dt/532169?style=for-the-badge&logo=curseforge&label=CurseForge&color=%23F16436
 [total_downloads_mr_badge]: https://img.shields.io/modrinth/dt/MbejSZ2E?style=for-the-badge&logo=modrinth&label=Modrinth&color=%2300AF5C
 [workflow_status_badge]: https://img.shields.io/github/actions/workflow/status/almostreliable/energymeter/build.yml?branch=26.1&style=for-the-badge
