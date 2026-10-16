@@ -29,6 +29,7 @@ import testmod.content.EnergyEmitterBlockEntity;
 import testmod.content.EnergyEmitterBlockMenu;
 import testmod.content.EnergyReceiverBlock;
 import testmod.content.EnergyReceiverBlockEntity;
+import testmod.content.ForwardingCableHandler;
 
 import java.util.List;
 import java.util.function.Function;
@@ -45,6 +46,7 @@ public final class TestRegistration {
 
     public static final DeferredBlock<EnergyReceiverBlock> ENERGY_RECEIVER_BLOCK = registerBlock("energy_receiver_block", EnergyReceiverBlock::new);
     public static final DeferredBlock<EnergyEmitterBlock> ENERGY_EMITTER_BLOCK = registerBlock("energy_emitter_block", EnergyEmitterBlock::new);
+    public static final DeferredBlock<Block> ENERGY_CABLE_BLOCK = registerBlock("energy_cable_block", Block::new);
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<EnergyReceiverBlockEntity>> ENERGY_RECEIVER_BLOCK_ENTITY = registerBlockEntity(ENERGY_RECEIVER_BLOCK, EnergyReceiverBlockEntity::new);
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<EnergyEmitterBlockEntity>> ENERGY_EMITTER_BLOCK_ENTITY = registerBlockEntity(ENERGY_EMITTER_BLOCK, EnergyEmitterBlockEntity::new);
     public static final DeferredHolder<MenuType<?>, MenuType<EnergyEmitterBlockMenu>> ENERGY_EMITTER_BLOCK_MENU = registerMenu(ENERGY_EMITTER_BLOCK, EnergyEmitterBlockEntity.class, EnergyEmitterBlockMenu::new);
@@ -56,7 +58,7 @@ public final class TestRegistration {
             .title(Component.literal("Testmod"))
             .icon(Items.NETHER_STAR::getDefaultInstance)
             .noScrollBar()
-            .displayItems((features, output) -> output.acceptAll(List.of(ENERGY_EMITTER_BLOCK.toStack(), ENERGY_RECEIVER_BLOCK.toStack())))
+            .displayItems((features, output) -> output.acceptAll(List.of(ENERGY_EMITTER_BLOCK.toStack(), ENERGY_RECEIVER_BLOCK.toStack(), ENERGY_CABLE_BLOCK.toStack())))
             .build()
     );
 
@@ -77,6 +79,11 @@ public final class TestRegistration {
             Capabilities.EnergyStorage.BLOCK,
             ENERGY_RECEIVER_BLOCK_ENTITY.get(),
             EnergyReceiverBlockEntity::getEnergyCapability
+        );
+        event.registerBlock(
+            Capabilities.EnergyStorage.BLOCK,
+            (level, pos, state, blockEntity, side) -> new ForwardingCableHandler(level, pos, side),
+            ENERGY_CABLE_BLOCK.get()
         );
     }
 
