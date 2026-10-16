@@ -58,8 +58,34 @@ public final class TestUtils {
     }
 
     public static MeterBlockEntity setupMeter(GameTestHelper helper) {
-        helper.setBlock(DEFAULT_POS, ModRegistration.METER_BLOCK.get());
-        return helper.getBlockEntity(DEFAULT_POS, MeterBlockEntity.class);
+        return setupMeter(helper, DEFAULT_POS);
+    }
+
+    public static MeterBlockEntity setupMeter(GameTestHelper helper, BlockPos pos) {
+        helper.setBlock(pos, ModRegistration.METER_BLOCK.get());
+        return helper.getBlockEntity(pos, MeterBlockEntity.class);
+    }
+
+    public static EnergyReceiverBlockEntity placeReceiver(GameTestHelper helper, BlockPos pos) {
+        helper.setBlock(pos, TestRegistration.ENERGY_RECEIVER_BLOCK.get());
+        return helper.getBlockEntity(pos, EnergyReceiverBlockEntity.class);
+    }
+
+    public static void placeCables(GameTestHelper helper, BlockPos... positions) {
+        for (BlockPos pos : positions) {
+            helper.setBlock(pos, TestRegistration.ENERGY_CABLE_BLOCK.get());
+        }
+    }
+
+    public static EnergyHandler getEnergyCap(GameTestHelper helper, BlockPos pos, @Nullable Direction side) {
+        var capability = helper.getLevel().getCapability(Capabilities.Energy.BLOCK, helper.absolutePos(pos), side);
+        if (capability == null) {
+            throw new GameTestAssertException(
+                Component.literal("expected an energy capability at " + pos + " on side " + side),
+                (int) helper.getTick()
+            );
+        }
+        return capability;
     }
 
     public static int insertEnergy(EnergyHandler handler, int amount, boolean simulate) {
@@ -93,19 +119,25 @@ public final class TestUtils {
     public static final class PlotBuilder {
 
         private final GameTestHelper helper;
+        private final BlockPos meterPos;
         private final MeterBlockEntity meterBlockEntity;
         private final Map<Direction, BiFunction<Integer, Boolean, Integer>> inputEnergyFunctionsWithResult = new EnumMap<>(Direction.class);
         private final Map<Direction, EnergyReceiverBlockEntity> outputEnergyBlockEntities = new EnumMap<>(Direction.class);
         private final Map<Direction, EnergyHandler> outputEnergyBlockCaps = new EnumMap<>(Direction.class);
 
-        private PlotBuilder(GameTestHelper helper, MeterBlockEntity meterBlockEntity) {
+        private PlotBuilder(GameTestHelper helper, BlockPos meterPos, MeterBlockEntity meterBlockEntity) {
             this.helper = helper;
+            this.meterPos = meterPos;
             this.meterBlockEntity = meterBlockEntity;
         }
 
         public static PlotBuilder create(GameTestHelper helper) {
-            MeterBlockEntity meterBlockEntity = setupMeter(helper);
-            return new PlotBuilder(helper, meterBlockEntity);
+            return create(helper, DEFAULT_POS);
+        }
+
+        public static PlotBuilder create(GameTestHelper helper, BlockPos meterPos) {
+            MeterBlockEntity meterBlockEntity = setupMeter(helper, meterPos);
+            return new PlotBuilder(helper, meterPos, meterBlockEntity);
         }
 
         public PlotBuilder input(Direction inputDirection) {
@@ -113,17 +145,7 @@ public final class TestUtils {
             meterBlockEntity.getIoConfig().setSetting(inputDirection, IoSettingWithPriority.IN);
 
             // get the registered energy capability of the meter on the configured side
-            var capability = helper.getLevel().getCapability(
-                Capabilities.Energy.BLOCK,
-                helper.absolutePos(DEFAULT_POS),
-                inputDirection
-            );
-            if (capability == null) {
-                throw new GameTestAssertException(
-                    Component.literal("meter should have an energy capability on the configured input side: " + inputDirection),
-                    (int) helper.getTick()
-                );
-            }
+            var capability = getEnergyCap(helper, meterPos, inputDirection);
             inputEnergyFunctionsWithResult.put(
                 inputDirection,
                 (energy, simulate) -> insertEnergy(capability, energy, simulate)
@@ -145,19 +167,12 @@ public final class TestUtils {
             meterBlockEntity.getIoConfig().setSetting(outputDirection, IoSettingWithPriority.priorityOutput(priority));
 
             // place the test energy block on the configured side
-            helper.setBlock(DEFAULT_POS.relative(outputDirection), TestRegistration.ENERGY_RECEIVER_BLOCK.get());
-            EnergyReceiverBlockEntity outputEnergyBlockEntity = helper.getBlockEntity(DEFAULT_POS.relative(outputDirection), EnergyReceiverBlockEntity.class);
+            BlockPos outputPos = meterPos.relative(outputDirection);
+            EnergyReceiverBlockEntity outputEnergyBlockEntity = placeReceiver(helper, outputPos);
 
             // test whether the energy block is empty
-            EnergyHandler outputEnergyBlockCap = helper.getLevel().getCapability(
-                Capabilities.Energy.BLOCK,
-                helper.absolutePos(DEFAULT_POS.relative(outputDirection)),
-                null
-            );
-            helper.assertTrue(
-                outputEnergyBlockCap != null && outputEnergyBlockCap.getAmountAsInt() == 0,
-                "output energy block should be empty"
-            );
+            EnergyHandler outputEnergyBlockCap = getEnergyCap(helper, outputPos, null);
+            helper.assertTrue(outputEnergyBlockCap.getAmountAsInt() == 0, "output energy block should be empty");
 
             outputEnergyBlockEntities.put(outputDirection, outputEnergyBlockEntity);
             outputEnergyBlockCaps.put(outputDirection, outputEnergyBlockCap);
@@ -167,6 +182,16 @@ public final class TestUtils {
 
         public PlotBuilder output(Direction outputDirection) {
             return output(outputDirection, 1);
+        }
+
+        public PlotBuilder cableOutput(Direction outputDirection) {
+            // set io output configuration
+            meterBlockEntity.getIoConfig().setSetting(outputDirection, IoSettingWithPriority.OUT_DEFAULT);
+
+            // place a test cable on the configured side
+            placeCables(helper, meterPos.relative(outputDirection));
+
+            return this;
         }
 
         public PlotBuilder outputs(Direction... outputDirections) {
