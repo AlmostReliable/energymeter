@@ -14,6 +14,7 @@ import net.neoforged.neoforge.transfer.transaction.TransactionContext;
 import com.google.common.primitives.Ints;
 
 import org.jetbrains.annotations.TestOnly;
+import org.jetbrains.annotations.VisibleForTesting;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -21,6 +22,7 @@ import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.ToLongFunction;
 
 public class MeterEnergyHandler {
 
@@ -33,6 +35,7 @@ public class MeterEnergyHandler {
     private long energyPerInterval;
     private double lastIntervalAverage;
     private int ticksWithoutEnergy;
+    private boolean delegating; // set while forwarding to track loops
 
     public MeterEnergyHandler(EnergyHandlerHost host) {
         this.host = host;
@@ -77,8 +80,17 @@ public class MeterEnergyHandler {
     }
 
     public int forwardEnergy(int amount, TransactionContext transaction) {
-        if (amount <= 0) return 0;
+        if (amount <= 0 || delegating) return 0;
 
+        delegating = true;
+        try {
+            return forwardEnergyToOutputs(amount, transaction);
+        } finally {
+            delegating = false;
+        }
+    }
+
+    private int forwardEnergyToOutputs(int amount, TransactionContext transaction) {
         if (host.getTransferMode() == TransferMode.CONSUME) {
             journal.updateSnapshots(transaction);
             energyPerInterval += amount;
@@ -153,6 +165,7 @@ public class MeterEnergyHandler {
         return new MaxEnergyPerOutputResult(maxEnergyPerOutput, maxEnergyPerOutputSum);
     }
 
+    @VisibleForTesting
     public Iterable<EnergyHandler> getValidOutputEnergyStorages() {
         List<EnergyHandler> outputEnergyStorages = new ArrayList<>();
 
@@ -165,6 +178,26 @@ public class MeterEnergyHandler {
         });
 
         return outputEnergyStorages;
+    }
+
+    long sumOutputs(ToLongFunction<EnergyHandler> energyGetter) {
+        if (delegating) return 0;
+
+        delegating = true;
+        try {
+            long result = 0;
+
+            for (EnergyHandler output : getValidOutputEnergyStorages()) {
+                long value = energyGetter.applyAsLong(output);
+                if (value <= 0) continue;
+                if (value > Long.MAX_VALUE - result) return Long.MAX_VALUE;
+                result += value;
+            }
+
+            return result;
+        } finally {
+            delegating = false;
+        }
     }
 
     private BlockCapabilityCache<EnergyHandler, Direction> getOrSetupCache(Direction direction) {
