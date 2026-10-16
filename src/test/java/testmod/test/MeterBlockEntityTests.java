@@ -29,12 +29,12 @@ public class MeterBlockEntityTests {
         helper.assertFalse(ioConfig.hasChanged(), "energy meter io config should not be marked as changed by default");
 
         // test enum defaults
-        helper.assertValueEqual(meterBlockEntity.getTransferMode(), TransferMode.SPLIT, "transfer mode");
-        helper.assertValueEqual(meterBlockEntity.getMeasureMode(), MeasureMode.INSTANT, "measure mode");
-        helper.assertValueEqual(meterBlockEntity.getConnectionStatus(), ConnectionStatus.DISCONNECTED, "connection status");
+        helper.assertValueEqual(TransferMode.SPLIT, meterBlockEntity.getTransferMode(), "transfer mode");
+        helper.assertValueEqual(MeasureMode.INSTANT, meterBlockEntity.getMeasureMode(), "measure mode");
+        helper.assertValueEqual(ConnectionStatus.DISCONNECTED, meterBlockEntity.getConnectionStatus(), "connection status");
 
         // test limit default
-        helper.assertValueEqual(meterBlockEntity.getTransferLimit(), 0L, "transfer limit");
+        helper.assertValueEqual(0L, meterBlockEntity.getTransferLimit(), "transfer limit");
         helper.succeed();
     }
 

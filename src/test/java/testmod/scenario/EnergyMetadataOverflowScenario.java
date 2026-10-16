@@ -43,13 +43,13 @@ public final class EnergyMetadataOverflowScenario {
 
         // verify invalid metadata does not reduce either aggregate
         helper.assertValueEqual(
-            defensiveStorage.getAmountAsLong(),
             42L,
+            defensiveStorage.getAmountAsLong(),
             "aggregated amount with invalid metadata"
         );
         helper.assertValueEqual(
-            defensiveStorage.getCapacityAsLong(),
             83L,
+            defensiveStorage.getCapacityAsLong(),
             "aggregated capacity with invalid metadata"
         );
 
@@ -62,13 +62,13 @@ public final class EnergyMetadataOverflowScenario {
 
         // verify both aggregates saturate instead of wrapping to a negative value
         helper.assertValueEqual(
-            overflowingStorage.getAmountAsLong(),
             Long.MAX_VALUE,
+            overflowingStorage.getAmountAsLong(),
             "overflowing aggregated amount"
         );
         helper.assertValueEqual(
-            overflowingStorage.getCapacityAsLong(),
             Long.MAX_VALUE,
+            overflowingStorage.getCapacityAsLong(),
             "overflowing aggregated capacity"
         );
         helper.succeed();

@@ -43,8 +43,8 @@ public class LoopStackOverflowScenario {
         int energyAccepted = withoutOverflow(helper, () -> inputEnergyFunction.apply(energyPerTick, false));
 
         // check the values
-        helper.assertValueEqual(energyAccepted, 0, "energy accepted");
-        helper.assertValueEqual(meterBlockEntity.getEnergyHandler().getEnergyPerInterval(), 0L, "energy per interval");
+        helper.assertValueEqual(0, energyAccepted, "energy accepted");
+        helper.assertValueEqual(0L, meterBlockEntity.getEnergyHandler().getEnergyPerInterval(), "energy per interval");
 
         helper.succeed();
     }
@@ -67,11 +67,11 @@ public class LoopStackOverflowScenario {
         int energyAccepted = withoutOverflow(helper, () -> inputEnergyFunction.apply(energyPerTick, false));
 
         // check the values
-        helper.assertValueEqual(energyAccepted, energyMaxReceive, "energy accepted");
-        helper.assertValueEqual(receiverEnergyBlockCap.getAmountAsInt(), energyMaxReceive, "receiver energy");
+        helper.assertValueEqual(energyMaxReceive, energyAccepted, "energy accepted");
+        helper.assertValueEqual(energyMaxReceive, receiverEnergyBlockCap.getAmountAsInt(), "receiver energy");
         helper.assertValueEqual(
-            meterBlockEntity.getEnergyHandler().getEnergyPerInterval(),
             (long) energyMaxReceive,
+            meterBlockEntity.getEnergyHandler().getEnergyPerInterval(),
             "energy per interval"
         );
 
@@ -79,15 +79,15 @@ public class LoopStackOverflowScenario {
         energyAccepted = withoutOverflow(helper, () -> inputEnergyFunction.apply(energyPerTick, false));
 
         // check the values
-        helper.assertValueEqual(energyAccepted, energyMaxReceive, "second energy accepted");
+        helper.assertValueEqual(energyMaxReceive, energyAccepted, "second energy accepted");
         helper.assertValueEqual(
-            receiverEnergyBlockCap.getAmountAsInt(),
             energyMaxReceive * 2,
+            receiverEnergyBlockCap.getAmountAsInt(),
             "second receiver energy"
         );
         helper.assertValueEqual(
-            meterBlockEntity.getEnergyHandler().getEnergyPerInterval(),
             energyMaxReceive * 2L,
+            meterBlockEntity.getEnergyHandler().getEnergyPerInterval(),
             "second energy per interval"
         );
 
@@ -112,9 +112,9 @@ public class LoopStackOverflowScenario {
         int energySimulated = withoutOverflow(helper, () -> inputEnergyFunction.apply(energyPerTick, true));
 
         // check the values
-        helper.assertValueEqual(energySimulated, energyMaxReceive, "energy simulated");
-        helper.assertValueEqual(receiverEnergyBlockCap.getAmountAsInt(), 0, "receiver energy");
-        helper.assertValueEqual(meterBlockEntity.getEnergyHandler().getEnergyPerInterval(), 0L, "energy per interval");
+        helper.assertValueEqual(energyMaxReceive, energySimulated, "energy simulated");
+        helper.assertValueEqual(0, receiverEnergyBlockCap.getAmountAsInt(), "receiver energy");
+        helper.assertValueEqual(0L, meterBlockEntity.getEnergyHandler().getEnergyPerInterval(), "energy per interval");
 
         helper.succeed();
     }
@@ -138,8 +138,8 @@ public class LoopStackOverflowScenario {
         long energyCapacity = withoutOverflow(helper, inputEnergyCap::getCapacityAsLong);
 
         // check the values
-        helper.assertValueEqual(energyAmount, (long) receiverEnergy, "energy amount");
-        helper.assertValueEqual(energyCapacity, (long) receiverCapacity, "energy capacity");
+        helper.assertValueEqual((long) receiverEnergy, energyAmount, "energy amount");
+        helper.assertValueEqual((long) receiverCapacity, energyCapacity, "energy capacity");
 
         helper.succeed();
     }
@@ -172,16 +172,16 @@ public class LoopStackOverflowScenario {
         int energyAccepted = withoutOverflow(helper, () -> inputEnergyFunction.apply(energyPerTick, false));
 
         // check the values
-        helper.assertValueEqual(energyAccepted, energyMaxReceive, "energy accepted");
-        helper.assertValueEqual(receiverEnergyBlockCap.getAmountAsInt(), energyMaxReceive, "receiver energy");
+        helper.assertValueEqual(energyMaxReceive, energyAccepted, "energy accepted");
+        helper.assertValueEqual(energyMaxReceive, receiverEnergyBlockCap.getAmountAsInt(), "receiver energy");
         helper.assertValueEqual(
-            firstMeterBlockEntity.getEnergyHandler().getEnergyPerInterval(),
             (long) energyMaxReceive,
+            firstMeterBlockEntity.getEnergyHandler().getEnergyPerInterval(),
             "first energy per interval"
         );
         helper.assertValueEqual(
-            secondMeterBlockEntity.getEnergyHandler().getEnergyPerInterval(),
             (long) energyMaxReceive,
+            secondMeterBlockEntity.getEnergyHandler().getEnergyPerInterval(),
             "second energy per interval"
         );
 
@@ -214,11 +214,11 @@ public class LoopStackOverflowScenario {
         );
 
         // check the values
-        helper.assertValueEqual(energyAccepted, energyPerTick, "energy accepted");
-        helper.assertValueEqual(outputEnergyBlockCap.getAmountAsInt(), energyPerTick, "output energy");
+        helper.assertValueEqual(energyPerTick, energyAccepted, "energy accepted");
+        helper.assertValueEqual(energyPerTick, outputEnergyBlockCap.getAmountAsInt(), "output energy");
         helper.assertValueEqual(
-            meterBlockEntity.getEnergyHandler().getEnergyPerInterval(),
             (long) energyPerTick,
+            meterBlockEntity.getEnergyHandler().getEnergyPerInterval(),
             "energy per interval"
         );
 

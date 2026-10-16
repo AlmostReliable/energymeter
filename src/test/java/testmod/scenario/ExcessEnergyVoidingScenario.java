@@ -42,7 +42,7 @@ public class ExcessEnergyVoidingScenario {
         var energyAccepted = inputEnergyFunction.apply(energyPerTick, false);
 
         // check the value
-        helper.assertValueEqual(energyAccepted, energyMaxReceive, "energy accepted");
+        helper.assertValueEqual(energyMaxReceive, energyAccepted, "energy accepted");
 
         helper.succeed();
     }

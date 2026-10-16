@@ -26,8 +26,8 @@ public class MeterConsumeTests {
 
         // check consume input
         EnergyHandler inputEnergyStorage = TestUtils.getEnergyCap(helper, TestUtils.DEFAULT_POS, Direction.WEST);
-        helper.assertValueEqual(inputEnergyStorage.getAmountAsLong(), 0L, "consume input stored energy");
-        helper.assertValueEqual(inputEnergyStorage.getCapacityAsLong(), Long.MAX_VALUE, "consume input capacity");
+        helper.assertValueEqual(0L, inputEnergyStorage.getAmountAsLong(), "consume input stored energy");
+        helper.assertValueEqual(Long.MAX_VALUE, inputEnergyStorage.getCapacityAsLong(), "consume input capacity");
 
         // push energy towards the meter from the input side
         int energyPerTick = TestUtils.getRandomEnergyRate();

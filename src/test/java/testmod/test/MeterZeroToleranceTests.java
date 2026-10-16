@@ -26,12 +26,12 @@ public class MeterZeroToleranceTests {
         // set measure interval and ensure it is set correctly
         int measureInterval = 15;
         meterBlockEntity.setMeasureInterval(measureInterval);
-        helper.assertValueEqual(meterBlockEntity.getMeasureInterval(), measureInterval, "measure interval should be set correctly");
+        helper.assertValueEqual(measureInterval, meterBlockEntity.getMeasureInterval(), "measure interval should be set correctly");
 
         // set zero tolerance and ensure it is set correctly
         int zeroTolerance = 5;
         meterBlockEntity.setZeroTolerance(zeroTolerance);
-        helper.assertValueEqual(meterBlockEntity.getZeroTolerance(), zeroTolerance, "zero tolerance should be set correctly");
+        helper.assertValueEqual(zeroTolerance, meterBlockEntity.getZeroTolerance(), "zero tolerance should be set correctly");
 
         // push energy towards the meter from the input side for 8 ticks
         int energyPerTick = 1000;
