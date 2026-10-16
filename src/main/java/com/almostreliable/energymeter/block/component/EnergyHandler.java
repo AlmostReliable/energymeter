@@ -18,6 +18,7 @@ import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 public class EnergyHandler {
 
@@ -29,6 +30,7 @@ public class EnergyHandler {
     private long energyPerInterval;
     private double lastIntervalAverage;
     private int ticksWithoutEnergy;
+    private boolean delegating; // set while forwarding to track loops
 
     public EnergyHandler(EnergyHandlerHost host) {
         this.host = host;
@@ -73,8 +75,17 @@ public class EnergyHandler {
     }
 
     public int forwardEnergy(int amount, boolean simulate) {
-        if (amount <= 0) return 0;
+        if (amount <= 0 || delegating) return 0;
 
+        delegating = true;
+        try {
+            return forwardEnergyToOutputs(amount, simulate);
+        } finally {
+            delegating = false;
+        }
+    }
+
+    private int forwardEnergyToOutputs(int amount, boolean simulate) {
         if (host.getTransferMode() == TransferMode.CONSUME) {
             if (!simulate) energyPerInterval += amount;
             return amount;
@@ -156,6 +167,23 @@ public class EnergyHandler {
         });
 
         return outputEnergyStorages;
+    }
+
+    int sumOutputs(Function<IEnergyStorage, Integer> energyGetter) {
+        if (delegating) return 0;
+
+        delegating = true;
+        try {
+            long result = 0;
+
+            for (IEnergyStorage neighborEnergyStorage : getValidOutputEnergyStorages()) {
+                result += energyGetter.apply(neighborEnergyStorage);
+            }
+
+            return Ints.saturatedCast(result);
+        } finally {
+            delegating = false;
+        }
     }
 
     private BlockCapabilityCache<IEnergyStorage, Direction> getOrSetupCache(Direction direction) {

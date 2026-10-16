@@ -4,9 +4,6 @@ import com.almostreliable.energymeter.block.component.IoConfig.IoSettingWithPrio
 
 import net.neoforged.neoforge.energy.IEnergyStorage;
 
-import com.google.common.primitives.Ints;
-
-import java.util.function.Function;
 import java.util.function.Supplier;
 
 public final class ForwardingEnergyStorage implements IEnergyStorage {
@@ -33,14 +30,14 @@ public final class ForwardingEnergyStorage implements IEnergyStorage {
     @Override
     public int getEnergyStored() {
         if (!canReceive() || energyHandler.isConsumeMode()) return 0;
-        return forwardToOutputs(IEnergyStorage::getEnergyStored);
+        return energyHandler.sumOutputs(IEnergyStorage::getEnergyStored);
     }
 
     @Override
     public int getMaxEnergyStored() {
         if (!canReceive()) return 0;
         if (energyHandler.isConsumeMode()) return Integer.MAX_VALUE;
-        return forwardToOutputs(IEnergyStorage::getMaxEnergyStored);
+        return energyHandler.sumOutputs(IEnergyStorage::getMaxEnergyStored);
     }
 
     @Override
@@ -51,15 +48,5 @@ public final class ForwardingEnergyStorage implements IEnergyStorage {
     @Override
     public boolean canExtract() {
         return false;
-    }
-
-    private int forwardToOutputs(Function<IEnergyStorage, Integer> energyGetter) {
-        long result = 0;
-
-        for (IEnergyStorage neighborEnergyStorage : energyHandler.getValidOutputEnergyStorages()) {
-            result += energyGetter.apply(neighborEnergyStorage);
-        }
-
-        return Ints.saturatedCast(result);
     }
 }
