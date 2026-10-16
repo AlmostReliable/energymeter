@@ -1,27 +1,23 @@
 package testmod.scenario;
 
 import com.almostreliable.energymeter.block.component.EnergyHandler;
-import com.almostreliable.energymeter.block.component.IoConfig.IoSettingWithPriority;
 import com.almostreliable.energymeter.block.entity.MeterBlockEntity;
-import com.almostreliable.energymeter.core.Registration;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestAssertException;
 import net.minecraft.gametest.framework.GameTestHelper;
-import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.energy.IEnergyStorage;
 import net.neoforged.neoforge.gametest.GameTestHolder;
 import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 
 import testmod.TestMod;
-import testmod.TestRegistration;
 import testmod.TestUtils;
+import testmod.TestUtils.PlotBuilder;
 import testmod.content.EnergyReceiverBlockEntity;
 
-import java.util.Objects;
-import java.util.function.IntSupplier;
+import java.util.function.Supplier;
 
 /**
  * This scenario tests a bug reported <a href="https://github.com/AlmostReliable/energymeter/issues/46">here</a>.
@@ -38,187 +34,229 @@ import java.util.function.IntSupplier;
 @PrefixGameTestTemplate(false)
 public class LoopStackOverflowScenario {
 
-    private static final BlockPos METER_POS = TestUtils.DEFAULT_POS;
+    private static final BlockPos RECEIVER_POS = TestUtils.DEFAULT_POS.east().south();
+    private static final BlockPos SECOND_METER_POS = TestUtils.DEFAULT_POS.below();
 
     @GameTest(template = TestUtils.EMPTY_STRUCTURE, batch = TestUtils.BATCH_METER_TESTS)
     public void loopWithoutConsumer(GameTestHelper helper) {
         // set up the plot
-        MeterBlockEntity meter = setupLoop(helper);
+        var plotResult = setupLoopPlot(helper);
 
-        IEnergyStorage input = input(meter, Direction.WEST);
+        MeterBlockEntity meterBlockEntity = plotResult.meterBlockEntity();
+        var inputEnergyFunction = plotResult.inputEnergyFunctionsWithResult().get(Direction.WEST);
 
-        // insert energy into the loop
-        int inserted = withoutOverflow(() -> input.receiveEnergy(1_000, false));
+        // push energy towards the meter from the input side and store the result
+        int energyPerTick = 1_000;
+        int energyAccepted = withoutOverflow(() -> inputEnergyFunction.apply(energyPerTick, false));
 
-        // check that no energy was accepted or measured
-        assertEquals(helper, 0, inserted, "inserted energy");
-        assertEquals(helper, 0, meter.getEnergyHandler().getEnergyPerInterval(), "throughput");
+        // check the values
+        helper.assertValueEqual(energyAccepted, 0, "energy accepted");
+        helper.assertValueEqual(meterBlockEntity.getEnergyHandler().getEnergyPerInterval(), 0L, "energy per interval");
+
         helper.succeed();
     }
 
     @GameTest(template = TestUtils.EMPTY_STRUCTURE, batch = TestUtils.BATCH_METER_TESTS)
     public void loopWithConsumer(GameTestHelper helper) {
-        // set up a loop with a consumer that only accepts part of the energy, so the cable offers the rest to the meter
-        MeterBlockEntity meter = setupLoop(helper);
-        EnergyReceiverBlockEntity receiver = placeReceiver(helper, METER_POS.east().south(), 400);
-        IEnergyStorage input = input(meter, Direction.WEST);
+        // set up the plot
+        var plotResult = setupLoopPlot(helper);
+        EnergyReceiverBlockEntity receiverBlockEntity = TestUtils.placeReceiver(helper, RECEIVER_POS);
 
-        // insert energy into the loop
-        int inserted = withoutOverflow(() -> input.receiveEnergy(1_000, false));
+        MeterBlockEntity meterBlockEntity = plotResult.meterBlockEntity();
+        var inputEnergyFunction = plotResult.inputEnergyFunctionsWithResult().get(Direction.WEST);
+        IEnergyStorage receiverEnergyBlockCap = TestUtils.getEnergyCap(helper, RECEIVER_POS, null);
 
-        // check that the energy reached the consumer and was measured once
-        assertEquals(helper, 400, inserted, "inserted energy");
-        assertEquals(helper, 400, amount(receiver), "consumer energy");
-        assertEquals(helper, 400, meter.getEnergyHandler().getEnergyPerInterval(), "throughput");
+        // limit the receiver so the cable offers the remaining energy back to the meter input
+        int energyMaxReceive = 400;
+        receiverBlockEntity.setMaxReceive(energyMaxReceive);
 
-        // insert again to check that the guard was released
-        inserted = withoutOverflow(() -> input.receiveEnergy(1_000, false));
-        assertEquals(helper, 400, inserted, "second inserted energy");
-        assertEquals(helper, 800, amount(receiver), "second consumer energy");
-        assertEquals(helper, 800, meter.getEnergyHandler().getEnergyPerInterval(), "second throughput");
+        // push energy towards the meter from the input side and store the result
+        int energyPerTick = 1_000;
+        int energyAccepted = withoutOverflow(() -> inputEnergyFunction.apply(energyPerTick, false));
+
+        // check the values
+        helper.assertValueEqual(energyAccepted, energyMaxReceive, "energy accepted");
+        helper.assertValueEqual(receiverEnergyBlockCap.getEnergyStored(), energyMaxReceive, "receiver energy");
+        helper.assertValueEqual(
+            meterBlockEntity.getEnergyHandler().getEnergyPerInterval(),
+            (long) energyMaxReceive,
+            "energy per interval"
+        );
+
+        // push energy again to check that the guard was released
+        energyAccepted = withoutOverflow(() -> inputEnergyFunction.apply(energyPerTick, false));
+
+        // check the values
+        helper.assertValueEqual(energyAccepted, energyMaxReceive, "second energy accepted");
+        helper.assertValueEqual(
+            receiverEnergyBlockCap.getEnergyStored(),
+            energyMaxReceive * 2,
+            "second receiver energy"
+        );
+        helper.assertValueEqual(
+            meterBlockEntity.getEnergyHandler().getEnergyPerInterval(),
+            energyMaxReceive * 2L,
+            "second energy per interval"
+        );
+
         helper.succeed();
     }
 
     @GameTest(template = TestUtils.EMPTY_STRUCTURE, batch = TestUtils.BATCH_METER_TESTS)
     public void loopSimulation(GameTestHelper helper) {
-        // set up a loop with a consumer that only accepts part of the energy
-        MeterBlockEntity meter = setupLoop(helper);
-        EnergyReceiverBlockEntity receiver = placeReceiver(helper, METER_POS.east().south(), 400);
-        IEnergyStorage input = input(meter, Direction.WEST);
+        // set up the plot
+        var plotResult = setupLoopPlot(helper);
+        EnergyReceiverBlockEntity receiverBlockEntity = TestUtils.placeReceiver(helper, RECEIVER_POS);
 
-        // simulate inserting energy into the loop
-        int simulated = withoutOverflow(() -> input.receiveEnergy(1_000, true));
-        assertEquals(helper, 400, simulated, "simulated energy");
+        MeterBlockEntity meterBlockEntity = plotResult.meterBlockEntity();
+        var inputEnergyFunction = plotResult.inputEnergyFunctionsWithResult().get(Direction.WEST);
+        IEnergyStorage receiverEnergyBlockCap = TestUtils.getEnergyCap(helper, RECEIVER_POS, null);
 
-        // check that the simulation left no state behind
-        assertEquals(helper, 0, amount(receiver), "simulated consumer energy");
-        assertEquals(helper, 0, meter.getEnergyHandler().getEnergyPerInterval(), "simulated throughput");
+        // limit the receiver so the cable offers the remaining energy back to the meter input
+        int energyMaxReceive = 400;
+        receiverBlockEntity.setMaxReceive(energyMaxReceive);
+
+        // simulate pushing energy towards the meter from the input side and store the result
+        int energyPerTick = 1_000;
+        int energySimulated = withoutOverflow(() -> inputEnergyFunction.apply(energyPerTick, true));
+
+        // check the values
+        helper.assertValueEqual(energySimulated, energyMaxReceive, "energy simulated");
+        helper.assertValueEqual(receiverEnergyBlockCap.getEnergyStored(), 0, "receiver energy");
+        helper.assertValueEqual(meterBlockEntity.getEnergyHandler().getEnergyPerInterval(), 0L, "energy per interval");
+
         helper.succeed();
     }
 
     @GameTest(template = TestUtils.EMPTY_STRUCTURE, batch = TestUtils.BATCH_METER_TESTS)
     public void loopEnergyQueries(GameTestHelper helper) {
-        // set up a loop with a partially filled consumer
-        MeterBlockEntity meter = setupLoop(helper);
-        EnergyReceiverBlockEntity receiver = placeReceiver(helper, METER_POS.east().south(), 1_000);
-        receiver.setCapacity(5_000);
-        receiverCap(receiver).receiveEnergy(1_000, false);
-        IEnergyStorage input = input(meter, Direction.WEST);
+        // set up the plot
+        setupLoopPlot(helper);
+        EnergyReceiverBlockEntity receiverBlockEntity = TestUtils.placeReceiver(helper, RECEIVER_POS);
 
-        // query the energy metadata through the loop
-        int amount = withoutOverflow(input::getEnergyStored);
-        int capacity = withoutOverflow(input::getMaxEnergyStored);
+        IEnergyStorage inputEnergyCap = TestUtils.getEnergyCap(helper, TestUtils.DEFAULT_POS, Direction.WEST);
+        IEnergyStorage receiverEnergyBlockCap = TestUtils.getEnergyCap(helper, RECEIVER_POS, null);
 
-        // check that only the consumer is reported
-        assertEquals(helper, 1_000, amount, "reported amount");
-        assertEquals(helper, 5_000, capacity, "reported capacity");
+        // partially fill the receiver
+        int receiverCapacity = 5_000;
+        int receiverEnergy = 1_000;
+        receiverBlockEntity.setCapacity(receiverCapacity);
+        receiverEnergyBlockCap.receiveEnergy(receiverEnergy, false);
+
+        // query the energy metadata from the input side
+        int energyAmount = withoutOverflow(inputEnergyCap::getEnergyStored);
+        int energyCapacity = withoutOverflow(inputEnergyCap::getMaxEnergyStored);
+
+        // check the values
+        helper.assertValueEqual(energyAmount, receiverEnergy, "energy amount");
+        helper.assertValueEqual(energyCapacity, receiverCapacity, "energy capacity");
+
         helper.succeed();
     }
 
     @GameTest(template = TestUtils.EMPTY_STRUCTURE, batch = TestUtils.BATCH_METER_TESTS)
     public void loopTwoMeters(GameTestHelper helper) {
-        // set up two meters that feed each other through cables
-        MeterBlockEntity first = setupMeter(helper, METER_POS, Direction.WEST, Direction.EAST);
-        MeterBlockEntity second = setupMeter(helper, METER_POS.below(), Direction.EAST, Direction.WEST);
-        placeCables(helper, METER_POS.east(), METER_POS.east().below());
-        placeCables(helper, METER_POS.west().below(), METER_POS.west());
+        // set up the plot with two meters that feed each other through cables
+        PlotBuilder.Result firstPlotResult = PlotBuilder.create(helper)
+            .input(Direction.WEST)
+            .cableOutput(Direction.EAST)
+            .build();
+        PlotBuilder.Result secondPlotResult = PlotBuilder.create(helper, SECOND_METER_POS)
+            .input(Direction.EAST)
+            .cableOutput(Direction.WEST)
+            .build();
+        TestUtils.placeCables(helper, SECOND_METER_POS.east(), TestUtils.DEFAULT_POS.west());
+        BlockPos receiverPos = SECOND_METER_POS.west().north();
+        EnergyReceiverBlockEntity receiverBlockEntity = TestUtils.placeReceiver(helper, receiverPos);
 
-        // attach a consumer that only accepts part of the energy to the cable between the meters
-        EnergyReceiverBlockEntity receiver = placeReceiver(helper, METER_POS.west().below().north(), 400);
-        IEnergyStorage input = input(first, Direction.WEST);
+        MeterBlockEntity firstMeterBlockEntity = firstPlotResult.meterBlockEntity();
+        MeterBlockEntity secondMeterBlockEntity = secondPlotResult.meterBlockEntity();
+        var inputEnergyFunction = firstPlotResult.inputEnergyFunctionsWithResult().get(Direction.WEST);
+        IEnergyStorage receiverEnergyBlockCap = TestUtils.getEnergyCap(helper, receiverPos, null);
 
-        // insert energy into the loop
-        int inserted = withoutOverflow(() -> input.receiveEnergy(1_000, false));
+        // limit the receiver so the cable offers the remaining energy back to the first meter
+        int energyMaxReceive = 400;
+        receiverBlockEntity.setMaxReceive(energyMaxReceive);
 
-        // check that the energy passed both meters once
-        assertEquals(helper, 400, inserted, "inserted energy");
-        assertEquals(helper, 400, amount(receiver), "consumer energy");
-        assertEquals(helper, 400, first.getEnergyHandler().getEnergyPerInterval(), "first throughput");
-        assertEquals(helper, 400, second.getEnergyHandler().getEnergyPerInterval(), "second throughput");
+        // push energy towards the first meter from the input side and store the result
+        int energyPerTick = 1_000;
+        int energyAccepted = withoutOverflow(() -> inputEnergyFunction.apply(energyPerTick, false));
+
+        // check the values
+        helper.assertValueEqual(energyAccepted, energyMaxReceive, "energy accepted");
+        helper.assertValueEqual(receiverEnergyBlockCap.getEnergyStored(), energyMaxReceive, "receiver energy");
+        helper.assertValueEqual(
+            firstMeterBlockEntity.getEnergyHandler().getEnergyPerInterval(),
+            (long) energyMaxReceive,
+            "first energy per interval"
+        );
+        helper.assertValueEqual(
+            secondMeterBlockEntity.getEnergyHandler().getEnergyPerInterval(),
+            (long) energyMaxReceive,
+            "second energy per interval"
+        );
+
         helper.succeed();
     }
 
     @GameTest(template = TestUtils.EMPTY_STRUCTURE, batch = TestUtils.BATCH_METER_TESTS)
     public void sharedInputNetwork(GameTestHelper helper) {
-        // set up a meter with two inputs on the same cable network and a consumer that limits each insertion
-        var plot = TestUtils.PlotBuilder.create(helper)
+        // set up the plot with two inputs on the same cable network
+        var plotResult = PlotBuilder.create(helper)
             .inputs(Direction.WEST, Direction.NORTH)
             .output(Direction.EAST)
             .build();
-        MeterBlockEntity meter = plot.meterBlockEntity();
-        EnergyReceiverBlockEntity receiver = plot.outputEnergyBlockEntities().get(Direction.EAST);
-        receiver.setMaxReceive(600);
-        BlockPos cornerPos = METER_POS.west().north();
-        placeCables(helper, METER_POS.west(), cornerPos, METER_POS.north());
+        BlockPos cablePos = TestUtils.DEFAULT_POS.west().north();
+        TestUtils.placeCables(helper, TestUtils.DEFAULT_POS.west(), cablePos, TestUtils.DEFAULT_POS.north());
 
-        // insert energy into the cable network, which offers the energy to both inputs in sequence
-        IEnergyStorage network = Objects.requireNonNull(
-            helper.getLevel().getCapability(Capabilities.EnergyStorage.BLOCK, helper.absolutePos(cornerPos), null)
+        MeterBlockEntity meterBlockEntity = plotResult.meterBlockEntity();
+        EnergyReceiverBlockEntity outputEnergyBlockEntity = plotResult.outputEnergyBlockEntities().get(Direction.EAST);
+        IEnergyStorage outputEnergyBlockCap = plotResult.outputEnergyBlockCaps().get(Direction.EAST);
+        IEnergyStorage cableEnergyCap = TestUtils.getEnergyCap(helper, cablePos, null);
+
+        // limit the output block so a single input can't forward all energy
+        int energyMaxReceive = 600;
+        outputEnergyBlockEntity.setMaxReceive(energyMaxReceive);
+
+        // push energy into the cable network, which offers it to both inputs in sequence
+        int energyPerTick = 1_000;
+        int energyAccepted = withoutOverflow(() -> cableEnergyCap.receiveEnergy(energyPerTick, false));
+
+        // check the values
+        helper.assertValueEqual(energyAccepted, energyPerTick, "energy accepted");
+        helper.assertValueEqual(outputEnergyBlockCap.getEnergyStored(), energyPerTick, "output energy");
+        helper.assertValueEqual(
+            meterBlockEntity.getEnergyHandler().getEnergyPerInterval(),
+            (long) energyPerTick,
+            "energy per interval"
         );
-        int inserted = withoutOverflow(() -> network.receiveEnergy(1_000, false));
 
-        // check that both inputs forwarded energy
-        assertEquals(helper, 1_000, inserted, "inserted energy");
-        assertEquals(helper, 1_000, amount(receiver), "consumer energy");
-        assertEquals(helper, 1_000, meter.getEnergyHandler().getEnergyPerInterval(), "throughput");
         helper.succeed();
     }
 
-    private static MeterBlockEntity setupLoop(GameTestHelper helper) {
-        MeterBlockEntity meter = setupMeter(helper, METER_POS, Direction.WEST, Direction.EAST);
-        placeCables(
+    private static PlotBuilder.Result setupLoopPlot(GameTestHelper helper) {
+        var plotResult = PlotBuilder.create(helper)
+            .input(Direction.WEST)
+            .cableOutput(Direction.EAST)
+            .build();
+
+        BlockPos meterPos = TestUtils.DEFAULT_POS;
+        TestUtils.placeCables(
             helper,
-            METER_POS.east(),
-            METER_POS.east().north(),
-            METER_POS.north(),
-            METER_POS.west().north(),
-            METER_POS.west()
+            meterPos.east().north(),
+            meterPos.north(),
+            meterPos.west().north(),
+            meterPos.west()
         );
-        return meter;
+
+        return plotResult;
     }
 
-    private static MeterBlockEntity setupMeter(GameTestHelper helper, BlockPos pos, Direction input, Direction output) {
-        helper.setBlock(pos, Registration.METER_BLOCK.get());
-        MeterBlockEntity meter = helper.getBlockEntity(pos);
-        meter.getIoConfig().setSetting(input, IoSettingWithPriority.IN);
-        meter.getIoConfig().setSetting(output, IoSettingWithPriority.OUT_DEFAULT);
-        return meter;
-    }
-
-    private static void placeCables(GameTestHelper helper, BlockPos... positions) {
-        for (BlockPos pos : positions) {
-            helper.setBlock(pos, TestRegistration.ENERGY_CABLE_BLOCK.get());
-        }
-    }
-
-    private static EnergyReceiverBlockEntity placeReceiver(GameTestHelper helper, BlockPos pos, int maxReceive) {
-        helper.setBlock(pos, TestRegistration.ENERGY_RECEIVER_BLOCK.get());
-        EnergyReceiverBlockEntity receiver = helper.getBlockEntity(pos);
-        receiver.setMaxReceive(maxReceive);
-        return receiver;
-    }
-
-    private static IEnergyStorage input(MeterBlockEntity meter, Direction direction) {
-        return Objects.requireNonNull(meter.getEnergyCapability(direction));
-    }
-
-    private static IEnergyStorage receiverCap(EnergyReceiverBlockEntity receiver) {
-        return Objects.requireNonNull(receiver.getEnergyCapability(null));
-    }
-
-    private static int amount(EnergyReceiverBlockEntity receiver) {
-        return receiverCap(receiver).getEnergyStored();
-    }
-
-    private static int withoutOverflow(IntSupplier action) {
+    private static <T> T withoutOverflow(Supplier<T> action) {
         try {
-            return action.getAsInt();
+            return action.get();
         } catch (StackOverflowError e) {
             throw new GameTestAssertException("energy loop caused a stack overflow");
         }
-    }
-
-    private static void assertEquals(GameTestHelper helper, long expected, long actual, String subject) {
-        helper.assertTrue(expected == actual, subject + ": expected " + expected + ", got " + actual);
     }
 }
