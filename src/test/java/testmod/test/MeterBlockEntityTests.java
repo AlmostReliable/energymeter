@@ -7,7 +7,6 @@ import com.almostreliable.energymeter.block.entity.MeterBlockEntity;
 import com.almostreliable.energymeter.block.entity.MeterBlockEntity.ConnectionStatus;
 import com.almostreliable.energymeter.block.entity.MeterBlockEntity.MeasureMode;
 import com.almostreliable.energymeter.block.entity.MeterBlockEntity.TransferMode;
-import com.almostreliable.energymeter.core.Registration;
 
 import net.minecraft.core.Direction;
 import net.minecraft.gametest.framework.GameTest;
@@ -120,7 +119,7 @@ public class MeterBlockEntityTests {
     public void meter_connection(GameTestHelper helper) {
         // set up the plot
         TestUtils.setupSimplePlot(helper);
-        helper.setBlock(TestUtils.DEFAULT_POS.relative(Direction.WEST), Registration.METER_BLOCK.get());
+        TestUtils.setupMeter(helper, TestUtils.DEFAULT_POS.relative(Direction.WEST));
 
         // try to access the meter's energy capability from a direction where another meter is
         TestUtils.assertNull(
