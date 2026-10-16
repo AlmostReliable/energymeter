@@ -3,7 +3,9 @@
 All notable changes to this project will be documented in this file.
 
 ## Unreleased
-- /
+
+- added new test utilities and test cable blocks
+- fixed crash with looped connections ([#46](https://github.com/AlmostReliable/energymeter/issues/46)) and added tests for it
 
 ## [0.5.0] - 2026-08-11
 
