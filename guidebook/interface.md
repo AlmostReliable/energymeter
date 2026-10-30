@@ -108,6 +108,10 @@ that can be applied. Since all configurable values are integers, results from ma
 nearest whole number. Invalid symbols are also prevented while entering mathematical expressions. For example, closing parentheses can only
 be inserted if a matching opening parenthesis exists.
 
+Numbers can be shortened with unit suffixes: `k` (thousand), `M` (million), `G` (billion), `T`, `P`, and `E`, each a factor of 1000
+larger than the previous one. The suffix is case-insensitive and must directly follow a number, for example `100k`, `1.5M`, or `2k * 3`.
+Large values such as the transfer limit are also displayed in this short form when possible.
+
 #### Limit
 
 The transfer limit defines how much energy the <ItemLink id="meter" components="rarity=epic"/> can transfer per tick _(1 second = 20 ticks)_.

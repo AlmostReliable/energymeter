@@ -2,6 +2,7 @@ package com.almostreliable.energymeter.util;
 
 import net.minecraft.network.chat.Component;
 
+import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -31,6 +32,21 @@ public final class NumberFormatter {
         String unit = UNIT_PREFIXES[index] + "FE";
 
         return new FormatResult(formattedEnergy, unit);
+    }
+
+    public static String formatCompact(long value) {
+        var number = BigDecimal.valueOf(value);
+        for (int index = UNIT_PREFIXES.length - 1; index > 0; index--) {
+            var scaled = number.movePointLeft(3 * index);
+            if (scaled.abs().compareTo(BigDecimal.ONE) < 0) continue;
+
+            var stripped = scaled.stripTrailingZeros();
+            if (stripped.scale() > 2) continue;
+
+            return stripped.toPlainString() + UNIT_PREFIXES[index];
+        }
+
+        return String.valueOf(value);
     }
 
     public static final class FormatResult {

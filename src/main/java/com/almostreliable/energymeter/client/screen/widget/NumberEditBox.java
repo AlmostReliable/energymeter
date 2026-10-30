@@ -3,6 +3,7 @@ package com.almostreliable.energymeter.client.screen.widget;
 import com.almostreliable.energymeter.client.screen.widget.base.ClickedOutsideListener;
 import com.almostreliable.energymeter.core.Constants;
 import com.almostreliable.energymeter.data.EnergyMeterLang;
+import com.almostreliable.energymeter.mixin.EditBoxAccessor;
 import com.almostreliable.energymeter.util.MathExpressionParser;
 import com.almostreliable.energymeter.util.TooltipBuilder;
 
@@ -117,14 +118,14 @@ public class NumberEditBox extends EditBox implements ClickedOutsideListener {
 
     @Override
     public void deleteChars(int num) {
-        super.deleteChars(num);
         newValueEntered = true;
+        super.deleteChars(num);
     }
 
     @Override
     public void deleteWords(int num) {
-        super.deleteWords(num);
         newValueEntered = true;
+        super.deleteWords(num);
     }
 
     @Override
@@ -163,12 +164,18 @@ public class NumberEditBox extends EditBox implements ClickedOutsideListener {
             }
         }
 
+        if (filtered.isEmpty()) return;
+
         if (getValue().equals("0") && getCursorPosition() == 1) {
             setValue(filtered.toString());
             return;
         }
 
         super.insertText(filtered.toString());
+    }
+
+    private int getSelectionStart() {
+        return Math.min(getCursorPosition(), ((EditBoxAccessor) this).getHighlightPos());
     }
 
     @SuppressWarnings("RedundantIfStatement")
@@ -192,6 +199,9 @@ public class NumberEditBox extends EditBox implements ClickedOutsideListener {
 
         if (c == '.' && hasDecimalInCurrentNumber()) return false;
 
+        if (MathExpressionParser.isSuffix(c) && !Character.isDigit(prev) && prev != '.') return false;
+        if (MathExpressionParser.isSuffix(prev) && (Character.isDigit(c) || c == '.')) return false;
+
         return true;
     }
 
@@ -199,12 +209,13 @@ public class NumberEditBox extends EditBox implements ClickedOutsideListener {
         return Character.isDigit(c)
             || OPERATORS.indexOf(c) >= 0
             || c == '.' || c == '(' || c == ')'
+            || MathExpressionParser.isSuffix(c)
             || Character.isWhitespace(c);
     }
 
     private char previousNonWhitespace() {
         String value = getValue();
-        int cursor = getCursorPosition();
+        int cursor = getSelectionStart();
 
         for (int i = cursor - 1; i >= 0; i--) {
             char c = value.charAt(i);
@@ -217,7 +228,7 @@ public class NumberEditBox extends EditBox implements ClickedOutsideListener {
 
     private boolean hasOpeningParenthesis() {
         String value = getValue();
-        int cursor = getCursorPosition();
+        int cursor = getSelectionStart();
 
         int openCount = 0;
         int closeCount = 0;
@@ -236,7 +247,7 @@ public class NumberEditBox extends EditBox implements ClickedOutsideListener {
 
     private boolean hasDecimalInCurrentNumber() {
         String value = getValue();
-        int cursor = getCursorPosition();
+        int cursor = getSelectionStart();
 
         for (int i = cursor - 1; i >= 0; i--) {
             char c = value.charAt(i);
@@ -254,9 +265,16 @@ public class NumberEditBox extends EditBox implements ClickedOutsideListener {
         return BINARY_OPERATORS.indexOf(c) >= 0;
     }
 
+    private static boolean hasSuffix(String value) {
+        for (char c : value.toCharArray()) {
+            if (MathExpressionParser.isSuffix(c)) return true;
+        }
+        return false;
+    }
+
     private void validateAndUpdate() {
         var textValue = getValue();
-        var isMathExpression = MATH_EXPRESSION_PATTERN.matcher(textValue.trim()).find();
+        var isMathExpression = MATH_EXPRESSION_PATTERN.matcher(textValue.trim()).find() || hasSuffix(textValue);
 
         parsedValue = MathExpressionParser.parse(textValue).orElse(null);
         if (parsedValue == null) return;
@@ -276,7 +294,7 @@ public class NumberEditBox extends EditBox implements ClickedOutsideListener {
             tooltipText = "= " + parsedValue.toPlainString();
         }
 
-        if (tooltipText != null) {
+        if (tooltipText != null && newValueEntered) {
             var tooltipBuilder = TooltipBuilder.create();
             if (maxExceeded) {
                 tooltipBuilder.literal(EnergyMeterLang.TEXTBOX_MAX_TOOLTIP.get().append(":"));

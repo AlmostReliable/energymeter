@@ -187,7 +187,7 @@ public class MeterScreen extends SynchronizedContainerScreen<MeterMenu> {
             110,
             font,
             EnergyMeterLang.SETTING_LIMIT.get().append(":"),
-            () -> String.valueOf(menu.getTransferLimit()),
+            () -> NumberFormatter.formatCompact(menu.getTransferLimit()),
             this::onTextValueUpdated
         ));
         settingsLayout.addChild(new InputLayoutElement<>(
