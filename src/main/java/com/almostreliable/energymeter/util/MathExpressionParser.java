@@ -14,7 +14,8 @@ import java.util.Optional;
  * expression := term (('+' | '-') term)*<p>
  * term       := power (('*' | '/') power)*<p>
  * power      := factor ('^' power)?<p>
- * factor     := NUMBER | '(' expression ')' | '-' factor
+ * factor     := NUMBER SUFFIX? | '(' expression ')' | '-' factor<p>
+ * SUFFIX     := 'k' | 'M' | 'G' | 'T' | 'P' | 'E' (case-insensitive, powers of 1000)
  */
 public final class MathExpressionParser {
 
@@ -31,6 +32,10 @@ public final class MathExpressionParser {
         } catch (RuntimeException e) {
             return Optional.empty();
         }
+    }
+
+    public static boolean isSuffix(char ch) {
+        return Tokenizer.getSuffixExponent(ch) > 0;
     }
 
     private enum TokenType {
@@ -104,8 +109,28 @@ public final class MathExpressionParser {
                 }
             }
 
-            String text = input.substring(start, pos);
-            return new Token(TokenType.NUMBER, new BigDecimal(text));
+            var value = new BigDecimal(input.substring(start, pos));
+            if (pos < input.length()) {
+                var exponent = getSuffixExponent(input.charAt(pos));
+                if (exponent > 0) {
+                    pos++;
+                    value = value.movePointRight(3 * exponent);
+                }
+            }
+
+            return new Token(TokenType.NUMBER, value);
+        }
+
+        private static int getSuffixExponent(char ch) {
+            return switch (Character.toLowerCase(ch)) {
+                case 'k' -> 1;
+                case 'm' -> 2;
+                case 'g' -> 3;
+                case 't' -> 4;
+                case 'p' -> 5;
+                case 'e' -> 6;
+                default -> 0;
+            };
         }
     }
 

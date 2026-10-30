@@ -3,7 +3,8 @@
 All notable changes to this project will be documented in this file.
 
 ## Unreleased
-- /
+- added unit suffixes (k, M, G, ...) for number inputs
+- changed transfer limit text box to display large values in short form (e.g. 100k)
 
 ## [0.5.1] - 2026-10-16
 

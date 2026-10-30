@@ -50,6 +50,8 @@ public final class TestFunctions {
         register(logic, "test_negative_powers", MathExpressionParserTests::testNegativePowers);
         register(logic, "test_large_numbers", MathExpressionParserTests::testLargeNumbers);
         register(logic, "test_precision_and_rounding", MathExpressionParserTests::testPrecisionAndRounding);
+        register(logic, "test_suffixes", MathExpressionParserTests::testSuffixes);
+        register(logic, "test_compact_format_round_trip", MathExpressionParserTests::testCompactFormatRoundTrip);
 
         var meter = TestUtils.BATCH_METER_TESTS;
         register(meter, "neighbor_update_cache_invalidation", MeterBlockTests::neighbor_update_cache_invalidation);

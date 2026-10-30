@@ -42,9 +42,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
 
-import org.joml.Matrix3x2fStack;
-import org.jspecify.annotations.Nullable;
 import org.joml.Matrix3x2f;
+import org.jspecify.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -191,7 +190,7 @@ public class MeterScreen extends SynchronizedContainerScreen<MeterMenu> {
             110,
             font,
             EnergyMeterLang.SETTING_LIMIT.get().append(":"),
-            () -> String.valueOf(menu.getTransferLimit()),
+            () -> NumberFormatter.formatCompact(menu.getTransferLimit()),
             this::onTextValueUpdated
         ));
         settingsLayout.addChild(new InputLayoutElement<>(

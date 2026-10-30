@@ -2,6 +2,7 @@ package com.almostreliable.energymeter.client.screen.layout;
 
 import com.almostreliable.energymeter.client.screen.widget.MarqueeStringWidget;
 import com.almostreliable.energymeter.client.screen.widget.NumberEditBox;
+import com.almostreliable.energymeter.util.MathExpressionParser;
 
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.components.AbstractWidget;
@@ -42,10 +43,12 @@ public class InputLayoutElement<T extends Enum<T>> implements LayoutElement {
     }
 
     private void onValueEntered(boolean valid) {
-        boolean buttonActive = valid;
-        var value = textBox.getValue();
-        if (value.equals(valueSupplier.get())) buttonActive = false;
-        confirmButton.active = buttonActive;
+        confirmButton.active = valid && !isCurrentValue(textBox.getLongValue());
+    }
+
+    private boolean isCurrentValue(long value) {
+        var currentValue = MathExpressionParser.parse(valueSupplier.get());
+        return currentValue.isPresent() && currentValue.get().longValue() == value;
     }
 
     private void onConfirm() {

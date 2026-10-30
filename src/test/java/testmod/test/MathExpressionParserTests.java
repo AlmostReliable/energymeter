@@ -1,11 +1,9 @@
 package testmod.test;
 
 import com.almostreliable.energymeter.util.MathExpressionParser;
+import com.almostreliable.energymeter.util.NumberFormatter;
 
 import net.minecraft.gametest.framework.GameTestHelper;
-
-import testmod.TestMod;
-import testmod.TestUtils;
 
 import org.jspecify.annotations.Nullable;
 
@@ -217,6 +215,54 @@ public class MathExpressionParserTests {
         helper.succeed();
     }
 
+    public static void testSuffixes(GameTestHelper helper) {
+        // test simple suffix usages
+        assertParseEquals(helper, "1k", new BigDecimal("1000"));
+        assertParseEquals(helper, "1.5k", new BigDecimal("1500"));
+        assertParseEquals(helper, "2M", new BigDecimal("2000000"));
+        assertParseEquals(helper, "1G", new BigDecimal("1000000000"));
+        assertParseEquals(helper, "1T", new BigDecimal("1000000000000"));
+        assertParseEquals(helper, "1P", new BigDecimal("1000000000000000"));
+        assertParseEquals(helper, "1E", new BigDecimal("1000000000000000000"));
+        assertParseEquals(helper, ".5k", new BigDecimal("500"));
+
+        // test suffix case
+        assertParseEquals(helper, "1K", new BigDecimal("1000"));
+        assertParseEquals(helper, "1m", new BigDecimal("1000000"));
+        assertParseEquals(helper, "1g", new BigDecimal("1000000000"));
+
+        // test suffix usage in expressions
+        assertParseEquals(helper, "2k * 3", new BigDecimal("6000"));
+        assertParseEquals(helper, "(1k + 500) * 2", new BigDecimal("3000"));
+        assertParseEquals(helper, "1M / 4", new BigDecimal("250000"));
+        assertParseEquals(helper, "-1k", new BigDecimal("-1000"));
+        assertParseEquals(helper, "1k ^ 2", new BigDecimal("1000000"));
+
+        // test invalid suffixes
+        assertParseEmpty(helper, "k");
+        assertParseEmpty(helper, "5kk");
+        assertParseEmpty(helper, "5 k");
+        assertParseEmpty(helper, "(2)k");
+        assertParseEmpty(helper, "1k5");
+        assertParseEmpty(helper, "5x");
+
+        helper.succeed();
+    }
+
+    public static void testCompactFormatRoundTrip(GameTestHelper helper) {
+        assertCompactFormat(helper, 0, "0");
+        assertCompactFormat(helper, 999, "999");
+        assertCompactFormat(helper, 1_000, "1k");
+        assertCompactFormat(helper, 1_500, "1.5k");
+        assertCompactFormat(helper, 100_000, "100k");
+        assertCompactFormat(helper, 1_250_000, "1.25M");
+        assertCompactFormat(helper, 123_456, "123456");
+        assertCompactFormat(helper, 2_000_000_000_000L, "2T");
+        assertCompactFormat(helper, Long.MAX_VALUE, String.valueOf(Long.MAX_VALUE));
+
+        helper.succeed();
+    }
+
     // helper methods
     private static void assertParseEquals(GameTestHelper helper, String expression, BigDecimal expected) {
         Optional<BigDecimal> result = MathExpressionParser.parse(expression);
@@ -234,5 +280,11 @@ public class MathExpressionParserTests {
             result.isEmpty(),
             "Expression '" + expression + "' should fail to parse but got " + result.orElse(null)
         );
+    }
+
+    private static void assertCompactFormat(GameTestHelper helper, long value, String expected) {
+        var formatted = NumberFormatter.formatCompact(value);
+        helper.assertTrue(formatted.equals(expected), "Value " + value + " should format as '" + expected + "' but got '" + formatted + "'");
+        assertParseEquals(helper, formatted, BigDecimal.valueOf(value));
     }
 }
