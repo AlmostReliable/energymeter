@@ -37,7 +37,7 @@ public class LoopStackOverflowScenario {
     private static final BlockPos RECEIVER_POS = TestUtils.DEFAULT_POS.east().south();
     private static final BlockPos SECOND_METER_POS = TestUtils.DEFAULT_POS.below();
 
-    @GameTest(template = TestUtils.EMPTY_STRUCTURE, batch = TestUtils.BATCH_METER_TESTS)
+    @GameTest(template = TestUtils.EMPTY_STRUCTURE, batch = TestUtils.BATCH_SCENARIOS)
     public void loopWithoutConsumer(GameTestHelper helper) {
         // set up the plot
         var plotResult = setupLoopPlot(helper);
@@ -56,7 +56,7 @@ public class LoopStackOverflowScenario {
         helper.succeed();
     }
 
-    @GameTest(template = TestUtils.EMPTY_STRUCTURE, batch = TestUtils.BATCH_METER_TESTS)
+    @GameTest(template = TestUtils.EMPTY_STRUCTURE, batch = TestUtils.BATCH_SCENARIOS)
     public void loopWithConsumer(GameTestHelper helper) {
         // set up the plot
         var plotResult = setupLoopPlot(helper);
@@ -102,7 +102,7 @@ public class LoopStackOverflowScenario {
         helper.succeed();
     }
 
-    @GameTest(template = TestUtils.EMPTY_STRUCTURE, batch = TestUtils.BATCH_METER_TESTS)
+    @GameTest(template = TestUtils.EMPTY_STRUCTURE, batch = TestUtils.BATCH_SCENARIOS)
     public void loopSimulation(GameTestHelper helper) {
         // set up the plot
         var plotResult = setupLoopPlot(helper);
@@ -128,7 +128,7 @@ public class LoopStackOverflowScenario {
         helper.succeed();
     }
 
-    @GameTest(template = TestUtils.EMPTY_STRUCTURE, batch = TestUtils.BATCH_METER_TESTS)
+    @GameTest(template = TestUtils.EMPTY_STRUCTURE, batch = TestUtils.BATCH_SCENARIOS)
     public void loopEnergyQueries(GameTestHelper helper) {
         // set up the plot
         setupLoopPlot(helper);
@@ -154,7 +154,7 @@ public class LoopStackOverflowScenario {
         helper.succeed();
     }
 
-    @GameTest(template = TestUtils.EMPTY_STRUCTURE, batch = TestUtils.BATCH_METER_TESTS)
+    @GameTest(template = TestUtils.EMPTY_STRUCTURE, batch = TestUtils.BATCH_SCENARIOS)
     public void loopTwoMeters(GameTestHelper helper) {
         // set up the plot with two meters that feed each other through cables
         PlotBuilder.Result firstPlotResult = PlotBuilder.create(helper)
@@ -199,7 +199,7 @@ public class LoopStackOverflowScenario {
         helper.succeed();
     }
 
-    @GameTest(template = TestUtils.EMPTY_STRUCTURE, batch = TestUtils.BATCH_METER_TESTS)
+    @GameTest(template = TestUtils.EMPTY_STRUCTURE, batch = TestUtils.BATCH_SCENARIOS)
     public void sharedInputNetwork(GameTestHelper helper) {
         // set up the plot with two inputs on the same cable network
         var plotResult = PlotBuilder.create(helper)

@@ -175,4 +175,45 @@ indicates that it is paused. Press the button again to resume the graph.
 
 ## Redstone Panel
 
-The Redstone panel is currently still under development and does not yet contain any options.
+The Redstone panel can be accessed by selecting the **Redstone** tab. It allows the <ItemLink id="meter" components="rarity=epic"/> to
+emit a redstone signal based on the current flow rate.
+
+Redstone is disabled by default. Pick a function other than **Off** to activate it. While active, redstone dust connects to every side
+of the <ItemLink id="meter" components="rarity=epic"/> except the front with the display. The signal is weak power, so it does not pass
+through solid blocks next to the <ItemLink id="meter" components="rarity=epic"/>. The signal is updated once per
+[interval](interface.md#interval).
+
+### Function
+
+The function defines how the flow rate is turned into a signal. Only one function can be active at a time.
+
+- **Off** emits no signal and redstone dust does not connect.
+- **Analog** maps the flow rate between the lower and upper bound to a signal strength between 0 and 15. A flow rate at or below the
+  lower bound emits 0, a flow rate at or above the upper bound emits 15.
+- **Threshold** emits a full signal once the flow rate reaches the upper bound **(On at)** and keeps it until the flow rate drops below
+  the lower bound **(Off below)**. The gap between both bounds prevents the signal from flickering when the flow rate fluctuates around a
+  single value. If both bounds are equal, the signal switches at that value.
+
+### Scale
+
+The scale only applies to the **Analog** function:
+
+- **Linear**: every signal level covers the same range of flow rates. To get one signal level per step, set the lower bound to `0` and the
+  upper bound to `15 x step`. For example, a lower bound of `0` and an upper bound of `150k` adds one signal level per 10k FE/t.
+- **Logarithmic**: every signal level multiplies the flow rate by the same factor. This is useful to cover a large range of flow rates.
+  For example, a lower bound of `1` and an upper bound of `1000T` _(10^15)_ adds one signal level per factor of 10. A lower bound of `0` is
+  treated as `1`.
+
+### Settings
+
+The **lower** and **upper** bound are flow rates in FE/t. Both are shared between the functions, so switching the function keeps the
+values. If the lower bound is not below the upper bound, the **Analog** function acts like a threshold at the upper bound.
+
+**Invert** flips the signal. An inverted **Analog** signal emits 15 at the lower bound and 0 at the upper bound. An inverted **Threshold**
+signal is on while the flow rate is low. Since a <ItemLink id="meter" components="rarity=epic"/> without any flow has a flow rate of zero,
+inverting the signal can be used as an alarm when the energy supply stops.
+
+### Output
+
+The output section shows the signal strength that is currently emitted and, for the **Analog** function, how much the flow rate has to
+change for the signal to change by one level.

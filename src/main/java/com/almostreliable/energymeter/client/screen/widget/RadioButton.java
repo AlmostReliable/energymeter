@@ -71,7 +71,7 @@ public final class RadioButton<T extends Enum<T>> extends LayoutPositionedButton
     @Override
     protected void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         TexRenderer buttonIcon;
-        if (isHovered) {
+        if (active && isHovered) {
             buttonIcon = isSelected.get() ? SELECTED_HOVERED : UNSELECTED_HOVERED;
         } else {
             buttonIcon = isSelected.get() ? SELECTED : UNSELECTED;
@@ -79,6 +79,7 @@ public final class RadioButton<T extends Enum<T>> extends LayoutPositionedButton
         }
 
         buttonIcon.target(getX(), getY()).render(guiGraphics);
-        guiGraphics.drawString(font, getMessage(), getX() + TEXTURE_SIZE / 2 + HORIZONTAL_SPACING, getY() + 2, Constants.COLOR_WHITE);
+        var textColor = active ? Constants.COLOR_WHITE : Constants.COLOR_GRAY;
+        guiGraphics.drawString(font, getMessage(), getX() + TEXTURE_SIZE / 2 + HORIZONTAL_SPACING, getY() + 2, textColor);
     }
 }

@@ -23,8 +23,16 @@ public interface Constants {
     String TRANSFER_LIMIT_ID = "transfer_limit";
     String ENERGY_RATE_ID = "energy_rate";
     String TOTAL_ENERGY_ID = "total_energy";
+    String REDSTONE_ID = "redstone";
     String MULTIBLOCK_WIDTH_ID = "width";
     String MULTIBLOCK_HEIGHT_ID = "height";
+    String FUNCTION_ID = "function";
+    String LOWER_BOUND_ID = "lower";
+    String UPPER_BOUND_ID = "upper";
+    String SCALE_ID = "scale";
+    String INVERTED_ID = "inverted";
+    String THRESHOLD_ACTIVE_ID = "threshold_active";
+    String OUTPUT_SIGNAL_ID = "output_signal";
 
     // mods
     String GUIDE_ME = "guideme";

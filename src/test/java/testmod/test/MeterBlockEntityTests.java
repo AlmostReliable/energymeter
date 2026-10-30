@@ -1,8 +1,10 @@
 package testmod.test;
 
+import com.almostreliable.energymeter.block.MeterBlock;
 import com.almostreliable.energymeter.block.component.ForwardingEnergyStorage;
 import com.almostreliable.energymeter.block.component.IoConfig;
 import com.almostreliable.energymeter.block.component.IoConfig.IoSettingWithPriority;
+import com.almostreliable.energymeter.block.component.RedstoneHandler;
 import com.almostreliable.energymeter.block.entity.MeterBlockEntity;
 import com.almostreliable.energymeter.block.entity.MeterBlockEntity.ConnectionStatus;
 import com.almostreliable.energymeter.block.entity.MeterBlockEntity.MeasureMode;
@@ -34,6 +36,16 @@ public class MeterBlockEntityTests {
         helper.assertFalse(ioConfig.hasInput(), "energy meter should not have input by default");
         helper.assertFalse(ioConfig.hasOutput(), "energy meter should not have output by default");
         helper.assertFalse(ioConfig.hasChanged(), "energy meter io config should not be marked as changed by default");
+
+        // test whether redstone configuration has correct default values
+        var redstoneHandler = meterBlockEntity.getRedstoneHandler();
+        helper.assertFalse(meterBlockEntity.getBlockState().getValue(MeterBlock.REDSTONE), "redstone should be disabled by default");
+        helper.assertValueEqual(RedstoneHandler.RedstoneFunction.OFF, redstoneHandler.getFunction(), "redstone function");
+        helper.assertValueEqual(0L, redstoneHandler.getLowerBound(), "redstone lower bound");
+        helper.assertValueEqual(RedstoneHandler.DEFAULT_UPPER_BOUND, redstoneHandler.getUpperBound(), "redstone upper bound");
+        helper.assertValueEqual(RedstoneHandler.RedstoneScale.LINEAR, redstoneHandler.getScale(), "redstone scale");
+        helper.assertFalse(redstoneHandler.isInverted(), "redstone should not be inverted by default");
+        helper.assertValueEqual(0, redstoneHandler.getOutputSignal(), "redstone output");
 
         // test enum defaults
         helper.assertValueEqual(meterBlockEntity.getTransferMode(), TransferMode.SPLIT, "transfer mode");

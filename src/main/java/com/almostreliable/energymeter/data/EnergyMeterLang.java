@@ -2,6 +2,8 @@ package com.almostreliable.energymeter.data;
 
 import com.almostreliable.energymeter.ModConstants;
 import com.almostreliable.energymeter.block.component.IoConfig.IoSetting;
+import com.almostreliable.energymeter.block.component.RedstoneHandler.RedstoneFunction;
+import com.almostreliable.energymeter.block.component.RedstoneHandler.RedstoneScale;
 import com.almostreliable.energymeter.block.entity.MeterBlockEntity.ConnectionStatus;
 import com.almostreliable.energymeter.block.entity.MeterBlockEntity.MeasureMode;
 import com.almostreliable.energymeter.block.entity.MeterBlockEntity.TransferMode;
@@ -39,6 +41,8 @@ public final class EnergyMeterLang extends LanguageProvider {
     public static final LangEntry HEADER_IO = LangEntry.label("header_io", "I/O");
     public static final LangEntry HEADER_MODES = LangEntry.label("header_modes", "Modes");
     public static final LangEntry HEADER_SETTINGS = LangEntry.label("header_settings", "Settings");
+    public static final LangEntry HEADER_FUNCTION = LangEntry.label("header_function", "Function");
+    public static final LangEntry HEADER_OUTPUT = LangEntry.label("header_output", "Output");
 
     // sub header labels
     public static final LangEntry SUB_HEADER_TRANSFERRING = LangEntry.label("sub_header_transferring", "Transferring");
@@ -48,11 +52,22 @@ public final class EnergyMeterLang extends LanguageProvider {
     public static final LangEntry SETTING_LIMIT = LangEntry.label("setting_limit", "Limit");
     public static final LangEntry SETTING_TOLERANCE = LangEntry.label("setting_tolerance", "Tolerance");
     public static final LangEntry SETTING_INTERVAL = LangEntry.label("setting_interval", "Interval");
+    public static final LangEntry SETTING_LOWER_BOUND = LangEntry.label("setting_lower_bound", "Lower");
+    public static final LangEntry SETTING_UPPER_BOUND = LangEntry.label("setting_upper_bound", "Upper");
+    public static final LangEntry SETTING_OFF_BELOW = LangEntry.label("setting_off_below", "Off below");
+    public static final LangEntry SETTING_ON_AT = LangEntry.label("setting_on_at", "On at");
+    public static final LangEntry SETTING_SCALE = LangEntry.label("setting_scale", "Scale");
+    public static final LangEntry SETTING_INVERT = LangEntry.label("setting_invert", "Invert");
 
     // graph labels
     public static final LangEntry GRAPH_NO_DATA = LangEntry.label("graph_no_data", "No data to display");
     public static final LangEntry GRAPH_PAUSED = LangEntry.label("graph_paused", "PAUSED");
     public static final LangEntry GRAPH_INTERVAL = LangEntry.label("graph_interval", "Interval");
+
+    // redstone labels
+    public static final LangEntry REDSTONE_SIGNAL = LangEntry.label("redstone_signal", "Signal");
+    public static final LangEntry REDSTONE_STEP = LangEntry.label("redstone_step", "Per level");
+    public static final LangEntry REDSTONE_ACTS_AS_THRESHOLD = LangEntry.label("redstone_acts_as_threshold", "Acts as threshold");
 
     // button labels
     public static final LangEntry BUTTON_RESET_TOTAL = LangEntry.button("reset_total", "Reset Total");
@@ -90,6 +105,8 @@ public final class EnergyMeterLang extends LanguageProvider {
     public static final Map<TransferMode, LangEntry> TRANSFER_MODES = LangEntry.enumValues(TransferMode.class, TransferMode.values());
     public static final Map<MeasureMode, LangEntry> MEASURE_MODES = LangEntry.enumValues(MeasureMode.class, MeasureMode.values());
     public static final Map<ConnectionStatus, LangEntry> CONNECTION_STATUSES = LangEntry.enumValues(ConnectionStatus.class, ConnectionStatus.values());
+    public static final Map<RedstoneFunction, LangEntry> REDSTONE_FUNCTIONS = LangEntry.enumValues(RedstoneFunction.class, RedstoneFunction.values());
+    public static final Map<RedstoneScale, LangEntry> REDSTONE_SCALES = LangEntry.enumValues(RedstoneScale.class, RedstoneScale.values());
 
     // @formatter:on
 

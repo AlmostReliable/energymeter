@@ -2,6 +2,7 @@ package com.almostreliable.energymeter.client.screen.layout;
 
 import com.almostreliable.energymeter.client.screen.widget.MarqueeStringWidget;
 import com.almostreliable.energymeter.client.screen.widget.NumberEditBox;
+import com.almostreliable.energymeter.core.Constants;
 import com.almostreliable.energymeter.util.MathExpressionParser;
 
 import net.minecraft.client.gui.Font;
@@ -101,6 +102,17 @@ public class InputLayoutElement<T extends Enum<T>> implements LayoutElement {
 
     public InputLayoutElement<T> withMaxValue(long maxValue) {
         textBox.setMaxValue(maxValue);
+        return this;
+    }
+
+    public InputLayoutElement<T> withActive(boolean active) {
+        label.setColor(active ? Constants.COLOR_WHITE : Constants.COLOR_GRAY);
+        textBox.active = active;
+        textBox.setEditable(active);
+        if (!active) {
+            confirmButton.active = false;
+        }
+
         return this;
     }
 }
