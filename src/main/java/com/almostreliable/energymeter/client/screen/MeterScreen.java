@@ -3,6 +3,8 @@ package com.almostreliable.energymeter.client.screen;
 import com.almostreliable.energymeter.block.component.GraphHandler;
 import com.almostreliable.energymeter.block.component.GraphHandler.GraphPoint;
 import com.almostreliable.energymeter.block.component.IoConfig.IoSettingWithPriority;
+import com.almostreliable.energymeter.block.component.RedstoneHandler.RedstoneFunction;
+import com.almostreliable.energymeter.block.component.RedstoneHandler.RedstoneScale;
 import com.almostreliable.energymeter.block.entity.MeterBlockEntity.MeasureMode;
 import com.almostreliable.energymeter.block.entity.MeterBlockEntity.TransferMode;
 import com.almostreliable.energymeter.client.screen.layout.InputLayoutElement;
@@ -11,6 +13,7 @@ import com.almostreliable.energymeter.client.screen.widget.GuideButton;
 import com.almostreliable.energymeter.client.screen.widget.IoConfigButton;
 import com.almostreliable.energymeter.client.screen.widget.IoConfigButton.SettingSelectorWidget;
 import com.almostreliable.energymeter.client.screen.widget.RadioButton;
+import com.almostreliable.energymeter.client.screen.widget.Checkbox;
 import com.almostreliable.energymeter.client.screen.widget.TabButton;
 import com.almostreliable.energymeter.client.screen.widget.base.ClickedOutsideListener;
 import com.almostreliable.energymeter.client.screen.widget.base.OutlinedCompositeWidget;
@@ -30,7 +33,6 @@ import com.almostreliable.energymeter.util.TooltipBuilder;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.components.StringWidget;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.layouts.FrameLayout;
 import net.minecraft.client.gui.layouts.LinearLayout;
@@ -41,12 +43,14 @@ import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.level.redstone.Redstone;
 
 import org.joml.Matrix3x2f;
 import org.jspecify.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.function.Consumer;
 
 public class MeterScreen extends SynchronizedContainerScreen<MeterMenu> {
@@ -60,10 +64,12 @@ public class MeterScreen extends SynchronizedContainerScreen<MeterMenu> {
     private static final int GLOBAL_INFO_WIDTH = 70;
     private static final int GRAPH_PADDING = 12;
     private static final int GRAPH_MAX_VALUE_INSET = 6;
+    private static final int REDSTONE_ELEMENT_WIDTH = 110;
     private static final TexRenderer BACKGROUND = TexRenderer.gui("meter").tex(0, 0, GUI_WIDTH, GUI_HEIGHT);
 
     private final List<ClickedOutsideListener> clickedOutsideListeners = new ArrayList<>();
     private TabType currentTab = TabType.CONFIGURATION;
+    private RedstoneFunction lastRedstoneFunction = RedstoneFunction.OFF;
     private @Nullable SettingSelectorWidget settingSelectorWidget;
 
     public MeterScreen(MeterMenu menu, Inventory playerInventory, Component title) {
@@ -127,6 +133,14 @@ public class MeterScreen extends SynchronizedContainerScreen<MeterMenu> {
         layout.visitWidgets(this::addRenderableWidget);
         settingSelectorWidget = addWidget(ioConfigGroup.settingSelectorWidget());
         addRenderableWidget(new GuideButton(leftPos, topPos));
+    }
+
+    @Override
+    protected void containerTick() {
+        super.containerTick();
+        if (currentTab == TabType.REDSTONE && lastRedstoneFunction != menu.getRedstoneHandler().getFunction()) {
+            rebuildWidgets();
+        }
     }
 
     @Override
@@ -233,13 +247,76 @@ public class MeterScreen extends SynchronizedContainerScreen<MeterMenu> {
 
     @SuppressWarnings("MethodOnlyUsedFromInnerClass")
     private void initRedstoneTab() {
+        var redstoneHandler = menu.getRedstoneHandler();
+        lastRedstoneFunction = redstoneHandler.getFunction();
+        var isEnabled = lastRedstoneFunction != RedstoneFunction.OFF;
+        var isThreshold = lastRedstoneFunction == RedstoneFunction.THRESHOLD;
+
+        var functionRadioButtons = RadioButton.createGroup(
+            REDSTONE_ELEMENT_WIDTH,
+            EnergyMeterLang.REDSTONE_FUNCTIONS,
+            redstoneHandler::getFunction,
+            this::onRedstoneFunctionSelected
+        );
+        var functionComposite = OutlinedCompositeWidget.ofLayout(EnergyMeterLang.HEADER_FUNCTION.get(), functionRadioButtons);
+
+        var scaleRadioButtons = RadioButton.createGroup(
+            REDSTONE_ELEMENT_WIDTH,
+            EnergyMeterLang.REDSTONE_SCALES,
+            redstoneHandler::getScale,
+            this::onRedstoneScaleSelected
+        );
+        scaleRadioButtons.visitWidgets(widget -> widget.active = lastRedstoneFunction == RedstoneFunction.ANALOG);
+        var scaleComposite = OutlinedCompositeWidget.ofLayout(EnergyMeterLang.SETTING_SCALE.get(), scaleRadioButtons);
+
+        var settingsLayout = LinearLayout.vertical().spacing(1);
+        var lowerBoundLabel = isThreshold ? EnergyMeterLang.SETTING_OFF_BELOW : EnergyMeterLang.SETTING_LOWER_BOUND;
+        var upperBoundLabel = isThreshold ? EnergyMeterLang.SETTING_ON_AT : EnergyMeterLang.SETTING_UPPER_BOUND;
+        settingsLayout.addChild(new InputLayoutElement<>(
+            MeterTextBoxType.REDSTONE_LOWER_BOUND,
+            REDSTONE_ELEMENT_WIDTH,
+            font,
+            lowerBoundLabel.get().append(":"),
+            () -> NumberFormatter.formatCompact(redstoneHandler.getLowerBound()),
+            this::onTextValueUpdated
+        ).withActive(isEnabled));
+        settingsLayout.addChild(new InputLayoutElement<>(
+            MeterTextBoxType.REDSTONE_UPPER_BOUND,
+            REDSTONE_ELEMENT_WIDTH,
+            font,
+            upperBoundLabel.get().append(":"),
+            () -> NumberFormatter.formatCompact(redstoneHandler.getUpperBound()),
+            this::onTextValueUpdated
+        ).withActive(isEnabled));
+
+        var invertCheckbox = new Checkbox(
+            REDSTONE_ELEMENT_WIDTH,
+            EnergyMeterLang.SETTING_INVERT.get(),
+            redstoneHandler::isInverted,
+            this::onToggleRedstoneInverted
+        );
+        invertCheckbox.active = isEnabled;
+        settingsLayout.addChild(invertCheckbox);
+        var settingsComposite = OutlinedCompositeWidget.ofLayout(EnergyMeterLang.HEADER_SETTINGS.get(), settingsLayout);
+
+        var outputLayout = LinearLayout.vertical().spacing(2);
+        outputLayout.addChild(new DynamicMarqueeStringWidget(
+            REDSTONE_ELEMENT_WIDTH,
+            () -> EnergyMeterLang.REDSTONE_SIGNAL.get().append(": " + redstoneHandler.getOutputSignal())
+        ));
+        outputLayout.addChild(new DynamicMarqueeStringWidget(REDSTONE_ELEMENT_WIDTH, this::getRedstoneStepText));
+        var outputComposite = OutlinedCompositeWidget.ofLayout(EnergyMeterLang.HEADER_OUTPUT.get(), outputLayout);
+
         var layout = LinearLayout.vertical().spacing(VERTICAL_ELEMENT_SPACING);
-        layout.addChild(new StringWidget(Component.literal("Work in progress!"), font));
+        layout.addChild(functionComposite);
+        layout.addChild(scaleComposite);
+        layout.addChild(settingsComposite);
+        layout.addChild(outputComposite);
 
         layout.arrangeElements();
         FrameLayout.centerInRectangle(layout, leftPos + LEFT_PANE_WIDTH + PANE_SPACING, topPos, RIGHT_PANE_WIDTH, GUI_HEIGHT);
 
-        layout.visitWidgets(this::addRenderableOnly);
+        layout.visitWidgets(this::addRenderableWidget);
     }
 
     @Override
@@ -384,6 +461,35 @@ public class MeterScreen extends SynchronizedContainerScreen<MeterMenu> {
         return super.mouseClicked(event, doubleClick);
     }
 
+    private Component getRedstoneStepText() {
+        var redstoneHandler = menu.getRedstoneHandler();
+        if (redstoneHandler.getFunction() != RedstoneFunction.ANALOG) {
+            return EnergyMeterLang.REDSTONE_STEP.get().append(": -");
+        }
+
+        var lowerBound = redstoneHandler.getLowerBound();
+        var upperBound = redstoneHandler.getUpperBound();
+        var isLogarithmic = redstoneHandler.getScale() == RedstoneScale.LOGARITHMIC;
+        if (isLogarithmic) {
+            lowerBound = Math.max(lowerBound, 1);
+        }
+
+        if (lowerBound >= upperBound) {
+            return EnergyMeterLang.REDSTONE_ACTS_AS_THRESHOLD.get();
+        }
+
+        Component step;
+        if (isLogarithmic) {
+            var factor = Math.pow((double) upperBound / lowerBound, 1.0 / Redstone.SIGNAL_MAX);
+            step = Component.literal(String.format(Locale.ROOT, "x%.2f", factor));
+        } else {
+            var energyPerLevel = (double) (upperBound - lowerBound) / Redstone.SIGNAL_MAX;
+            step = NumberFormatter.formatEnergy(energyPerLevel).componentWithUnitPerTick();
+        }
+
+        return EnergyMeterLang.REDSTONE_STEP.get().append(": ").append(step);
+    }
+
     private void onTabButtonClicked(TabType tabType) {
         currentTab = tabType;
         rebuildWidgets();
@@ -411,6 +517,18 @@ public class MeterScreen extends SynchronizedContainerScreen<MeterMenu> {
 
     private void onToggleGraphPause() {
         sendClientAction(new SimpleClientAction<>(ClientActionRegistry.TOGGLE_GRAPH_PAUSE_ID));
+    }
+
+    private void onRedstoneFunctionSelected(RedstoneFunction function) {
+        sendClientAction(new EnumClientAction<>(ClientActionRegistry.REDSTONE_FUNCTION_ID, function));
+    }
+
+    private void onRedstoneScaleSelected(RedstoneScale scale) {
+        sendClientAction(new EnumClientAction<>(ClientActionRegistry.REDSTONE_SCALE_ID, scale));
+    }
+
+    private void onToggleRedstoneInverted() {
+        sendClientAction(new SimpleClientAction<>(ClientActionRegistry.TOGGLE_REDSTONE_INVERTED_ID));
     }
 
     public enum TabType {

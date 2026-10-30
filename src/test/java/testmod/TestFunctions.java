@@ -16,6 +16,7 @@ import testmod.test.MathExpressionParserTests;
 import testmod.test.MeterBlockEntityTests;
 import testmod.test.MeterBlockTests;
 import testmod.test.MeterConsumeTests;
+import testmod.test.MeterRedstoneTests;
 import testmod.scenario.LoopStackOverflowScenario;
 import testmod.test.MeterSplitTests;
 import testmod.test.MeterTransferLimitTests;
@@ -63,13 +64,6 @@ public final class TestFunctions {
         register(meter, "consume_single", MeterConsumeTests::consume_single);
         register(meter, "consume_trio", MeterConsumeTests::consume_trio);
 
-        register(meter, "loop_without_consumer", LoopStackOverflowScenario::loopWithoutConsumer);
-        register(meter, "loop_with_consumer", LoopStackOverflowScenario::loopWithConsumer);
-        register(meter, "loop_rollback", LoopStackOverflowScenario::loopRollback);
-        register(meter, "loop_energy_queries", LoopStackOverflowScenario::loopEnergyQueries);
-        register(meter, "loop_two_meters", LoopStackOverflowScenario::loopTwoMeters);
-        register(meter, "shared_input_network", LoopStackOverflowScenario::sharedInputNetwork);
-
         register(meter, "split_one_to_one", MeterSplitTests::split_one_to_one);
         register(meter, "split_three_to_one", MeterSplitTests::split_three_to_one);
         register(meter, "split_one_to_three", MeterSplitTests::split_one_to_three);
@@ -97,10 +91,21 @@ public final class TestFunctions {
 
         register(meter, "zero_tolerance", MeterZeroToleranceTests::test);
 
+        register(meter, "redstone_signal", MeterRedstoneTests::signal);
+        register(meter, "redstone_connection", MeterRedstoneTests::redstone_connection);
+        register(meter, "redstone_output", MeterRedstoneTests::redstone_output);
+        register(meter, "redstone_disconnected_inverted", MeterRedstoneTests::redstone_disconnected_inverted);
+
         var scenarios = TestUtils.BATCH_SCENARIOS;
         register(scenarios, "energy_metadata_overflow", EnergyMetadataOverflowScenario::test);
         register(scenarios, "excess_energy_voiding", ExcessEnergyVoidingScenario::test);
         register(scenarios, "split_no_double_insert", SplitNoDoubleInsertScenario::test);
+        register(scenarios, "loop_without_consumer", LoopStackOverflowScenario::loopWithoutConsumer);
+        register(scenarios, "loop_with_consumer", LoopStackOverflowScenario::loopWithConsumer);
+        register(scenarios, "loop_rollback", LoopStackOverflowScenario::loopRollback);
+        register(scenarios, "loop_energy_queries", LoopStackOverflowScenario::loopEnergyQueries);
+        register(scenarios, "loop_two_meters", LoopStackOverflowScenario::loopTwoMeters);
+        register(scenarios, "shared_input_network", LoopStackOverflowScenario::sharedInputNetwork);
     }
 
     private TestFunctions() {}

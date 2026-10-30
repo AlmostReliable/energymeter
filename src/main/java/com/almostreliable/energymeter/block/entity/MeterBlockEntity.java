@@ -1,9 +1,12 @@
 package com.almostreliable.energymeter.block.entity;
 
+import com.almostreliable.energymeter.block.MeterBlock;
 import com.almostreliable.energymeter.block.component.EnergyHandlerHost;
 import com.almostreliable.energymeter.block.component.GraphHandler;
 import com.almostreliable.energymeter.block.component.IoConfig;
 import com.almostreliable.energymeter.block.component.MeterEnergyHandler;
+import com.almostreliable.energymeter.block.component.RedstoneHandler;
+import com.almostreliable.energymeter.block.component.RedstoneHandler.RedstoneFunction;
 import com.almostreliable.energymeter.compat.MeterObserver;
 import com.almostreliable.energymeter.core.Config;
 import com.almostreliable.energymeter.core.Constants;
@@ -20,6 +23,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
@@ -29,6 +33,7 @@ import net.neoforged.neoforge.transfer.energy.EmptyEnergyHandler;
 import net.neoforged.neoforge.transfer.energy.EnergyHandler;
 
 import org.jspecify.annotations.Nullable;
+
 import org.jetbrains.annotations.TestOnly;
 import org.jetbrains.annotations.VisibleForTesting;
 
@@ -45,6 +50,7 @@ public class MeterBlockEntity extends BlockEntity implements TickableMenuBlockEn
     private final IoConfig ioConfig;
     private final GraphHandler graphHandler;
     private final MeterEnergyHandler energyHandler;
+    private final RedstoneHandler redstoneHandler;
 
     // settings
     private TransferMode transferMode = TransferMode.SPLIT;
@@ -67,12 +73,14 @@ public class MeterBlockEntity extends BlockEntity implements TickableMenuBlockEn
         this.ioConfig = new IoConfig(this::onConnectionRelevantSettingChanged);
         this.graphHandler = new GraphHandler();
         this.energyHandler = new MeterEnergyHandler(this);
+        this.redstoneHandler = new RedstoneHandler(this::onRedstoneSettingChanged);
     }
 
     @Override
     protected void saveAdditional(ValueOutput output) {
         super.saveAdditional(output);
         ioConfig.serialize(output.child(Constants.SIDE_CONFIG_ID));
+        redstoneHandler.serialize(output.child(Constants.REDSTONE_ID));
         output.putString(Constants.TRANSFER_MODE_ID, transferMode.name());
         output.putString(Constants.MEASURE_MODE_ID, measureMode.name());
         output.putInt(Constants.MEASURE_INTERVAL_ID, measureInterval);
@@ -85,6 +93,7 @@ public class MeterBlockEntity extends BlockEntity implements TickableMenuBlockEn
     protected void loadAdditional(ValueInput input) {
         super.loadAdditional(input);
         input.child(Constants.SIDE_CONFIG_ID).ifPresent(ioConfig::deserialize);
+        input.child(Constants.REDSTONE_ID).ifPresent(redstoneHandler::deserialize);
         input.getString(Constants.TRANSFER_MODE_ID).ifPresent(value -> transferMode = TransferMode.valueOf(value));
         input.getString(Constants.MEASURE_MODE_ID).ifPresent(value -> measureMode = MeasureMode.valueOf(value));
         measureInterval = input.getIntOr(Constants.MEASURE_INTERVAL_ID, measureInterval);
@@ -185,6 +194,8 @@ public class MeterBlockEntity extends BlockEntity implements TickableMenuBlockEn
             setChanged();
         }
 
+        updateRedstone();
+
         return energyRateChanged;
     }
 
@@ -205,8 +216,29 @@ public class MeterBlockEntity extends BlockEntity implements TickableMenuBlockEn
         energyHandler.clearOutputCacheAndReset();
         energyRate = 0;
         syncEnergyRate(serverLevel);
+        updateRedstone();
 
         if (!updateConnectionStatus()) setChanged();
+    }
+
+    private void updateRedstone() {
+        if (!(level instanceof ServerLevel serverLevel)) return;
+        if (!redstoneHandler.refreshSignal(energyRate)) return;
+
+        serverLevel.updateNeighborsAt(worldPosition, getBlockState().getBlock());
+        setChanged();
+    }
+
+    private void onRedstoneSettingChanged() {
+        var isEnabled = redstoneHandler.getFunction() != RedstoneFunction.OFF;
+        var blockStateEnabled = getBlockState().getValue(MeterBlock.REDSTONE);
+        if (level != null && blockStateEnabled != isEnabled) {
+            var newState = getBlockState().setValue(MeterBlock.REDSTONE, isEnabled);
+            level.setBlock(worldPosition, newState, Block.UPDATE_ALL);
+        }
+
+        updateRedstone();
+        setChanged();
     }
 
     private boolean updateConnectionStatus() {
@@ -262,6 +294,10 @@ public class MeterBlockEntity extends BlockEntity implements TickableMenuBlockEn
     @TestOnly
     public MeterEnergyHandler getEnergyHandler() {
         return energyHandler;
+    }
+
+    public RedstoneHandler getRedstoneHandler() {
+        return redstoneHandler;
     }
 
     public void toggleGraphPause() {

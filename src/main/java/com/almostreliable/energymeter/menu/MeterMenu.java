@@ -3,6 +3,7 @@ package com.almostreliable.energymeter.menu;
 import com.almostreliable.energymeter.block.component.GraphHandler;
 import com.almostreliable.energymeter.block.component.IoConfig;
 import com.almostreliable.energymeter.block.component.IoConfig.IoSettingWithPriority;
+import com.almostreliable.energymeter.block.component.RedstoneHandler;
 import com.almostreliable.energymeter.block.entity.MeterBlockEntity;
 import com.almostreliable.energymeter.block.entity.MeterBlockEntity.ConnectionStatus;
 import com.almostreliable.energymeter.block.entity.MeterBlockEntity.MeasureMode;
@@ -23,6 +24,7 @@ public class MeterMenu extends SynchronizedContainerMenu<MeterBlockEntity> {
 
     private final IoConfig ioConfig = new IoConfig();
     private final GraphHandler graphHandler = new GraphHandler();
+    private final RedstoneHandler redstoneHandler = new RedstoneHandler(() -> {});
     private float graphProgress;
     private boolean graphPaused;
     private TransferMode transferMode = TransferMode.SPLIT;
@@ -40,6 +42,7 @@ public class MeterMenu extends SynchronizedContainerMenu<MeterBlockEntity> {
     @Override
     public void setupDataHandlers() {
         menuSynchronizer.addDataHandler(new DelegateDataHandler(blockEntity.getIoConfig(), () -> ioConfig));
+        menuSynchronizer.addDataHandler(new DelegateDataHandler(blockEntity.getRedstoneHandler(), () -> redstoneHandler));
         menuSynchronizer.addDataHandler(new DelegateDataHandler(blockEntity.getGraphHandler(), () -> graphHandler));
         menuSynchronizer.addDataHandler(new FloatDataHandler(blockEntity.getGraphHandler()::getProgress, v -> this.graphProgress = v));
         menuSynchronizer.addDataHandler(new BooleanDataHandler(blockEntity.getGraphHandler()::isPaused, v -> this.graphPaused = v));
@@ -116,6 +119,10 @@ public class MeterMenu extends SynchronizedContainerMenu<MeterBlockEntity> {
 
     public ConnectionStatus getConnectionStatus() {
         return connectionStatus;
+    }
+
+    public RedstoneHandler getRedstoneHandler() {
+        return redstoneHandler;
     }
     // endregion
 }

@@ -1,6 +1,8 @@
 package com.almostreliable.energymeter.network.action;
 
 import com.almostreliable.energymeter.EnergyMeter;
+import com.almostreliable.energymeter.block.component.RedstoneHandler.RedstoneFunction;
+import com.almostreliable.energymeter.block.component.RedstoneHandler.RedstoneScale;
 import com.almostreliable.energymeter.block.entity.MeterBlockEntity;
 import com.almostreliable.energymeter.client.screen.MeterTextBoxType;
 import com.almostreliable.energymeter.core.Constants;
@@ -21,6 +23,9 @@ public final class ClientActionRegistry {
     public static final Identifier RESET_TOTAL_ID = EnergyMeter.getRL("reset_total");
     public static final Identifier TOGGLE_GRAPH_PAUSE_ID = EnergyMeter.getRL("toggle_graph_pause");
     public static final Identifier UPDATE_TEXT_ID = EnergyMeter.getRL("update_text");
+    public static final Identifier REDSTONE_FUNCTION_ID = EnergyMeter.getRL("redstone_function");
+    public static final Identifier REDSTONE_SCALE_ID = EnergyMeter.getRL("redstone_scale");
+    public static final Identifier TOGGLE_REDSTONE_INVERTED_ID = EnergyMeter.getRL("toggle_redstone_inverted");
 
     private static final Map<Identifier, Decoder<?>> DECODERS = new HashMap<>();
     private static final String ID = "id";
@@ -88,6 +93,30 @@ public final class ClientActionRegistry {
         ClientActionRegistry.register(
             TOGGLE_GRAPH_PAUSE_ID,
             SimpleClientAction.<MeterMenu> decoder(TOGGLE_GRAPH_PAUSE_ID, menu -> menu.getBlockEntity().toggleGraphPause())
+        );
+
+        ClientActionRegistry.register(
+            REDSTONE_FUNCTION_ID,
+            EnumClientAction.<MeterMenu, RedstoneFunction> decoder(
+                REDSTONE_FUNCTION_ID,
+                RedstoneFunction.class,
+                (menu, value) -> menu.getBlockEntity().getRedstoneHandler().setFunction(value)
+            )
+        );
+        ClientActionRegistry.register(
+            REDSTONE_SCALE_ID,
+            EnumClientAction.<MeterMenu, RedstoneScale> decoder(
+                REDSTONE_SCALE_ID,
+                RedstoneScale.class,
+                (menu, value) -> menu.getBlockEntity().getRedstoneHandler().setScale(value)
+            )
+        );
+        ClientActionRegistry.register(
+            TOGGLE_REDSTONE_INVERTED_ID,
+            SimpleClientAction.<MeterMenu> decoder(TOGGLE_REDSTONE_INVERTED_ID, menu -> {
+                var redstoneHandler = menu.getBlockEntity().getRedstoneHandler();
+                redstoneHandler.setInverted(!redstoneHandler.isInverted());
+            })
         );
     }
 
