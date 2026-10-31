@@ -10,6 +10,7 @@ import com.almostreliable.energymeter.block.entity.MeterBlockEntity.MeasureMode;
 import com.almostreliable.energymeter.block.entity.MeterBlockEntity.TransferMode;
 import com.almostreliable.energymeter.client.screen.layout.InputLayoutElement;
 import com.almostreliable.energymeter.client.screen.widget.DynamicMarqueeStringWidget;
+import com.almostreliable.energymeter.client.screen.widget.GraphPauseButton;
 import com.almostreliable.energymeter.client.screen.widget.GuideButton;
 import com.almostreliable.energymeter.client.screen.widget.IoConfigButton;
 import com.almostreliable.energymeter.client.screen.widget.IoConfigButton.SettingSelectorWidget;
@@ -66,6 +67,7 @@ public class MeterScreen extends SynchronizedContainerScreen<MeterMenu> {
     private static final int GRAPH_PADDING = 12;
     private static final int GRAPH_MAX_VALUE_INSET = 6;
     private static final int GRAPH_BOUND_DASH_LENGTH = 3;
+    private static final int GRAPH_PAUSE_INSET = 2;
     private static final int REDSTONE_ELEMENT_WIDTH = 110;
     private static final TexRenderer BACKGROUND = TexRenderer.gui("meter").tex(0, 0, GUI_WIDTH, GUI_HEIGHT);
 
@@ -240,12 +242,8 @@ public class MeterScreen extends SynchronizedContainerScreen<MeterMenu> {
 
     @SuppressWarnings("MethodOnlyUsedFromInnerClass")
     private void initGraphTab() {
-        addRenderableWidget(
-            Button.builder(Component.literal("II"), _ -> onToggleGraphPause())
-                .pos(leftPos + GUI_WIDTH - 22, topPos + 2)
-                .size(20, 20)
-                .build()
-        );
+        var x = leftPos + GUI_WIDTH - GRAPH_PAUSE_INSET - GraphPauseButton.SIZE;
+        addRenderableWidget(new GraphPauseButton(x, topPos + GRAPH_PAUSE_INSET, menu::isGraphPaused, this::onToggleGraphPause));
     }
 
     @SuppressWarnings("MethodOnlyUsedFromInnerClass")
