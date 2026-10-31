@@ -14,6 +14,7 @@ import com.almostreliable.energymeter.client.screen.widget.GraphPauseButton;
 import com.almostreliable.energymeter.client.screen.widget.GuideButton;
 import com.almostreliable.energymeter.client.screen.widget.IoConfigButton;
 import com.almostreliable.energymeter.client.screen.widget.IoConfigButton.SettingSelectorWidget;
+import com.almostreliable.energymeter.client.screen.widget.OutlinedButton;
 import com.almostreliable.energymeter.client.screen.widget.RadioButton;
 import com.almostreliable.energymeter.client.screen.widget.Checkbox;
 import com.almostreliable.energymeter.client.screen.widget.TabButton;
@@ -33,7 +34,6 @@ import com.almostreliable.energymeter.util.TooltipBuilder;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
-import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.layouts.FrameLayout;
 import net.minecraft.client.gui.layouts.Layout;
@@ -59,7 +59,6 @@ public class MeterScreen extends SynchronizedContainerScreen<MeterMenu> {
 
     private static final int PANE_SPACING = 4;
     private static final int PANE_PADDING = 6;
-    private static final int PANE_BACKGROUND_COLOR = 0xFF17_1717;
     private static final int RIGHT_PANE_MIN_WIDTH = 160;
     private static final int VERTICAL_ELEMENT_SPACING = 4;
     private static final int GLOBAL_INFO_WIDTH = 70;
@@ -157,10 +156,8 @@ public class MeterScreen extends SynchronizedContainerScreen<MeterMenu> {
         var ioConfigComposite = OutlinedCompositeWidget.ofLayout(EnergyMeterLang.HEADER_IO.get(), ioConfigLayout);
         ioConfigComposite.setMinWidth(GLOBAL_INFO_WIDTH);
 
-        var resetButton = Button.builder(EnergyMeterLang.BUTTON_RESET_TOTAL.get(), _ -> onResetTotalButtonClicked())
-            .width(GLOBAL_INFO_WIDTH + 8)
-            .tooltip(TooltipBuilder.create().literal(EnergyMeterLang.BUTTON_RESET_TOTAL_TOOLTIP.get()).build())
-            .build();
+        var resetButton = new OutlinedButton(GLOBAL_INFO_WIDTH + 8, EnergyMeterLang.BUTTON_RESET_TOTAL.get(), this::onResetTotalButtonClicked);
+        resetButton.setTooltip(TooltipBuilder.create().literal(EnergyMeterLang.BUTTON_RESET_TOTAL_TOOLTIP.get()).build());
 
         var layout = LinearLayout.vertical().spacing(VERTICAL_ELEMENT_SPACING);
         layout.addChild(energyRateComposite);
@@ -492,7 +489,7 @@ public class MeterScreen extends SynchronizedContainerScreen<MeterMenu> {
     }
 
     private void extractPane(GuiGraphicsExtractor graphics, int x, int paneWidth) {
-        graphics.fill(x, topPos, x + paneWidth, topPos + paneHeight, PANE_BACKGROUND_COLOR);
+        graphics.fill(x, topPos, x + paneWidth, topPos + paneHeight, Constants.COLOR_BACKGROUND);
         graphics.outline(x, topPos, paneWidth, paneHeight, Constants.COLOR_ACCENT);
     }
 
