@@ -198,6 +198,7 @@ The function defines how the flow rate is turned into a signal. Only one functio
   redstone dust, redstone blocks, and strongly powered blocks next to the <ItemLink id="meter" components="rarity=epic"/> count. This
   function emits no signal itself, so redstone dust leading into the <ItemLink id="meter" components="rarity=epic"/> can't keep itself
   powered. While blocked, the [status](interface.md#status) shows **Blocked** and the flow rate drops to zero with the next interval.
+  The [behavior](interface.md#behavior) defines whether the signal only blocks the transfer or scales it gradually.
 
 ### Scale
 
@@ -209,6 +210,28 @@ The scale only applies to the **Analog** function:
   For example, a lower bound of `1` and an upper bound of `1000T` _(10^15)_ adds one signal level per factor of 10. A lower bound of `0` is
   treated as `1`.
 
+### Behavior
+
+For the **Control** function, the scale section is replaced by the behavior section:
+
+- **Switch**: any signal blocks the transfer.
+- **Throttle**: the signal strength scales the [transfer limit](interface.md#limit) down in 15 steps, so a redstone circuit can regulate
+  how much energy flows. A signal of 15 blocks the transfer. Throttle also applies the transfer limit in the **Consume** mode.
+
+With a transfer limit of 15k FE/t, the effective limit looks like this:
+
+| Signal | Normal  | Inverted |
+|--------|---------|----------|
+| 0      | 15k     | 0        |
+| 5      | 10k     | 5k       |
+| 15     | 0       | 15k      |
+
+Throttle needs a transfer limit as its base. Without one, the signal can only block the transfer at full strength _(or at zero when
+inverted)_ and the transfer is unlimited otherwise.
+
+For example, a comparator reading an energy storage behind the <ItemLink id="meter" components="rarity=epic"/> slows down the transfer as
+the storage fills up and stops it once the storage is full.
+
 ### Settings
 
 The **lower** and **upper** bound are flow rates in FE/t. Both are shared between the functions, so switching the function keeps the
@@ -217,11 +240,13 @@ values. If the lower bound is not below the upper bound, the **Analog** function
 The bounds don't apply to the **Control** function.
 
 **Invert** flips the signal. An inverted **Analog** signal emits 15 at the lower bound and 0 at the upper bound. An inverted **Threshold**
-signal is on while the flow rate is low. An inverted **Control** function blocks the transfer while unpowered instead. Since a <ItemLink id="meter" components="rarity=epic"/> without any flow has a flow rate of zero,
+signal is on while the flow rate is low. An inverted **Control** function blocks the transfer while unpowered instead. With **Throttle**,
+an inverted signal grants the transfer limit instead of reducing it. Since a <ItemLink id="meter" components="rarity=epic"/> without any flow has a flow rate of zero,
 inverting the signal can be used as an alarm when the energy supply stops.
 
 ### Output
 
 The output section shows the signal strength that is currently emitted and, for the **Analog** function, how much the flow rate has to
 change for the signal to change by one level. For the **Control** function, it is replaced by the input section, which shows the strongest
-signal received and whether the transfer is currently allowed or blocked.
+signal received and whether the transfer is currently allowed or blocked. With **Throttle**, it shows the effective transfer limit
+instead. It is shown in red if no transfer limit is set.

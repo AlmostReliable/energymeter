@@ -22,6 +22,8 @@ import java.util.function.Function;
 
 public class EnergyHandler {
 
+    private static final Direction[] DIRECTIONS = Direction.values();
+
     private final EnergyHandlerHost host;
     private final Map<Direction, ForwardingEnergyStorage> forwardingEnergyStorage = new EnumMap<>(Direction.class);
     private final Map<Direction, BlockCapabilityCache<IEnergyStorage, Direction>> outputCache = new EnumMap<>(Direction.class);
@@ -35,7 +37,7 @@ public class EnergyHandler {
     public EnergyHandler(EnergyHandlerHost host) {
         this.host = host;
 
-        for (Direction direction : Direction.values()) {
+        for (Direction direction : DIRECTIONS) {
             forwardingEnergyStorage.put(direction, new ForwardingEnergyStorage(this, () -> host.getIoConfig().getSetting(direction)));
         }
     }
@@ -86,19 +88,17 @@ public class EnergyHandler {
     }
 
     private int forwardEnergyToOutputs(int amount, boolean simulate) {
-        if (host.isTransferBlocked()) return 0;
+        var remainingLimit = host.getEffectiveTransferLimit() - energyPerTick;
+        if (remainingLimit <= 0) return 0;
+
+        var energyToForward = Math.min(amount, Ints.saturatedCast(remainingLimit));
 
         if (host.getTransferMode() == TransferMode.CONSUME) {
-            if (!simulate) energyPerInterval += amount;
-            return amount;
-        }
-
-        var energyToForward = amount;
-        var transferLimit = host.getTransferLimit();
-        if (transferLimit > 0) {
-            long remainingLimit = transferLimit - energyPerTick;
-            if (remainingLimit <= 0) return 0;
-            energyToForward = Math.min(energyToForward, Ints.saturatedCast(remainingLimit));
+            if (!simulate) {
+                energyPerInterval += energyToForward;
+                energyPerTick += energyToForward;
+            }
+            return energyToForward;
         }
 
         MaxEnergyPerOutputResult maxEnergyPerOutputResult = calculateMaxEnergyPerOutput(energyToForward);
