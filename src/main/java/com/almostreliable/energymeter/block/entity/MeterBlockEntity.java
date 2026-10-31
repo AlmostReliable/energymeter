@@ -238,7 +238,7 @@ public class MeterBlockEntity extends BlockEntity implements TickableMenuBlockEn
             inputSignal = Math.max(inputSignal, neighborSignal);
         }
 
-        redstoneHandler.refreshInput(inputSignal);
+        if (redstoneHandler.refreshInput(inputSignal)) setChanged();
     }
 
     private void refreshRedstoneOutput() {

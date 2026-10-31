@@ -69,15 +69,16 @@ public class RedstoneHandler implements DataHandler {
         };
 
         var isInverted = inverted && function.emitsSignal();
-        return setSignal(isInverted ? Redstone.SIGNAL_MAX - signal : signal);
+        return setOutputSignal(isInverted ? Redstone.SIGNAL_MAX - signal : signal);
     }
 
-    public void refreshInput(int signal) {
+    public boolean refreshInput(int signal) {
         inputDirty = false;
-        if (inputSignal == signal) return;
+        if (inputSignal == signal) return false;
 
         inputSignal = signal;
         changed = true;
+        return true;
     }
 
     public boolean needsInputRefresh() {
@@ -109,7 +110,7 @@ public class RedstoneHandler implements DataHandler {
         return scaledQuotient + scaledRemainder;
     }
 
-    private boolean setSignal(int signal) {
+    private boolean setOutputSignal(int signal) {
         if (outputSignal == signal) return false;
         outputSignal = signal;
         changed = true;
@@ -246,12 +247,12 @@ public class RedstoneHandler implements DataHandler {
         setChanged();
     }
 
-    public int getOutputSignal() {
-        return outputSignal;
+    public int getInputSignal() {
+        return function == RedstoneFunction.CONTROL ? inputSignal : 0;
     }
 
-    public int getInputSignal() {
-        return inputSignal;
+    public int getOutputSignal() {
+        return outputSignal;
     }
 
     public enum RedstoneFunction {
