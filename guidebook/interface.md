@@ -106,7 +106,7 @@ number, the box turns red and the value cannot be applied.
 All text boxes also support mathematical expressions. Supported operations include addition, subtraction, multiplication, division,
 exponentiation, and parentheses. If a mathematical expression is detected, the text box displays a small popup with the calculated result
 that can be applied. Since all configurable values are integers, results from mathematical expressions are automatically rounded to the
-nearest whole number. Invalid symbols are also prevented while entering mathematical expressions. For example, closing parentheses can only
+nearest whole number. Invalid symbols are also prevented while entering mathematical expressions. For example, a closing parenthesis can only
 be inserted if a matching opening parenthesis exists.
 
 Numbers can be shortened with unit suffixes: `k` (thousand), `M` (million), `G` (billion), `T`, `P`, and `E`, each a factor of 1000
@@ -167,7 +167,7 @@ graph points easier to interpret.
 If data for fewer than 10 intervals exists, only the available intervals are displayed. While the current interval is running, only a
 horizontal line is shown. The graph point appears once the interval result becomes available.
 
-For the **Analog** and **Threshold** [redstone functions](interface.md#function), the lower and upper bound are shown as dashed lines, so
+For the **Analog** and **Threshold** [redstone functions](interface.md#function), the lower and upper bounds are shown as dashed lines, so
 you can see where the flow rate sits relative to them. The upper bound is drawn in green and the lower bound in gray. A bound above the
 visible range is shown as a marker with its value at the top edge instead.
 
@@ -180,7 +180,7 @@ the graph indicates that it is paused, and the icon turns into a play icon. Pres
 
 ## Redstone Panel
 
-The Redstone panel can be accessed by selecting the **Redstone** tab. It allows the <ItemLink id="meter" components="rarity=epic"/> to
+The redstone panel can be accessed by selecting the **Redstone** tab. It allows the <ItemLink id="meter" components="rarity=epic"/> to
 emit a redstone signal based on the current flow rate, or to be switched on and off with a redstone signal.
 
 Redstone is disabled by default. Pick a function other than **Off** to activate it. While active, redstone dust connects to every side
@@ -194,7 +194,7 @@ The function defines how the flow rate is turned into a signal. Only one functio
 
 - **Off** emits no signal and redstone dust does not connect.
 - **Analog** maps the flow rate between the lower and upper bound to a signal strength between 0 and 15. A flow rate at or below the
-  lower bound emits 0, a flow rate at or above the upper bound emits 15.
+  lower bound emits 0; a flow rate at or above the upper bound emits 15.
 - **Threshold** emits a full signal once the flow rate reaches the upper bound **(On at)** and keeps it until the flow rate drops below
   the lower bound **(Off below)**. The gap between both bounds prevents the signal from flickering when the flow rate fluctuates around a
   single value. If both bounds are equal, the signal switches at that value.
@@ -238,7 +238,7 @@ the storage fills up and stops it once the storage is full.
 
 ### Settings
 
-The **lower** and **upper** bound are flow rates in FE/t. Both are shared between the functions, so switching the function keeps the
+The **lower** and **upper** bounds are flow rates in FE/t. Both are shared between the functions, so switching the function keeps the
 values. If the lower bound is not below the upper bound, the **Analog** function acts like a threshold at the upper bound.
 
 The bounds don't apply to the **Control** function.
