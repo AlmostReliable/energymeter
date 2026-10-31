@@ -5,6 +5,7 @@ import com.almostreliable.energymeter.core.Constants;
 
 import net.minecraft.Util;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 
@@ -18,6 +19,11 @@ public class MarqueeStringWidget extends LayoutPositionedWidget {
 
     public MarqueeStringWidget(int width, int height, Component message) {
         super(width, height, message);
+    }
+
+    @Override
+    public void playDownSound(SoundManager soundManager) {
+        // do not play click sound
     }
 
     @Override
