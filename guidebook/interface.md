@@ -171,9 +171,9 @@ For the **Analog** and **Threshold** [redstone functions](interface.md#function)
 you can see where the flow rate sits relative to them. The upper bound is drawn in green and the lower bound in gray. A bound above the
 visible range is shown as a marker with its value at the top edge instead.
 
-To inspect the data more easily, the graph can be paused using the button in the upper-right corner. Pausing only stops the graphical
-representation of the graph. Internally, new data is still processed and the Energy Meter continues operating. A label inside the graph
-indicates that it is paused. Press the button again to resume the graph.
+To inspect the data more easily, the graph can be paused using the small pause icon in the upper-right corner. Pausing only stops the
+graphical representation of the graph. Internally, new data is still processed and the Energy Meter continues operating. A label inside
+the graph indicates that it is paused, and the icon turns into a play icon. Press it again to resume the graph.
 
 <br clear="all" />
 ---
