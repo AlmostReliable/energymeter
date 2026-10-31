@@ -23,6 +23,8 @@ import testmod.test.MeterTransferLimitTests;
 import testmod.test.MeterTransferTests;
 import testmod.test.MeterTransactionTests;
 import testmod.test.MeterZeroToleranceTests;
+import testmod.test.MonitorBlockTests;
+import testmod.test.MultiblockTypeTests;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -97,6 +99,15 @@ public final class TestFunctions {
         register(meter, "redstone_disconnected_inverted", MeterRedstoneTests::redstone_disconnected_inverted);
         register(meter, "redstone_control", MeterRedstoneTests::redstone_control);
         register(meter, "redstone_throttle", MeterRedstoneTests::redstone_throttle);
+
+        var monitor = TestUtils.BATCH_MONITOR_TESTS;
+        register(monitor, "monitor_form_single", MonitorBlockTests::form_single);
+        register(monitor, "monitor_form_row", MonitorBlockTests::form_row);
+        register(monitor, "monitor_form_column", MonitorBlockTests::form_column);
+        register(monitor, "monitor_form_square", MonitorBlockTests::form_square);
+        register(logic, "multiblock_type_from_borders", MultiblockTypeTests::from_borders);
+        register(logic, "multiblock_type_face_types", MultiblockTypeTests::face_types);
+        register(logic, "multiblock_type_sheet_cells", MultiblockTypeTests::sheet_cells);
 
         var scenarios = TestUtils.BATCH_SCENARIOS;
         register(scenarios, "energy_metadata_overflow", EnergyMetadataOverflowScenario::test);
