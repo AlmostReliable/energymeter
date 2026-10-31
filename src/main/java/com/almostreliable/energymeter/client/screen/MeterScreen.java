@@ -29,7 +29,6 @@ import com.almostreliable.energymeter.network.action.IoSettingClientAction;
 import com.almostreliable.energymeter.network.action.SimpleClientAction;
 import com.almostreliable.energymeter.network.action.TextValueClientAction;
 import com.almostreliable.energymeter.util.NumberFormatter;
-import com.almostreliable.energymeter.util.TexRenderer;
 import com.almostreliable.energymeter.util.TooltipBuilder;
 
 import net.minecraft.ChatFormatting;
@@ -37,6 +36,7 @@ import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.layouts.FrameLayout;
+import net.minecraft.client.gui.layouts.Layout;
 import net.minecraft.client.gui.layouts.LinearLayout;
 import net.minecraft.client.gui.narration.NarratableEntry;
 import net.minecraft.client.gui.navigation.ScreenRectangle;
@@ -53,15 +53,14 @@ import org.jspecify.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.function.Consumer;
+import java.util.function.Function;
 
 public class MeterScreen extends SynchronizedContainerScreen<MeterMenu> {
 
-    private static final int GUI_WIDTH = 234;
-    private static final int GUI_HEIGHT = 185;
     private static final int PANE_SPACING = 4;
-    private static final int LEFT_PANE_WIDTH = 90;
-    private static final int RIGHT_PANE_WIDTH = GUI_WIDTH - LEFT_PANE_WIDTH - PANE_SPACING;
+    private static final int PANE_PADDING = 6;
+    private static final int PANE_BACKGROUND_COLOR = 0xFF17_1717;
+    private static final int RIGHT_PANE_MIN_WIDTH = 160;
     private static final int VERTICAL_ELEMENT_SPACING = 4;
     private static final int GLOBAL_INFO_WIDTH = 70;
     private static final int GRAPH_PADDING = 12;
@@ -69,27 +68,71 @@ public class MeterScreen extends SynchronizedContainerScreen<MeterMenu> {
     private static final int GRAPH_BOUND_DASH_LENGTH = 3;
     private static final int GRAPH_PAUSE_INSET = 2;
     private static final int REDSTONE_ELEMENT_WIDTH = 110;
-    private static final TexRenderer BACKGROUND = TexRenderer.gui("meter").tex(0, 0, GUI_WIDTH, GUI_HEIGHT);
 
     private final List<ClickedOutsideListener> clickedOutsideListeners = new ArrayList<>();
+
     private TabType currentTab = TabType.CONFIGURATION;
     private RedstoneFunction lastRedstoneFunction = RedstoneFunction.OFF;
     private ControlBehavior lastControlBehavior = ControlBehavior.SWITCH;
     private @Nullable SettingSelectorWidget settingSelectorWidget;
+    private int leftPaneWidth;
+    private int rightPaneWidth;
+    private int paneHeight;
 
     public MeterScreen(MeterMenu menu, Inventory playerInventory, Component title) {
-        super(menu, playerInventory, title, GUI_WIDTH, GUI_HEIGHT);
+        super(menu, playerInventory, title, 0, 0);
     }
 
     @Override
     protected void init() {
         super.init();
-        initGlobalInfo();
+
+        var ioConfigGroup = IoConfigButton.createGroup(
+            menu.getBlockState(),
+            menu::getIoSetting,
+            this::onIoSettingSelected,
+            menu::getTransferMode
+        );
+        var globalInfoLayout = createGlobalInfoLayout(ioConfigGroup.layout());
+        globalInfoLayout.arrangeElements();
+
+        var tabContent = currentTab.contentFactory.apply(this);
+        tabContent.arrangeElements();
+        var tabContentWidth = tabContent.getWidth();
+        var tabContentHeight = tabContent.getHeight();
+
+        // the right pane fits the largest tab so the gui doesn't jump when switching tabs
+        for (var tabType : TabType.values()) {
+            if (tabType == currentTab) continue;
+
+            var otherTabContent = tabType.contentFactory.apply(this);
+            otherTabContent.arrangeElements();
+            tabContentWidth = Math.max(tabContentWidth, otherTabContent.getWidth());
+            tabContentHeight = Math.max(tabContentHeight, otherTabContent.getHeight());
+        }
+
+        leftPaneWidth = globalInfoLayout.getWidth() + PANE_PADDING * 2;
+        rightPaneWidth = Math.max(tabContentWidth + PANE_PADDING * 2, RIGHT_PANE_MIN_WIDTH);
+        paneHeight = Math.max(globalInfoLayout.getHeight(), tabContentHeight) + PANE_PADDING * 2;
+        leftPos = (width - getGuiWidth()) / 2;
+        topPos = (height - paneHeight) / 2;
+
+        FrameLayout.centerInRectangle(globalInfoLayout, leftPos, topPos, leftPaneWidth, paneHeight);
+        globalInfoLayout.visitWidgets(this::addRenderableWidget);
+        settingSelectorWidget = addWidget(ioConfigGroup.settingSelectorWidget());
+        addRenderableWidget(new GuideButton(leftPos, topPos));
+
         initTabs();
-        currentTab.init.accept(this);
+
+        FrameLayout.centerInRectangle(tabContent, getRightPaneX(), topPos, rightPaneWidth, paneHeight);
+        tabContent.visitWidgets(this::addRenderableWidget);
+        if (currentTab == TabType.GRAPH) {
+            var x = getRightPaneX() + rightPaneWidth - GRAPH_PAUSE_INSET - GraphPauseButton.SIZE;
+            addRenderableWidget(new GraphPauseButton(x, topPos + GRAPH_PAUSE_INSET, menu::isGraphPaused, this::onToggleGraphPause));
+        }
     }
 
-    private void initGlobalInfo() {
+    private LinearLayout createGlobalInfoLayout(Layout ioConfigLayout) {
         var energyRateComposite = OutlinedCompositeWidget.ofElement(
             EnergyMeterLang.HEADER_CURRENT.get(),
             new DynamicMarqueeStringWidget(
@@ -111,13 +154,7 @@ public class MeterScreen extends SynchronizedContainerScreen<MeterMenu> {
             )
         );
 
-        var ioConfigGroup = IoConfigButton.createGroup(
-            menu.getBlockState(),
-            menu::getIoSetting,
-            this::onIoSettingSelected,
-            menu::getTransferMode
-        );
-        var ioConfigComposite = OutlinedCompositeWidget.ofLayout(EnergyMeterLang.HEADER_IO.get(), ioConfigGroup.layout());
+        var ioConfigComposite = OutlinedCompositeWidget.ofLayout(EnergyMeterLang.HEADER_IO.get(), ioConfigLayout);
         ioConfigComposite.setMinWidth(GLOBAL_INFO_WIDTH);
 
         var resetButton = Button.builder(EnergyMeterLang.BUTTON_RESET_TOTAL.get(), _ -> onResetTotalButtonClicked())
@@ -132,12 +169,7 @@ public class MeterScreen extends SynchronizedContainerScreen<MeterMenu> {
         layout.addChild(ioConfigComposite);
         layout.addChild(resetButton);
 
-        layout.arrangeElements();
-        FrameLayout.centerInRectangle(layout, leftPos, topPos, LEFT_PANE_WIDTH, GUI_HEIGHT);
-
-        layout.visitWidgets(this::addRenderableWidget);
-        settingSelectorWidget = addWidget(ioConfigGroup.settingSelectorWidget());
-        addRenderableWidget(new GuideButton(leftPos, topPos));
+        return layout;
     }
 
     @Override
@@ -166,9 +198,9 @@ public class MeterScreen extends SynchronizedContainerScreen<MeterMenu> {
         layout.arrangeElements();
         FrameLayout.alignInRectangle(
             layout,
-            leftPos + LEFT_PANE_WIDTH + PANE_SPACING,
+            getRightPaneX(),
             topPos - TabButton.TAB_HEIGHT + 1,
-            RIGHT_PANE_WIDTH,
+            rightPaneWidth,
             TabButton.TAB_HEIGHT,
             0.1f,
             0
@@ -178,7 +210,7 @@ public class MeterScreen extends SynchronizedContainerScreen<MeterMenu> {
     }
 
     @SuppressWarnings("MethodOnlyUsedFromInnerClass")
-    private void initConfigTab() {
+    private Layout createConfigTab() {
         var transferModeRadioButtons = RadioButton.createGroup(
             102,
             EnergyMeterLang.TRANSFER_MODES,
@@ -234,20 +266,17 @@ public class MeterScreen extends SynchronizedContainerScreen<MeterMenu> {
         layout.addChild(modesComposite);
         layout.addChild(settingsComposite);
 
-        layout.arrangeElements();
-        FrameLayout.centerInRectangle(layout, leftPos + LEFT_PANE_WIDTH + PANE_SPACING, topPos, RIGHT_PANE_WIDTH, GUI_HEIGHT);
-
-        layout.visitWidgets(this::addRenderableWidget);
+        return layout;
     }
 
     @SuppressWarnings("MethodOnlyUsedFromInnerClass")
-    private void initGraphTab() {
-        var x = leftPos + GUI_WIDTH - GRAPH_PAUSE_INSET - GraphPauseButton.SIZE;
-        addRenderableWidget(new GraphPauseButton(x, topPos + GRAPH_PAUSE_INSET, menu::isGraphPaused, this::onToggleGraphPause));
+    private Layout createGraphTab() {
+        // the graph is drawn in the background and fills the pane
+        return LinearLayout.vertical();
     }
 
     @SuppressWarnings("MethodOnlyUsedFromInnerClass")
-    private void initRedstoneTab() {
+    private Layout createRedstoneTab() {
         var redstoneHandler = menu.getRedstoneHandler();
         lastRedstoneFunction = redstoneHandler.getFunction();
         lastControlBehavior = redstoneHandler.getControlBehavior();
@@ -342,10 +371,7 @@ public class MeterScreen extends SynchronizedContainerScreen<MeterMenu> {
         layout.addChild(settingsComposite);
         layout.addChild(signalComposite);
 
-        layout.arrangeElements();
-        FrameLayout.centerInRectangle(layout, leftPos + LEFT_PANE_WIDTH + PANE_SPACING, topPos, RIGHT_PANE_WIDTH, GUI_HEIGHT);
-
-        layout.visitWidgets(this::addRenderableWidget);
+        return layout;
     }
 
     @Override
@@ -356,14 +382,16 @@ public class MeterScreen extends SynchronizedContainerScreen<MeterMenu> {
     @Override
     public void extractBackground(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
         super.extractBackground(graphics, mouseX, mouseY, partialTick);
-        BACKGROUND.target(leftPos, topPos).render(graphics);
+
+        int paneLeft = getRightPaneX();
+        extractPane(graphics, leftPos, leftPaneWidth);
+        extractPane(graphics, paneLeft, rightPaneWidth);
         if (currentTab != TabType.GRAPH) return;
 
         // dimensions
-        int paneLeft = leftPos + LEFT_PANE_WIDTH + PANE_SPACING;
-        int paneBottom = topPos + GUI_HEIGHT;
+        int paneBottom = topPos + paneHeight;
         int graphLeft = paneLeft + GRAPH_PADDING;
-        int graphRight = paneLeft + RIGHT_PANE_WIDTH - GRAPH_PADDING;
+        int graphRight = paneLeft + rightPaneWidth - GRAPH_PADDING;
         int graphTop = topPos + GRAPH_PADDING;
         int graphBottom = paneBottom - GRAPH_PADDING;
         int graphWidth = graphRight - graphLeft;
@@ -378,8 +406,8 @@ public class MeterScreen extends SynchronizedContainerScreen<MeterMenu> {
             graphics.text(
                 font,
                 text,
-                paneLeft + RIGHT_PANE_WIDTH / 2 - font.width(text) / 2,
-                topPos + GUI_HEIGHT / 2 - font.lineHeight / 2,
+                paneLeft + rightPaneWidth / 2 - font.width(text) / 2,
+                topPos + paneHeight / 2 - font.lineHeight / 2,
                 Constants.COLOR_WHITE,
                 false
             );
@@ -392,8 +420,8 @@ public class MeterScreen extends SynchronizedContainerScreen<MeterMenu> {
             graphics.text(
                 font,
                 text,
-                paneLeft + RIGHT_PANE_WIDTH / 2 - font.width(text) / 2,
-                topPos + GUI_HEIGHT / 2 - font.lineHeight / 2,
+                paneLeft + rightPaneWidth / 2 - font.width(text) / 2,
+                topPos + paneHeight / 2 - font.lineHeight / 2,
                 Constants.COLOR_WHITE,
                 false
             );
@@ -463,6 +491,11 @@ public class MeterScreen extends SynchronizedContainerScreen<MeterMenu> {
         ((GuiGraphicsExtractorAccessor) graphics).getGuiRenderState().addGuiElement(graphRenderState);
     }
 
+    private void extractPane(GuiGraphicsExtractor graphics, int x, int paneWidth) {
+        graphics.fill(x, topPos, x + paneWidth, topPos + paneHeight, PANE_BACKGROUND_COLOR);
+        graphics.outline(x, topPos, paneWidth, paneHeight, Constants.COLOR_ACCENT);
+    }
+
     private void drawRedstoneBounds(GuiGraphicsExtractor graphics, int graphLeft, int graphRight, int graphBottom, int graphHeight) {
         var redstoneHandler = menu.getRedstoneHandler();
         if (!redstoneHandler.getFunction().emitsSignal()) return;
@@ -523,11 +556,24 @@ public class MeterScreen extends SynchronizedContainerScreen<MeterMenu> {
     }
 
     @Override
+    protected boolean hasClickedOutside(double mouseX, double mouseY, int left, int top) {
+        return mouseX < left || mouseY < top || mouseX >= left + getGuiWidth() || mouseY >= top + paneHeight;
+    }
+
+    @Override
     public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick) {
         for (var clickedOutsideListener : clickedOutsideListeners) {
             clickedOutsideListener.receiveClickOutside(event.x(), event.y());
         }
         return super.mouseClicked(event, doubleClick);
+    }
+
+    private int getGuiWidth() {
+        return leftPaneWidth + PANE_SPACING + rightPaneWidth;
+    }
+
+    private int getRightPaneX() {
+        return leftPos + leftPaneWidth + PANE_SPACING;
     }
 
     private Component getRedstoneStepText() {
@@ -637,14 +683,14 @@ public class MeterScreen extends SynchronizedContainerScreen<MeterMenu> {
     }
 
     public enum TabType {
-        CONFIGURATION(MeterScreen::initConfigTab),
-        GRAPH(MeterScreen::initGraphTab),
-        REDSTONE(MeterScreen::initRedstoneTab);
+        CONFIGURATION(MeterScreen::createConfigTab),
+        GRAPH(MeterScreen::createGraphTab),
+        REDSTONE(MeterScreen::createRedstoneTab);
 
-        private final Consumer<MeterScreen> init;
+        private final Function<MeterScreen, Layout> contentFactory;
 
-        TabType(Consumer<MeterScreen> init) {
-            this.init = init;
+        TabType(Function<MeterScreen, Layout> contentFactory) {
+            this.contentFactory = contentFactory;
         }
     }
 }

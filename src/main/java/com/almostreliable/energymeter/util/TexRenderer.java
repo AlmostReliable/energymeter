@@ -36,15 +36,6 @@ public final class TexRenderer {
         return new TexRenderer(texture, DEFAULT_TEXTURE_SIZE, DEFAULT_TEXTURE_SIZE);
     }
 
-    public static TexRenderer gui(String guiTexture, int textureWidth, int textureHeight) {
-        var texture = EnergyMeter.getRL("textures/gui/" + guiTexture + ".png");
-        return of(texture, textureWidth, textureHeight);
-    }
-
-    public static TexRenderer gui(String guiTexture) {
-        return gui(guiTexture, DEFAULT_TEXTURE_SIZE, DEFAULT_TEXTURE_SIZE);
-    }
-
     public static TexRenderer button(String buttonTexture, int textureWidth, int textureHeight) {
         var texture = EnergyMeter.getRL("textures/gui/button/" + buttonTexture + ".png");
         return of(texture, textureWidth, textureHeight);

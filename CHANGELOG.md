@@ -10,6 +10,7 @@ All notable changes to this project will be documented in this file.
 - added missing German translations for the guide actions
 - exposed redstone settings and signal values to CC: Tweaked compat
 - changed transfer limit text box to display large values in short form (e.g. 100k)
+- changed meter screen background to be drawn in code and sized to fit the content of all tabs
 - changed graph pause button to a small borderless pause/play icon
 - changed monitor multiblock textures to be generated from two 48x48 sheets
 - fixed labels in the meter screen playing a click sound when clicked
