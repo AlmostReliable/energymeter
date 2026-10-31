@@ -8,21 +8,24 @@ import com.almostreliable.energymeter.core.Registration;
 
 import net.minecraft.core.Direction;
 import net.minecraft.data.PackOutput;
-import net.neoforged.neoforge.client.model.generators.BlockModelBuilder;
 import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
 import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
+import net.neoforged.neoforge.client.model.generators.ModelProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 import org.jetbrains.annotations.Nullable;
-
-import java.util.EnumMap;
-import java.util.Map;
 
 class EnergyMeterModels extends BlockStateProvider {
 
     EnergyMeterModels(PackOutput output, ExistingFileHelper existingFileHelper) {
         super(output, ModConstants.MOD_ID, existingFileHelper);
+
+        // sprites are generated from the monitor sheets at atlas load
+        for (var type : MultiblockType.values()) {
+            existingFileHelper.trackGenerated(type.getFrontSpriteId(), ModelProvider.TEXTURE);
+            existingFileHelper.trackGenerated(type.getFrameSpriteId(), ModelProvider.TEXTURE);
+        }
     }
 
     @Override
@@ -33,12 +36,9 @@ class EnergyMeterModels extends BlockStateProvider {
 
     private void energyMeter() {
         var block = Registration.METER_BLOCK;
-        var model = models().orientable(
-            block.getId().getPath(),
-            modLoc("block/normal"),
-            modLoc("block/normal_front"),
-            modLoc("block/normal")
-        );
+        var frameSprite = MultiblockType.NORMAL.getFrameSpriteId();
+        var frontSprite = MultiblockType.NORMAL.getFrontSpriteId();
+        var model = models().orientable(block.getId().getPath(), frameSprite, frontSprite, frameSprite);
 
         getVariantBuilder(block.get()).forAllStatesExcept(
             state -> {
@@ -57,59 +57,19 @@ class EnergyMeterModels extends BlockStateProvider {
 
     private void externalMonitor() {
         var block = Registration.MONITOR_BLOCK;
-        Map<MultiblockType, ModelFile> monitorModels = new EnumMap<>(MultiblockType.class);
 
-        for (MultiblockType type : MultiblockType.values()) {
-            if (type == MultiblockType.NONE || type == MultiblockType.SELF) {
-                monitorModels.put(type, models().cubeAll(type.getSerializedName(), MultiblockType.NORMAL.getTexture()));
-                continue;
-            }
-
-            BlockModelBuilder model = models().getBuilder(type.getTexture().getPath())
-                .parent(new ModelFile.UncheckedModelFile("block/block"))
-                .texture("front", type.getFrontTexture())
-                .texture("particle", type.getTexture());
-
-            var element = model.element()
-                .from(0, 0, 0).to(16, 16, 16)
-                .face(Direction.NORTH).uvs(0, 0, 16, 16).texture("#front").end()
-                .face(Direction.SOUTH).uvs(16, 0, 0, 16).texture("#particle").end();
-
-            if (type.getUpTexture() != null) {
-                model.texture("up", type.getUpTexture());
-                element.face(Direction.UP).uvs(16, 0, 0, 16).texture("#up").end();
-            }
-            if (type.getDownTexture() != null) {
-                model.texture("down", type.getDownTexture());
-                element.face(Direction.DOWN).uvs(16, 16, 0, 0).texture("#down").end();
-            }
-            if (type.getLeftTexture() != null) {
-                model.texture("left", type.getLeftTexture());
-                element.face(Direction.EAST).uvs(0, 0, 16, 16).texture("#left").end();
-            }
-            if (type.getRightTexture() != null) {
-                model.texture("right", type.getRightTexture());
-                element.face(Direction.WEST).uvs(0, 0, 16, 16).texture("#right").end();
-            }
-
-            element.end();
-            monitorModels.put(type, model);
+        for (var type : MultiblockType.values()) {
+            monitorModel(type);
         }
 
         getVariantBuilder(block.get()).forAllStatesExcept(
             state -> {
-                MultiblockType type = state.getValue(MonitorBlock.TYPE);
-                ModelFile model = monitorModels.get(type);
-
-                if (type == MultiblockType.NONE || type == MultiblockType.SELF) {
-                    return ConfiguredModel.builder().modelFile(model).build();
-                }
-
-                Direction facing = FacingEntityBlock.getFacingDir(state);
-                Direction bottom = FacingEntityBlock.getBottomDir(state);
+                var type = state.getValue(MonitorBlock.TYPE);
+                var facing = FacingEntityBlock.getFacingDir(state);
+                var bottom = FacingEntityBlock.getBottomDir(state);
 
                 return ConfiguredModel.builder()
-                    .modelFile(model)
+                    .modelFile(new ModelFile.UncheckedModelFile(type.getModelId()))
                     .rotationX(getHorizontalRotation(facing))
                     .rotationY(getVerticalRotation(facing, bottom))
                     .build();
@@ -117,7 +77,34 @@ class EnergyMeterModels extends BlockStateProvider {
             MonitorBlock.CONTROLLER, MonitorBlock.HORIZONTAL, MonitorBlock.VERTICAL
         );
 
-        itemModels().simpleBlockItem(modLoc(MultiblockType.NORMAL.getSerializedName()));
+        itemModels().withExistingParent(block.getId().getPath(), MultiblockType.NORMAL.getModelId());
+    }
+
+    private void monitorModel(MultiblockType type) {
+        var frameSprite = type.getFrameSpriteId();
+        var upDownSprite = type.getUpDownFaceType().getFrameSpriteId();
+        var leftRightSprite = type.getLeftRightFaceType().getFrameSpriteId();
+
+        models().getBuilder(type.getModelId().getPath())
+            .parent(new ModelFile.UncheckedModelFile("block/block"))
+            .texture("particle", frameSprite)
+            .texture("front", type.getFrontSpriteId())
+            .texture("back", frameSprite)
+            .texture("up", upDownSprite)
+            .texture("down", upDownSprite)
+            .texture("east", leftRightSprite)
+            .texture("west", leftRightSprite)
+            .element()
+            .from(0, 0, 0)
+            .to(16, 16, 16)
+            .allFaces((direction, face) -> face.cullface(direction))
+            .face(Direction.NORTH).texture("#front").end()
+            .face(Direction.SOUTH).texture("#back").uvs(16, 0, 0, 16).end()
+            .face(Direction.UP).texture("#up").uvs(16, 0, 0, 16).end()
+            .face(Direction.DOWN).texture("#down").uvs(16, 16, 0, 0).end()
+            .face(Direction.EAST).texture("#east").end()
+            .face(Direction.WEST).texture("#west").end()
+            .end();
     }
 
     private int getVerticalRotation(Direction facing, @Nullable Direction bottom) {

@@ -1,0 +1,70 @@
+{
+  "parent": "minecraft:block/block",
+  "elements": [
+    {
+      "faces": {
+        "down": {
+          "cullface": "down",
+          "texture": "#down",
+          "uv": [
+            16.0,
+            16.0,
+            0.0,
+            0.0
+          ]
+        },
+        "east": {
+          "cullface": "east",
+          "texture": "#east"
+        },
+        "north": {
+          "cullface": "north",
+          "texture": "#front"
+        },
+        "south": {
+          "cullface": "south",
+          "texture": "#back",
+          "uv": [
+            16.0,
+            0.0,
+            0.0,
+            16.0
+          ]
+        },
+        "up": {
+          "cullface": "up",
+          "texture": "#up",
+          "uv": [
+            16.0,
+            0.0,
+            0.0,
+            16.0
+          ]
+        },
+        "west": {
+          "cullface": "west",
+          "texture": "#west"
+        }
+      },
+      "from": [
+        0,
+        0,
+        0
+      ],
+      "to": [
+        16,
+        16,
+        16
+      ]
+    }
+  ],
+  "textures": {
+    "back": "energymeter:block/monitor/frame_corner_dl",
+    "down": "energymeter:block/monitor/frame_corner_l",
+    "east": "energymeter:block/monitor/frame_corner_d",
+    "front": "energymeter:block/monitor/front_corner_dl",
+    "particle": "energymeter:block/monitor/frame_corner_dl",
+    "up": "energymeter:block/monitor/frame_corner_l",
+    "west": "energymeter:block/monitor/frame_corner_d"
+  }
+}

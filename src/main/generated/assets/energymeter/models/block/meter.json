@@ -1,8 +1,8 @@
 {
   "parent": "minecraft:block/orientable",
   "textures": {
-    "front": "energymeter:block/normal_front",
-    "side": "energymeter:block/normal",
-    "top": "energymeter:block/normal"
+    "front": "energymeter:block/monitor/front_normal",
+    "side": "energymeter:block/monitor/frame_normal",
+    "top": "energymeter:block/monitor/frame_normal"
   }
 }

@@ -7,8 +7,9 @@ All notable changes to this project will be documented in this file.
 - added unit suffixes (k, M, G, ...) for number inputs
 - added redstone support to the meter
 - added redstone bound lines to the graph tab
-- added redstone settings and signal values to the CC: Tweaked peripheral
+- exposed redstone settings and signal values to CC: Tweaked compat
 - changed transfer limit text box to display large values in short form (e.g. 100k)
+- changed monitor multiblock textures to be generated from two 48x48 sheets
 
 ## [0.5.3] - 2026-10-16
 

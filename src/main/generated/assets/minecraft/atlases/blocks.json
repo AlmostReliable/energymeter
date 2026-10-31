@@ -1,0 +1,12 @@
+{
+  "sources": [
+    {
+      "type": "energymeter:monitor_sheet",
+      "sheet": "energymeter:monitor/front"
+    },
+    {
+      "type": "energymeter:monitor_sheet",
+      "sheet": "energymeter:monitor/frame"
+    }
+  ]
+}

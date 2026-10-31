@@ -17,6 +17,7 @@ public final class DataGeneration {
 
         generator.addProvider(event.includeClient(), new EnergyMeterLang(output));
         generator.addProvider(event.includeClient(), new EnergyMeterModels(output, existingFileHelper));
+        generator.addProvider(event.includeClient(), new EnergyMeterAtlases(output, registryAccess, existingFileHelper));
 
         generator.addProvider(event.includeServer(), new EnergyMeterLoot(output, registryAccess));
         generator.addProvider(event.includeServer(), new EnergyMeterRecipes(output, registryAccess));
