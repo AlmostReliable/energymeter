@@ -24,6 +24,9 @@ In addition to a comprehensive user interface, the block also features a digital
 there at any time. The display can be rotated in any direction, including upwards and downwards. Since the front of the Energy Meter is
 used for the display, only the remaining five sides can be configured as input or output.
 
+A newly placed Energy Meter does not transfer or measure any energy because all of its sides are disabled. Before it can be used, its
+sides have to be configured as inputs and outputs in the I/O grid of its user interface, see the [Global Panel](interface.md#global-panel) section.
+
 To review the rates of previous intervals, the Energy Meter’s user interface also includes a graph view. This shows the measurements of
 the last 10 intervals and can also be paused. The interface provides many additional configuration options. Besides different
 measurement methods, both the measurement interval and the calculation mode can be adjusted.<br/>
