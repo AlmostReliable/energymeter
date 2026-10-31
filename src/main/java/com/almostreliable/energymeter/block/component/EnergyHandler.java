@@ -86,6 +86,8 @@ public class EnergyHandler {
     }
 
     private int forwardEnergyToOutputs(int amount, boolean simulate) {
+        if (host.isTransferBlocked()) return 0;
+
         if (host.getTransferMode() == TransferMode.CONSUME) {
             if (!simulate) energyPerInterval += amount;
             return amount;

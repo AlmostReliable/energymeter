@@ -35,7 +35,8 @@ blocks, and changes to input and output configurations.
 The status **Disconnected** indicates that the required settings for the currently selected mode have not been configured. In most cases,
 this means that an input or output is missing. **Idle** means that all settings are configured correctly and the Energy Meter is waiting to
 transfer energy. The final status depends on the selected [transfer mode](interface.md#transferring) and indicates that the
-<ItemLink id="meter" components="rarity=epic"/> is currently processing requests and operating correctly.
+<ItemLink id="meter" components="rarity=epic"/> is currently processing requests and operating correctly. **Blocked** means that the
+[Control](interface.md#function) redstone function currently blocks the transfer.
 
 ### I/O Grid
 
@@ -176,7 +177,7 @@ indicates that it is paused. Press the button again to resume the graph.
 ## Redstone Panel
 
 The Redstone panel can be accessed by selecting the **Redstone** tab. It allows the <ItemLink id="meter" components="rarity=epic"/> to
-emit a redstone signal based on the current flow rate.
+emit a redstone signal based on the current flow rate, or to be switched on and off with a redstone signal.
 
 Redstone is disabled by default. Pick a function other than **Off** to activate it. While active, redstone dust connects to every side
 of the <ItemLink id="meter" components="rarity=epic"/> except the front with the display. The signal is weak power, so it does not pass
@@ -193,6 +194,10 @@ The function defines how the flow rate is turned into a signal. Only one functio
 - **Threshold** emits a full signal once the flow rate reaches the upper bound **(On at)** and keeps it until the flow rate drops below
   the lower bound **(Off below)**. The gap between both bounds prevents the signal from flickering when the flow rate fluctuates around a
   single value. If both bounds are equal, the signal switches at that value.
+- **Control** reads a redstone signal from every side except the front and blocks all energy transfer while powered. Levers, buttons,
+  redstone dust, redstone blocks, and strongly powered blocks next to the <ItemLink id="meter" components="rarity=epic"/> count. This
+  function emits no signal itself, so redstone dust leading into the <ItemLink id="meter" components="rarity=epic"/> can't keep itself
+  powered. While blocked, the [status](interface.md#status) shows **Blocked** and the flow rate drops to zero with the next interval.
 
 ### Scale
 
@@ -209,11 +214,14 @@ The scale only applies to the **Analog** function:
 The **lower** and **upper** bound are flow rates in FE/t. Both are shared between the functions, so switching the function keeps the
 values. If the lower bound is not below the upper bound, the **Analog** function acts like a threshold at the upper bound.
 
+The bounds don't apply to the **Control** function.
+
 **Invert** flips the signal. An inverted **Analog** signal emits 15 at the lower bound and 0 at the upper bound. An inverted **Threshold**
-signal is on while the flow rate is low. Since a <ItemLink id="meter" components="rarity=epic"/> without any flow has a flow rate of zero,
+signal is on while the flow rate is low. An inverted **Control** function blocks the transfer while unpowered instead. Since a <ItemLink id="meter" components="rarity=epic"/> without any flow has a flow rate of zero,
 inverting the signal can be used as an alarm when the energy supply stops.
 
 ### Output
 
 The output section shows the signal strength that is currently emitted and, for the **Analog** function, how much the flow rate has to
-change for the signal to change by one level.
+change for the signal to change by one level. For the **Control** function, it is replaced by the input section, which shows the strongest
+signal received and whether the transfer is currently allowed or blocked.

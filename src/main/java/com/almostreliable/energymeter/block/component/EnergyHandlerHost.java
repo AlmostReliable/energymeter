@@ -25,4 +25,6 @@ public interface EnergyHandlerHost {
     int getZeroTolerance();
 
     long getTransferLimit();
+
+    boolean isTransferBlocked();
 }

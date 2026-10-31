@@ -7,6 +7,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -51,6 +52,22 @@ public class MeterBlock extends FacingEntityBlock {
         }
 
         return super.updateShape(state, directionToNeighbor, neighborState, level, pos, neighborPos);
+    }
+
+    @Override
+    protected void neighborChanged(
+        BlockState state,
+        Level level,
+        BlockPos pos,
+        Block block,
+        BlockPos neighborPos,
+        boolean movedByPiston
+    ) {
+        if (!level.isClientSide() && level.getBlockEntity(pos) instanceof MeterBlockEntity meterBlockEntity) {
+            meterBlockEntity.getRedstoneHandler().markInputDirty();
+        }
+
+        super.neighborChanged(state, level, pos, block, neighborPos, movedByPiston);
     }
 
     @Override
