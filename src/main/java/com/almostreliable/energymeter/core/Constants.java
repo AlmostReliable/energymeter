@@ -40,6 +40,7 @@ public interface Constants {
 
     // colors
     int COLOR_ACCENT = 0xFF00_FFA2;
+    int COLOR_BACKGROUND = 0xFF17_1717;
     int COLOR_GRAY = 0xFFBF_BFBF;
     int COLOR_RED = 0xFFFF_0000;
     int COLOR_WHITE = 0xFFFF_FFFF;
