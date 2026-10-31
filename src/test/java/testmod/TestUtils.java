@@ -25,6 +25,7 @@ public final class TestUtils {
     public static final String EMPTY_STRUCTURE = "empty_test_structure";
     public static final String BATCH_METER_TESTS = "meter_tests";
     public static final String BATCH_LOGIC_TESTS = "logic_tests";
+    public static final String BATCH_MONITOR_TESTS = "monitor_tests";
     public static final String BATCH_SCENARIOS = "scenarios";
     public static final BlockPos DEFAULT_POS = new BlockPos(1, 2, 1);
 
