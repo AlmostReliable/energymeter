@@ -28,12 +28,22 @@ public class MeterPeripheral implements IPeripheral, MeterObserver {
     private static final String MEASURE_INTERVAL_ID = "measure_interval";
     private static final String ZERO_TOLERANCE_ID = "zero_tolerance";
     private static final String TRANSFER_LIMIT_ID = "transfer_limit";
+    private static final String EFFECTIVE_TRANSFER_LIMIT_ID = "effective_transfer_limit";
     private static final String ENERGY_RATE_ID = "energy_rate";
     private static final String TOTAL_ENERGY_ID = "total_energy";
     private static final String CONNECTION_STATUS_ID = "connection_status";
     private static final String HAS_INPUT_ID = "has_input";
     private static final String HAS_OUTPUT_ID = "has_output";
     private static final String IO_CONFIG_ID = "io_config";
+    private static final String REDSTONE_ID = "redstone";
+    private static final String REDSTONE_FUNCTION_ID = "function";
+    private static final String REDSTONE_LOWER_BOUND_ID = "lower_bound";
+    private static final String REDSTONE_UPPER_BOUND_ID = "upper_bound";
+    private static final String REDSTONE_SCALE_ID = "scale";
+    private static final String REDSTONE_CONTROL_BEHAVIOR_ID = "control_behavior";
+    private static final String REDSTONE_INVERTED_ID = "inverted";
+    private static final String REDSTONE_OUTPUT_SIGNAL_ID = "output_signal";
+    private static final String REDSTONE_INPUT_SIGNAL_ID = "input_signal";
 
     private final MeterBlockEntity entity;
     private final Set<IComputerAccess> computers = new HashSet<>();
@@ -111,6 +121,11 @@ public class MeterPeripheral implements IPeripheral, MeterObserver {
     }
 
     @LuaFunction(mainThread = true)
+    public final MethodResult getEffectiveTransferLimit() {
+        return MethodResult.of(lastData.get(EFFECTIVE_TRANSFER_LIMIT_ID));
+    }
+
+    @LuaFunction(mainThread = true)
     public final MethodResult getEnergyRate() {
         return MethodResult.of(lastData.get(ENERGY_RATE_ID));
     }
@@ -141,6 +156,21 @@ public class MeterPeripheral implements IPeripheral, MeterObserver {
     }
 
     @LuaFunction(mainThread = true)
+    public final MethodResult getRedstoneConfig() {
+        return MethodResult.of(lastData.get(REDSTONE_ID));
+    }
+
+    @LuaFunction(mainThread = true)
+    public final MethodResult getRedstoneOutput() {
+        return MethodResult.of(getRedstoneValue(REDSTONE_OUTPUT_SIGNAL_ID));
+    }
+
+    @LuaFunction(mainThread = true)
+    public final MethodResult getRedstoneInput() {
+        return MethodResult.of(getRedstoneValue(REDSTONE_INPUT_SIGNAL_ID));
+    }
+
+    @LuaFunction(mainThread = true)
     public final MethodResult getData() {
         return MethodResult.of(lastData);
     }
@@ -152,13 +182,40 @@ public class MeterPeripheral implements IPeripheral, MeterObserver {
         data.put(MEASURE_INTERVAL_ID, entity.getMeasureInterval());
         data.put(ZERO_TOLERANCE_ID, entity.getZeroTolerance());
         data.put(TRANSFER_LIMIT_ID, entity.getTransferLimit());
+        data.put(EFFECTIVE_TRANSFER_LIMIT_ID, createEffectiveTransferLimit());
         data.put(ENERGY_RATE_ID, entity.getEnergyRate());
         data.put(TOTAL_ENERGY_ID, entity.getTotalEnergy());
         data.put(CONNECTION_STATUS_ID, entity.getConnectionStatus().name());
         data.put(HAS_INPUT_ID, entity.getIoConfig().hasInput());
         data.put(HAS_OUTPUT_ID, entity.getIoConfig().hasOutput());
         data.put(IO_CONFIG_ID, createIoConfigStringMap());
+        data.put(REDSTONE_ID, createRedstoneMap());
         return data;
+    }
+
+    private double createEffectiveTransferLimit() {
+        var effectiveTransferLimit = entity.getEffectiveTransferLimit();
+        // unlimited maps to math.huge so scripts can compare against it
+        return effectiveTransferLimit == Long.MAX_VALUE ? Double.POSITIVE_INFINITY : effectiveTransferLimit;
+    }
+
+    private Map<String, Object> createRedstoneMap() {
+        var redstoneHandler = entity.getRedstoneHandler();
+        Map<String, Object> redstoneMap = new HashMap<>();
+        redstoneMap.put(REDSTONE_FUNCTION_ID, redstoneHandler.getFunction().name());
+        redstoneMap.put(REDSTONE_LOWER_BOUND_ID, redstoneHandler.getLowerBound());
+        redstoneMap.put(REDSTONE_UPPER_BOUND_ID, redstoneHandler.getUpperBound());
+        redstoneMap.put(REDSTONE_SCALE_ID, redstoneHandler.getScale().name());
+        redstoneMap.put(REDSTONE_CONTROL_BEHAVIOR_ID, redstoneHandler.getControlBehavior().name());
+        redstoneMap.put(REDSTONE_INVERTED_ID, redstoneHandler.isInverted());
+        redstoneMap.put(REDSTONE_OUTPUT_SIGNAL_ID, redstoneHandler.getOutputSignal());
+        redstoneMap.put(REDSTONE_INPUT_SIGNAL_ID, redstoneHandler.getInputSignal());
+        return redstoneMap;
+    }
+
+    private @Nullable Object getRedstoneValue(String key) {
+        if (!(lastData.get(REDSTONE_ID) instanceof Map<?, ?> redstoneMap)) return null;
+        return redstoneMap.get(key);
     }
 
     private synchronized void queueEvent(String event, Object... arguments) {
