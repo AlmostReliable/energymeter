@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 - added unit suffixes (k, M, G, ...) for number inputs
 - added redstone support to the meter
 - added redstone bound lines to the graph tab
+- added missing German translations for the guide actions
 - exposed redstone settings and signal values to CC: Tweaked compat
 - changed transfer limit text box to display large values in short form (e.g. 100k)
 - changed monitor multiblock textures to be generated from two 48x48 sheets
