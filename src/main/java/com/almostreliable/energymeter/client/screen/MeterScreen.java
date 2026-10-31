@@ -65,6 +65,7 @@ public class MeterScreen extends SynchronizedContainerScreen<MeterMenu> {
     private static final int GLOBAL_INFO_WIDTH = 70;
     private static final int GRAPH_PADDING = 12;
     private static final int GRAPH_MAX_VALUE_INSET = 6;
+    private static final int GRAPH_BOUND_DASH_LENGTH = 3;
     private static final int REDSTONE_ELEMENT_WIDTH = 110;
     private static final TexRenderer BACKGROUND = TexRenderer.gui("meter").tex(0, 0, GUI_WIDTH, GUI_HEIGHT);
 
@@ -420,6 +421,8 @@ public class MeterScreen extends SynchronizedContainerScreen<MeterMenu> {
             );
         }
 
+        drawRedstoneBounds(graphics, graphLeft, graphRight, graphBottom, graphHeight);
+
         // points and lines
         int previousX = -1;
         int previousY = -1;
@@ -460,6 +463,44 @@ public class MeterScreen extends SynchronizedContainerScreen<MeterMenu> {
 
         // kinda hacky to collect the state that way, but I found no other way
         ((GuiGraphicsExtractorAccessor) graphics).getGuiRenderState().addGuiElement(graphRenderState);
+    }
+
+    private void drawRedstoneBounds(GuiGraphicsExtractor graphics, int graphLeft, int graphRight, int graphBottom, int graphHeight) {
+        var redstoneHandler = menu.getRedstoneHandler();
+        if (!redstoneHandler.getFunction().emitsSignal()) return;
+
+        var yMax = menu.getGraphHandler().getYMax();
+        var yMaxLine = graphBottom - graphHeight;
+        var bounds = new long[] {redstoneHandler.getUpperBound(), redstoneHandler.getLowerBound()};
+        var colors = new int[] {Constants.COLOR_ACCENT, Constants.COLOR_GRAY};
+        var markerY = yMaxLine - font.lineHeight / 2;
+
+        for (var i = 0; i < bounds.length; i++) {
+            var bound = bounds[i];
+            if (bound <= 0) continue;
+
+            var label = NumberFormatter.formatEnergy(bound).getEnergyWithUnit();
+
+            // bounds above the visible range stack as markers at the top edge
+            if (bound > yMax) {
+                var markerLabel = "▲ " + label;
+                graphics.text(font, markerLabel, graphRight - font.width(markerLabel), markerY, colors[i], false);
+                markerY += font.lineHeight;
+                continue;
+            }
+
+            var lineY = graphBottom - Mth.floor(bound / yMax * graphHeight);
+            for (var dashX = graphLeft + 1; dashX < graphRight; dashX += GRAPH_BOUND_DASH_LENGTH * 2) {
+                var dashEnd = Math.min(dashX + GRAPH_BOUND_DASH_LENGTH, graphRight);
+                graphics.fill(dashX, lineY, dashEnd, lineY + 1, colors[i]);
+            }
+
+            // upper label above its line, lower label below unless it would collide with the x-axis
+            var labelBelowY = lineY + 2;
+            var isLabelBelow = i > 0 && labelBelowY + font.lineHeight <= graphBottom;
+            var labelY = isLabelBelow ? labelBelowY : lineY - font.lineHeight;
+            graphics.text(font, label, graphRight - font.width(label), labelY, colors[i], false);
+        }
     }
 
     @Override
