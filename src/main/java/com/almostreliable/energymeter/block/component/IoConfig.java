@@ -17,6 +17,7 @@ public class IoConfig implements DataHandler {
 
     public static final int MAX_PRIORITY = 4;
     private static final Direction[] DIRECTIONS = Direction.values();
+    private static final IoSetting[] IO_SETTINGS = IoSetting.values();
 
     private final Map<Direction, IoSettingWithPriority> directionToSetting = new EnumMap<>(Direction.class);
     private final Runnable changeListener;
@@ -176,7 +177,7 @@ public class IoConfig implements DataHandler {
         }
 
         private static IoSettingWithPriority decode(FriendlyByteBuf buffer) {
-            IoSetting setting = IoSetting.values()[buffer.readByte()];
+            IoSetting setting = IO_SETTINGS[buffer.readByte()];
             int priority = buffer.readByte();
             return new IoSettingWithPriority(setting, priority);
         }

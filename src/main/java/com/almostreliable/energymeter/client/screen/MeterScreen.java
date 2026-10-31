@@ -3,6 +3,7 @@ package com.almostreliable.energymeter.client.screen;
 import com.almostreliable.energymeter.block.component.GraphHandler;
 import com.almostreliable.energymeter.block.component.GraphHandler.GraphPoint;
 import com.almostreliable.energymeter.block.component.IoConfig.IoSettingWithPriority;
+import com.almostreliable.energymeter.block.component.RedstoneHandler.ControlBehavior;
 import com.almostreliable.energymeter.block.component.RedstoneHandler.RedstoneFunction;
 import com.almostreliable.energymeter.block.component.RedstoneHandler.RedstoneScale;
 import com.almostreliable.energymeter.block.entity.MeterBlockEntity.MeasureMode;
@@ -70,6 +71,7 @@ public class MeterScreen extends SynchronizedContainerScreen<MeterMenu> {
     private final List<ClickedOutsideListener> clickedOutsideListeners = new ArrayList<>();
     private TabType currentTab = TabType.CONFIGURATION;
     private RedstoneFunction lastRedstoneFunction = RedstoneFunction.OFF;
+    private ControlBehavior lastControlBehavior = ControlBehavior.SWITCH;
     private @Nullable SettingSelectorWidget settingSelectorWidget;
 
     public MeterScreen(MeterMenu menu, Inventory playerInventory, Component title) {
@@ -138,7 +140,7 @@ public class MeterScreen extends SynchronizedContainerScreen<MeterMenu> {
     @Override
     protected void containerTick() {
         super.containerTick();
-        if (currentTab == TabType.REDSTONE && lastRedstoneFunction != menu.getRedstoneHandler().getFunction()) {
+        if (currentTab == TabType.REDSTONE && hasRedstoneLayoutChanged()) {
             rebuildWidgets();
         }
     }
@@ -249,6 +251,7 @@ public class MeterScreen extends SynchronizedContainerScreen<MeterMenu> {
     private void initRedstoneTab() {
         var redstoneHandler = menu.getRedstoneHandler();
         lastRedstoneFunction = redstoneHandler.getFunction();
+        lastControlBehavior = redstoneHandler.getControlBehavior();
         var isEnabled = lastRedstoneFunction != RedstoneFunction.OFF;
         var isEmitting = lastRedstoneFunction.emitsSignal();
         var isThreshold = lastRedstoneFunction == RedstoneFunction.THRESHOLD;
@@ -262,14 +265,25 @@ public class MeterScreen extends SynchronizedContainerScreen<MeterMenu> {
         );
         var functionComposite = OutlinedCompositeWidget.ofLayout(EnergyMeterLang.HEADER_FUNCTION.get(), functionRadioButtons);
 
-        var scaleRadioButtons = RadioButton.createGroup(
-            REDSTONE_ELEMENT_WIDTH,
-            EnergyMeterLang.REDSTONE_SCALES,
-            redstoneHandler::getScale,
-            this::onRedstoneScaleSelected
-        );
-        scaleRadioButtons.visitWidgets(widget -> widget.active = lastRedstoneFunction == RedstoneFunction.ANALOG);
-        var scaleComposite = OutlinedCompositeWidget.ofLayout(EnergyMeterLang.SETTING_SCALE.get(), scaleRadioButtons);
+        OutlinedCompositeWidget optionComposite;
+        if (isControl) {
+            var behaviorRadioButtons = RadioButton.createGroup(
+                REDSTONE_ELEMENT_WIDTH,
+                EnergyMeterLang.CONTROL_BEHAVIORS,
+                redstoneHandler::getControlBehavior,
+                this::onRedstoneControlBehaviorSelected
+            );
+            optionComposite = OutlinedCompositeWidget.ofLayout(EnergyMeterLang.HEADER_BEHAVIOR.get(), behaviorRadioButtons);
+        } else {
+            var scaleRadioButtons = RadioButton.createGroup(
+                REDSTONE_ELEMENT_WIDTH,
+                EnergyMeterLang.REDSTONE_SCALES,
+                redstoneHandler::getScale,
+                this::onRedstoneScaleSelected
+            );
+            scaleRadioButtons.visitWidgets(widget -> widget.active = lastRedstoneFunction == RedstoneFunction.ANALOG);
+            optionComposite = OutlinedCompositeWidget.ofLayout(EnergyMeterLang.SETTING_SCALE.get(), scaleRadioButtons);
+        }
 
         var settingsLayout = LinearLayout.vertical().spacing(1);
         var lowerBoundLabel = isThreshold ? EnergyMeterLang.SETTING_OFF_BELOW : EnergyMeterLang.SETTING_LOWER_BOUND;
@@ -307,7 +321,11 @@ public class MeterScreen extends SynchronizedContainerScreen<MeterMenu> {
                 REDSTONE_ELEMENT_WIDTH,
                 () -> EnergyMeterLang.REDSTONE_SIGNAL.get().append(": " + redstoneHandler.getInputSignal())
             ));
-            signalLayout.addChild(new DynamicMarqueeStringWidget(REDSTONE_ELEMENT_WIDTH, this::getRedstoneTransferText));
+            if (lastControlBehavior == ControlBehavior.THROTTLE) {
+                signalLayout.addChild(new DynamicMarqueeStringWidget(REDSTONE_ELEMENT_WIDTH, this::getRedstoneLimitText));
+            } else {
+                signalLayout.addChild(new DynamicMarqueeStringWidget(REDSTONE_ELEMENT_WIDTH, this::getRedstoneTransferText));
+            }
         } else {
             signalLayout.addChild(new DynamicMarqueeStringWidget(
                 REDSTONE_ELEMENT_WIDTH,
@@ -321,7 +339,7 @@ public class MeterScreen extends SynchronizedContainerScreen<MeterMenu> {
 
         var layout = LinearLayout.vertical().spacing(VERTICAL_ELEMENT_SPACING);
         layout.addChild(functionComposite);
-        layout.addChild(scaleComposite);
+        layout.addChild(optionComposite);
         layout.addChild(settingsComposite);
         layout.addChild(signalComposite);
 
@@ -502,11 +520,36 @@ public class MeterScreen extends SynchronizedContainerScreen<MeterMenu> {
         return EnergyMeterLang.REDSTONE_STEP.get().append(": ").append(step);
     }
 
+    private boolean hasRedstoneLayoutChanged() {
+        var redstoneHandler = menu.getRedstoneHandler();
+        return lastRedstoneFunction != redstoneHandler.getFunction() || lastControlBehavior != redstoneHandler.getControlBehavior();
+    }
+
+    private long getEffectiveTransferLimit() {
+        return menu.getRedstoneHandler().getEffectiveTransferLimit(menu.getTransferLimit(), menu.getTransferMode());
+    }
+
     private Component getRedstoneTransferText() {
-        var transferState = menu.getRedstoneHandler().isTransferBlocked() ?
+        var transferState = getEffectiveTransferLimit() == 0 ?
             EnergyMeterLang.REDSTONE_TRANSFER_BLOCKED :
             EnergyMeterLang.REDSTONE_TRANSFER_ALLOWED;
         return EnergyMeterLang.REDSTONE_TRANSFER.get().append(": ").append(transferState.get());
+    }
+
+    private Component getRedstoneLimitText() {
+        var effectiveTransferLimit = getEffectiveTransferLimit();
+
+        Component limit;
+        if (effectiveTransferLimit == 0) {
+            limit = EnergyMeterLang.REDSTONE_TRANSFER_BLOCKED.get();
+        } else if (effectiveTransferLimit == Long.MAX_VALUE) {
+            limit = EnergyMeterLang.REDSTONE_TRANSFER_UNLIMITED.get();
+        } else {
+            limit = NumberFormatter.formatEnergy(effectiveTransferLimit).componentWithUnitPerTick();
+        }
+
+        var limitText = EnergyMeterLang.SETTING_LIMIT.get().append(": ").append(limit);
+        return menu.getTransferLimit() == 0 ? limitText.withStyle(ChatFormatting.RED) : limitText;
     }
 
     private void onTabButtonClicked(TabType tabType) {
@@ -544,6 +587,10 @@ public class MeterScreen extends SynchronizedContainerScreen<MeterMenu> {
 
     private void onRedstoneScaleSelected(RedstoneScale scale) {
         sendClientAction(new EnumClientAction<>(ClientActionRegistry.REDSTONE_SCALE_ID, scale));
+    }
+
+    private void onRedstoneControlBehaviorSelected(ControlBehavior controlBehavior) {
+        sendClientAction(new EnumClientAction<>(ClientActionRegistry.REDSTONE_CONTROL_BEHAVIOR_ID, controlBehavior));
     }
 
     private void onToggleRedstoneInverted() {

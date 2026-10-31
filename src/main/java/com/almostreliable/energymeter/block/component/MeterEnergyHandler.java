@@ -26,6 +26,8 @@ import java.util.function.ToLongFunction;
 
 public class MeterEnergyHandler {
 
+    private static final Direction[] DIRECTIONS = Direction.values();
+
     private final EnergyHandlerHost host;
     private final Map<Direction, ForwardingEnergyStorage> forwardingEnergyStorage = new EnumMap<>(Direction.class);
     private final Map<Direction, BlockCapabilityCache<EnergyHandler, Direction>> outputCache = new EnumMap<>(Direction.class);
@@ -40,7 +42,7 @@ public class MeterEnergyHandler {
     public MeterEnergyHandler(EnergyHandlerHost host) {
         this.host = host;
 
-        for (Direction direction : Direction.values()) {
+        for (Direction direction : DIRECTIONS) {
             forwardingEnergyStorage.put(direction, new ForwardingEnergyStorage(this, () -> host.getIoConfig().getSetting(direction)));
         }
     }
@@ -91,20 +93,16 @@ public class MeterEnergyHandler {
     }
 
     private int forwardEnergyToOutputs(int amount, TransactionContext transaction) {
-        if (host.isTransferBlocked()) return 0;
+        var remainingLimit = host.getEffectiveTransferLimit() - energyPerTick;
+        if (remainingLimit <= 0) return 0;
+
+        var energyToForward = Math.min(amount, Ints.saturatedCast(remainingLimit));
 
         if (host.getTransferMode() == TransferMode.CONSUME) {
             journal.updateSnapshots(transaction);
-            energyPerInterval += amount;
-            return amount;
-        }
-
-        var energyToForward = amount;
-        var transferLimit = host.getTransferLimit();
-        if (transferLimit > 0) {
-            long remainingLimit = transferLimit - energyPerTick;
-            if (remainingLimit <= 0) return 0;
-            energyToForward = Math.min(energyToForward, Ints.saturatedCast(remainingLimit));
+            energyPerInterval += energyToForward;
+            energyPerTick += energyToForward;
+            return energyToForward;
         }
 
         MaxEnergyPerOutputResult maxEnergyPerOutputResult = calculateMaxEnergyPerOutput(energyToForward, transaction);

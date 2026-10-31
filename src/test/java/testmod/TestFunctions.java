@@ -96,6 +96,7 @@ public final class TestFunctions {
         register(meter, "redstone_output", MeterRedstoneTests::redstone_output);
         register(meter, "redstone_disconnected_inverted", MeterRedstoneTests::redstone_disconnected_inverted);
         register(meter, "redstone_control", MeterRedstoneTests::redstone_control);
+        register(meter, "redstone_throttle", MeterRedstoneTests::redstone_throttle);
 
         var scenarios = TestUtils.BATCH_SCENARIOS;
         register(scenarios, "energy_metadata_overflow", EnergyMetadataOverflowScenario::test);

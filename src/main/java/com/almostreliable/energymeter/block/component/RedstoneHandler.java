@@ -1,5 +1,6 @@
 package com.almostreliable.energymeter.block.component;
 
+import com.almostreliable.energymeter.block.entity.MeterBlockEntity.TransferMode;
 import com.almostreliable.energymeter.core.Constants;
 import com.almostreliable.energymeter.network.menu.DataHandler;
 import com.almostreliable.energymeter.util.EnumExtension;
@@ -13,12 +14,16 @@ public class RedstoneHandler implements DataHandler {
 
     public static final long DEFAULT_UPPER_BOUND = 100_000;
     private static final double ROUNDING_TOLERANCE = 1e-9;
+    private static final RedstoneFunction[] REDSTONE_FUNCTIONS = RedstoneFunction.values();
+    private static final RedstoneScale[] REDSTONE_SCALES = RedstoneScale.values();
+    private static final ControlBehavior[] CONTROL_BEHAVIORS = ControlBehavior.values();
 
     private final Runnable changeListener;
 
     // settings
     private RedstoneFunction function = RedstoneFunction.OFF;
     private RedstoneScale scale = RedstoneScale.LINEAR;
+    private ControlBehavior controlBehavior = ControlBehavior.SWITCH;
     private long lowerBound;
     private long upperBound = DEFAULT_UPPER_BOUND;
     private boolean inverted;
@@ -37,6 +42,7 @@ public class RedstoneHandler implements DataHandler {
     public void serialize(ValueOutput output) {
         output.putString(Constants.FUNCTION_ID, function.name());
         output.putString(Constants.SCALE_ID, scale.name());
+        output.putString(Constants.CONTROL_BEHAVIOR_ID, controlBehavior.name());
         output.putLong(Constants.LOWER_BOUND_ID, lowerBound);
         output.putLong(Constants.UPPER_BOUND_ID, upperBound);
         output.putBoolean(Constants.INVERTED_ID, inverted);
@@ -47,6 +53,7 @@ public class RedstoneHandler implements DataHandler {
     public void deserialize(ValueInput input) {
         input.getString(Constants.FUNCTION_ID).ifPresent(value -> function = RedstoneFunction.valueOf(value));
         input.getString(Constants.SCALE_ID).ifPresent(value -> scale = RedstoneScale.valueOf(value));
+        input.getString(Constants.CONTROL_BEHAVIOR_ID).ifPresent(value -> controlBehavior = ControlBehavior.valueOf(value));
         lowerBound = input.getLongOr(Constants.LOWER_BOUND_ID, lowerBound);
         upperBound = input.getLongOr(Constants.UPPER_BOUND_ID, upperBound);
         inverted = input.getBooleanOr(Constants.INVERTED_ID, inverted);
@@ -81,11 +88,25 @@ public class RedstoneHandler implements DataHandler {
         inputDirty = true;
     }
 
-    public boolean isTransferBlocked() {
-        if (function != RedstoneFunction.CONTROL) return false;
+    public long getEffectiveTransferLimit(long transferLimit, TransferMode transferMode) {
+        var isThrottling = function == RedstoneFunction.CONTROL && controlBehavior == ControlBehavior.THROTTLE;
+        var isLimitApplied = transferLimit > 0 && (transferMode != TransferMode.CONSUME || isThrottling);
+        var unscaledTransferLimit = isLimitApplied ? transferLimit : Long.MAX_VALUE;
+        if (function != RedstoneFunction.CONTROL) return unscaledTransferLimit;
 
-        var isPowered = inputSignal > 0;
-        return isPowered != inverted;
+        if (!isThrottling) {
+            var isPowered = inputSignal > 0;
+            return isPowered == inverted ? unscaledTransferLimit : 0;
+        }
+
+        var throughputLevel = inverted ? inputSignal : Redstone.SIGNAL_MAX - inputSignal;
+        if (throughputLevel == 0) return 0;
+        if (!isLimitApplied) return Long.MAX_VALUE;
+
+        // split to prevent an overflow for limits close to the maximum
+        var scaledQuotient = transferLimit / Redstone.SIGNAL_MAX * throughputLevel;
+        var scaledRemainder = transferLimit % Redstone.SIGNAL_MAX * throughputLevel / Redstone.SIGNAL_MAX;
+        return scaledQuotient + scaledRemainder;
     }
 
     private boolean setSignal(int signal) {
@@ -140,6 +161,7 @@ public class RedstoneHandler implements DataHandler {
     public void encode(FriendlyByteBuf buffer) {
         buffer.writeByte(function.ordinal());
         buffer.writeByte(scale.ordinal());
+        buffer.writeByte(controlBehavior.ordinal());
         buffer.writeVarLong(lowerBound);
         buffer.writeVarLong(upperBound);
         buffer.writeBoolean(inverted);
@@ -150,8 +172,9 @@ public class RedstoneHandler implements DataHandler {
 
     @Override
     public void decode(FriendlyByteBuf buffer) {
-        function = RedstoneFunction.values()[buffer.readByte()];
-        scale = RedstoneScale.values()[buffer.readByte()];
+        function = REDSTONE_FUNCTIONS[buffer.readByte()];
+        scale = REDSTONE_SCALES[buffer.readByte()];
+        controlBehavior = CONTROL_BEHAVIORS[buffer.readByte()];
         lowerBound = buffer.readVarLong();
         upperBound = buffer.readVarLong();
         inverted = buffer.readBoolean();
@@ -205,6 +228,15 @@ public class RedstoneHandler implements DataHandler {
         setChanged();
     }
 
+    public ControlBehavior getControlBehavior() {
+        return controlBehavior;
+    }
+
+    public void setControlBehavior(ControlBehavior controlBehavior) {
+        this.controlBehavior = controlBehavior;
+        setChanged();
+    }
+
     public boolean isInverted() {
         return inverted;
     }
@@ -236,5 +268,10 @@ public class RedstoneHandler implements DataHandler {
     public enum RedstoneScale implements EnumExtension<RedstoneScale> {
         LINEAR,
         LOGARITHMIC
+    }
+
+    public enum ControlBehavior {
+        SWITCH, // any signal blocks the transfer
+        THROTTLE // the signal strength scales down the transfer limit
     }
 }

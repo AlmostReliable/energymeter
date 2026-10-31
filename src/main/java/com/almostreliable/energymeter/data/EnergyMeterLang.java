@@ -2,6 +2,7 @@ package com.almostreliable.energymeter.data;
 
 import com.almostreliable.energymeter.ModConstants;
 import com.almostreliable.energymeter.block.component.IoConfig.IoSetting;
+import com.almostreliable.energymeter.block.component.RedstoneHandler.ControlBehavior;
 import com.almostreliable.energymeter.block.component.RedstoneHandler.RedstoneFunction;
 import com.almostreliable.energymeter.block.component.RedstoneHandler.RedstoneScale;
 import com.almostreliable.energymeter.block.entity.MeterBlockEntity.ConnectionStatus;
@@ -44,6 +45,7 @@ public final class EnergyMeterLang extends LanguageProvider {
     public static final LangEntry HEADER_FUNCTION = LangEntry.label("header_function", "Function");
     public static final LangEntry HEADER_OUTPUT = LangEntry.label("header_output", "Output");
     public static final LangEntry HEADER_INPUT = LangEntry.label("header_input", "Input");
+    public static final LangEntry HEADER_BEHAVIOR = LangEntry.label("header_behavior", "Behavior");
 
     // sub header labels
     public static final LangEntry SUB_HEADER_TRANSFERRING = LangEntry.label("sub_header_transferring", "Transferring");
@@ -72,6 +74,7 @@ public final class EnergyMeterLang extends LanguageProvider {
     public static final LangEntry REDSTONE_TRANSFER = LangEntry.label("redstone_transfer", "Transfer");
     public static final LangEntry REDSTONE_TRANSFER_ALLOWED = LangEntry.label("redstone_transfer_allowed", "Allowed");
     public static final LangEntry REDSTONE_TRANSFER_BLOCKED = LangEntry.label("redstone_transfer_blocked", "Blocked");
+    public static final LangEntry REDSTONE_TRANSFER_UNLIMITED = LangEntry.label("redstone_transfer_unlimited", "Unlimited");
 
     // button labels
     public static final LangEntry BUTTON_RESET_TOTAL = LangEntry.button("reset_total", "Reset Total");
@@ -111,6 +114,7 @@ public final class EnergyMeterLang extends LanguageProvider {
     public static final Map<ConnectionStatus, LangEntry> CONNECTION_STATUSES = LangEntry.enumValues(ConnectionStatus.class, ConnectionStatus.values());
     public static final Map<RedstoneFunction, LangEntry> REDSTONE_FUNCTIONS = LangEntry.enumValues(RedstoneFunction.class, RedstoneFunction.values());
     public static final Map<RedstoneScale, LangEntry> REDSTONE_SCALES = LangEntry.enumValues(RedstoneScale.class, RedstoneScale.values());
+    public static final Map<ControlBehavior, LangEntry> CONTROL_BEHAVIORS = LangEntry.enumValues(ControlBehavior.class, ControlBehavior.values());
 
     // @formatter:on
 

@@ -45,6 +45,7 @@ import java.util.function.Supplier;
 public class MeterBlockEntity extends BlockEntity implements TickableMenuBlockEntity, EnergyHandlerHost {
 
     public static final int DEFAULT_INTERVAL = 5;
+    private static final Direction[] DIRECTIONS = Direction.values();
 
     // components
     private final IoConfig ioConfig;
@@ -229,7 +230,7 @@ public class MeterBlockEntity extends BlockEntity implements TickableMenuBlockEn
         var frontDirection = MeterBlock.getFacingDir(getBlockState());
         var inputSignal = 0;
 
-        for (var direction : Direction.values()) {
+        for (var direction : DIRECTIONS) {
             if (direction == frontDirection) continue;
 
             var neighborPos = worldPosition.relative(direction);
@@ -272,7 +273,7 @@ public class MeterBlockEntity extends BlockEntity implements TickableMenuBlockEn
 
     private ConnectionStatus calculateConnectionStatus() {
         if (!transferMode.isCorrectlyConfigured(ioConfig::hasInput, ioConfig::hasOutput)) return ConnectionStatus.DISCONNECTED;
-        if (redstoneHandler.isTransferBlocked()) return ConnectionStatus.BLOCKED;
+        if (isTransferBlocked()) return ConnectionStatus.BLOCKED;
 
         return energyRate > 0 ? transferMode.activeStatus : ConnectionStatus.IDLE;
     }
@@ -377,7 +378,6 @@ public class MeterBlockEntity extends BlockEntity implements TickableMenuBlockEn
         setChanged();
     }
 
-    @Override
     public long getTransferLimit() {
         return transferLimit;
     }
@@ -388,8 +388,12 @@ public class MeterBlockEntity extends BlockEntity implements TickableMenuBlockEn
     }
 
     @Override
+    public long getEffectiveTransferLimit() {
+        return redstoneHandler.getEffectiveTransferLimit(transferLimit, transferMode);
+    }
+
     public boolean isTransferBlocked() {
-        return redstoneHandler.isTransferBlocked();
+        return getEffectiveTransferLimit() == 0;
     }
 
     public void setEnergyRate(double energyRate) {

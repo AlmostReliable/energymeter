@@ -2,6 +2,7 @@ package testmod.test;
 
 import com.almostreliable.energymeter.block.MeterBlock;
 import com.almostreliable.energymeter.block.component.RedstoneHandler;
+import com.almostreliable.energymeter.block.component.RedstoneHandler.ControlBehavior;
 import com.almostreliable.energymeter.block.component.RedstoneHandler.RedstoneFunction;
 import com.almostreliable.energymeter.block.component.RedstoneHandler.RedstoneScale;
 import com.almostreliable.energymeter.block.entity.MeterBlockEntity;
@@ -12,6 +13,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.DaylightDetectorBlock;
 import net.minecraft.world.level.block.RedStoneWireBlock;
 import net.minecraft.world.level.block.state.properties.RedstoneSide;
 
@@ -276,6 +278,89 @@ public class MeterRedstoneTests {
         helper.succeed();
     }
 
+    public static void redstone_throttle(GameTestHelper helper) {
+        var redstoneHandler = new RedstoneHandler(() -> {});
+        redstoneHandler.setFunction(RedstoneFunction.CONTROL);
+        redstoneHandler.setControlBehavior(ControlBehavior.THROTTLE);
+
+        // test that the signal reduces the limit
+        assertEffectiveLimit(helper, redstoneHandler, 0, 15_000, TransferMode.SPLIT, 15_000);
+        assertEffectiveLimit(helper, redstoneHandler, 5, 15_000, TransferMode.SPLIT, 10_000);
+        assertEffectiveLimit(helper, redstoneHandler, 15, 15_000, TransferMode.SPLIT, 0);
+
+        // test that the inverted signal grants the limit
+        redstoneHandler.setInverted(true);
+        assertEffectiveLimit(helper, redstoneHandler, 0, 15_000, TransferMode.SPLIT, 0);
+        assertEffectiveLimit(helper, redstoneHandler, 5, 15_000, TransferMode.SPLIT, 5_000);
+        assertEffectiveLimit(helper, redstoneHandler, 15, 15_000, TransferMode.SPLIT, 15_000);
+        redstoneHandler.setInverted(false);
+
+        // test that large limits don't overflow
+        var expectedLargeLimit = Long.MAX_VALUE / 15 * 10 + Long.MAX_VALUE % 15 * 10 / 15;
+        assertEffectiveLimit(helper, redstoneHandler, 5, Long.MAX_VALUE, TransferMode.SPLIT, expectedLargeLimit);
+        assertEffectiveLimit(helper, redstoneHandler, 0, Long.MAX_VALUE, TransferMode.SPLIT, Long.MAX_VALUE);
+
+        // test that without a limit only the fully blocking level blocks
+        assertEffectiveLimit(helper, redstoneHandler, 5, 0, TransferMode.SPLIT, Long.MAX_VALUE);
+        assertEffectiveLimit(helper, redstoneHandler, 15, 0, TransferMode.SPLIT, 0);
+
+        // test that throttle applies the limit in consume mode
+        assertEffectiveLimit(helper, redstoneHandler, 5, 15_000, TransferMode.CONSUME, 10_000);
+
+        // test that switch blocks on any signal and ignores the limit in consume mode
+        redstoneHandler.setControlBehavior(ControlBehavior.SWITCH);
+        assertEffectiveLimit(helper, redstoneHandler, 0, 15_000, TransferMode.SPLIT, 15_000);
+        assertEffectiveLimit(helper, redstoneHandler, 5, 15_000, TransferMode.SPLIT, 0);
+        assertEffectiveLimit(helper, redstoneHandler, 0, 15_000, TransferMode.CONSUME, Long.MAX_VALUE);
+
+        // set up the plot
+        var plotResult = TestUtils.setupSimplePlot(helper);
+        var sidePos = TestUtils.DEFAULT_POS.relative(Direction.SOUTH);
+
+        var meterBlockEntity = plotResult.meterBlockEntity();
+        var meterRedstoneHandler = meterBlockEntity.getRedstoneHandler();
+        var inputEnergyFunction = plotResult.inputEnergyFunctionWithResult();
+
+        meterBlockEntity.setTransferLimit(15_000);
+        meterRedstoneHandler.setFunction(RedstoneFunction.CONTROL);
+        meterRedstoneHandler.setControlBehavior(ControlBehavior.THROTTLE);
+
+        // test that a full signal blocks the transfer
+        helper.setBlock(sidePos, Blocks.REDSTONE_BLOCK);
+        meterBlockEntity.tick(helper.getLevel());
+        helper.assertValueEqual(0, inputEnergyFunction.apply(20_000, true), "accepted energy with a full signal");
+        helper.assertValueEqual(ConnectionStatus.BLOCKED, meterBlockEntity.getConnectionStatus(), "connection status with a full signal");
+
+        // test that a partial signal scales the transfer
+        var signalSourceState = Blocks.DAYLIGHT_DETECTOR.defaultBlockState().setValue(DaylightDetectorBlock.POWER, 5);
+        helper.setBlock(sidePos, signalSourceState);
+        meterBlockEntity.tick(helper.getLevel());
+        helper.assertValueEqual(5, meterRedstoneHandler.getInputSignal(), "input signal of the signal source");
+        helper.assertValueEqual(10_000, inputEnergyFunction.apply(20_000, true), "accepted energy with a partial signal");
+        helper.assertValueEqual(ConnectionStatus.IDLE, meterBlockEntity.getConnectionStatus(), "connection status with a partial signal");
+
+        // test that the limit applies per tick
+        helper.assertValueEqual(6_000, inputEnergyFunction.apply(6_000, false), "accepted energy of the first insert");
+        helper.assertValueEqual(4_000, inputEnergyFunction.apply(6_000, false), "accepted energy of the second insert");
+        meterBlockEntity.getEnergyHandler().tick();
+
+        // test that invert grants the signal strength
+        meterRedstoneHandler.setInverted(true);
+        helper.assertValueEqual(5_000, inputEnergyFunction.apply(20_000, true), "accepted energy with an inverted partial signal");
+        meterRedstoneHandler.setInverted(false);
+
+        // test that throttle applies to consume mode
+        meterBlockEntity.setTransferMode(TransferMode.CONSUME);
+        helper.assertValueEqual(10_000, inputEnergyFunction.apply(20_000, true), "accepted energy in consume mode");
+        meterBlockEntity.setTransferMode(TransferMode.SPLIT);
+
+        // test that a missing limit allows an unlimited transfer
+        meterBlockEntity.setTransferLimit(0);
+        helper.assertValueEqual(20_000, inputEnergyFunction.apply(20_000, true), "accepted energy without a limit");
+
+        helper.succeed();
+    }
+
     private static void assertSignal(GameTestHelper helper, RedstoneHandler redstoneHandler, double energyRate, int expected) {
         redstoneHandler.refreshOutput(energyRate);
         helper.assertValueEqual(expected, redstoneHandler.getOutputSignal(), "signal for rate " + energyRate);
@@ -339,5 +424,18 @@ public class MeterRedstoneTests {
     private static void placeDustBlock(GameTestHelper helper, BlockPos pos) {
         helper.setBlock(pos.below(), Blocks.STONE);
         helper.setBlock(pos, Blocks.REDSTONE_WIRE);
+    }
+
+    private static void assertEffectiveLimit(
+        GameTestHelper helper,
+        RedstoneHandler redstoneHandler,
+        int inputSignal,
+        long transferLimit,
+        TransferMode transferMode,
+        long expected
+    ) {
+        redstoneHandler.refreshInput(inputSignal);
+        var effectiveTransferLimit = redstoneHandler.getEffectiveTransferLimit(transferLimit, transferMode);
+        helper.assertValueEqual(expected, effectiveTransferLimit, "effective limit for signal " + inputSignal + ", limit " + transferLimit);
     }
 }

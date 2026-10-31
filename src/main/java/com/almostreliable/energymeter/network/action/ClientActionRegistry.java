@@ -1,6 +1,7 @@
 package com.almostreliable.energymeter.network.action;
 
 import com.almostreliable.energymeter.EnergyMeter;
+import com.almostreliable.energymeter.block.component.RedstoneHandler.ControlBehavior;
 import com.almostreliable.energymeter.block.component.RedstoneHandler.RedstoneFunction;
 import com.almostreliable.energymeter.block.component.RedstoneHandler.RedstoneScale;
 import com.almostreliable.energymeter.block.entity.MeterBlockEntity;
@@ -25,6 +26,7 @@ public final class ClientActionRegistry {
     public static final Identifier UPDATE_TEXT_ID = EnergyMeter.getRL("update_text");
     public static final Identifier REDSTONE_FUNCTION_ID = EnergyMeter.getRL("redstone_function");
     public static final Identifier REDSTONE_SCALE_ID = EnergyMeter.getRL("redstone_scale");
+    public static final Identifier REDSTONE_CONTROL_BEHAVIOR_ID = EnergyMeter.getRL("redstone_control_behavior");
     public static final Identifier TOGGLE_REDSTONE_INVERTED_ID = EnergyMeter.getRL("toggle_redstone_inverted");
 
     private static final Map<Identifier, Decoder<?>> DECODERS = new HashMap<>();
@@ -109,6 +111,14 @@ public final class ClientActionRegistry {
                 REDSTONE_SCALE_ID,
                 RedstoneScale.class,
                 (menu, value) -> menu.getBlockEntity().getRedstoneHandler().setScale(value)
+            )
+        );
+        ClientActionRegistry.register(
+            REDSTONE_CONTROL_BEHAVIOR_ID,
+            EnumClientAction.<MeterMenu, ControlBehavior> decoder(
+                REDSTONE_CONTROL_BEHAVIOR_ID,
+                ControlBehavior.class,
+                (menu, value) -> menu.getBlockEntity().getRedstoneHandler().setControlBehavior(value)
             )
         );
         ClientActionRegistry.register(

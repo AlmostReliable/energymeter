@@ -30,6 +30,7 @@ public interface Constants {
     String LOWER_BOUND_ID = "lower";
     String UPPER_BOUND_ID = "upper";
     String SCALE_ID = "scale";
+    String CONTROL_BEHAVIOR_ID = "control_behavior";
     String INVERTED_ID = "inverted";
     String THRESHOLD_ACTIVE_ID = "threshold_active";
     String OUTPUT_SIGNAL_ID = "output_signal";
