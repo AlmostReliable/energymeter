@@ -8,6 +8,7 @@ public final class DataGeneration {
 
     public static void initClient(GatherDataEvent.Client event) {
         event.createProvider(EnergyMeterModels::new);
+        event.createProvider(EnergyMeterAtlases::new);
         event.createProvider(EnergyMeterLang::new);
     }
 

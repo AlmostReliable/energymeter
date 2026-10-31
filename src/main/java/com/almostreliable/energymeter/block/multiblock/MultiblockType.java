@@ -5,99 +5,90 @@ import com.almostreliable.energymeter.EnergyMeter;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.StringRepresentable;
 
-import com.google.common.base.Preconditions;
-
-import org.jspecify.annotations.Nullable;
-
 import java.util.Locale;
 
 public enum MultiblockType implements StringRepresentable {
 
-    NONE(null, null, null, null, "~"),
-    SELF(null, null, null, null, "~"),
-    NORMAL(SELF, SELF, SELF, SELF, "LRUD"),
-    MIDDLE(NONE, NONE, NONE, NONE, ""),
-    VERTICAL(NONE, NONE, SELF, SELF, "LR"),
-    HORIZONTAL(SELF, SELF, NONE, NONE, "UD"),
-    SIDE_U(HORIZONTAL, NONE, NONE, NONE, "U"),
-    SIDE_D(NONE, HORIZONTAL, NONE, NONE, "D"),
-    SIDE_L(NONE, NONE, VERTICAL, NONE, "L"),
-    SIDE_R(NONE, NONE, NONE, VERTICAL, "R"),
-    CORNER_U(NORMAL, NONE, SELF, SELF, "LRU"),
-    CORNER_D(NONE, NORMAL, SELF, SELF, "LRD"),
-    CORNER_L(SELF, SELF, NORMAL, NONE, "LUD"),
-    CORNER_R(SELF, SELF, NONE, NORMAL, "RUD"),
-    CORNER_UL(CORNER_L, NONE, CORNER_U, NONE, "LU"),
-    CORNER_UR(CORNER_R, NONE, NONE, CORNER_U, "RU"),
-    CORNER_DL(NONE, CORNER_L, CORNER_D, NONE, "LD"),
-    CORNER_DR(NONE, CORNER_R, NONE, CORNER_D, "RD");
+    NORMAL(true, true, true, true),
+    MIDDLE(false, false, false, false),
+    VERTICAL(true, true, false, false),
+    HORIZONTAL(false, false, true, true),
+    SIDE_U(false, false, true, false),
+    SIDE_D(false, false, false, true),
+    SIDE_L(true, false, false, false),
+    SIDE_R(false, true, false, false),
+    CORNER_U(true, true, true, false),
+    CORNER_D(true, true, false, true),
+    CORNER_L(true, false, true, true),
+    CORNER_R(false, true, true, true),
+    CORNER_UL(true, false, true, false),
+    CORNER_UR(false, true, true, false),
+    CORNER_DL(true, false, false, true),
+    CORNER_DR(false, true, false, true);
 
-    private final @Nullable MultiblockType up;
-    private final @Nullable MultiblockType down;
-    private final @Nullable MultiblockType left;
-    private final @Nullable MultiblockType right;
-    private final String posInMultiblock;
+    public static final Identifier FRONT_SHEET = EnergyMeter.getRL("monitor/front");
+    public static final Identifier FRAME_SHEET = EnergyMeter.getRL("monitor/frame");
+    private static final MultiblockType[] VALUES = values();
 
-    MultiblockType(
-        @Nullable MultiblockType up, @Nullable MultiblockType down, @Nullable MultiblockType left, @Nullable MultiblockType right,
-        String posInMultiblock
-    ) {
-        this.up = up;
-        this.down = down;
-        this.left = left;
-        this.right = right;
-        this.posInMultiblock = posInMultiblock;
+    private final boolean hasBorderLeft;
+    private final boolean hasBorderRight;
+    private final boolean hasBorderUp;
+    private final boolean hasBorderDown;
+
+    MultiblockType(boolean hasBorderLeft, boolean hasBorderRight, boolean hasBorderUp, boolean hasBorderDown) {
+        this.hasBorderLeft = hasBorderLeft;
+        this.hasBorderRight = hasBorderRight;
+        this.hasBorderUp = hasBorderUp;
+        this.hasBorderDown = hasBorderDown;
     }
 
-    public static MultiblockType fromPosInMultiblock(String posInMultiblock) {
-        for (var value : values()) {
-            if (value.posInMultiblock.equals(posInMultiblock)) {
+    public static MultiblockType fromBorders(boolean hasBorderLeft, boolean hasBorderRight, boolean hasBorderUp, boolean hasBorderDown) {
+        for (var value : VALUES) {
+            if (value.hasBorderLeft == hasBorderLeft && value.hasBorderRight == hasBorderRight &&
+                value.hasBorderUp == hasBorderUp && value.hasBorderDown == hasBorderDown) {
                 return value;
             }
         }
 
-        return NORMAL;
+        throw new IllegalStateException("every border combination has a multiblock type");
+    }
+
+    public MultiblockType getUpDownFaceType() {
+        return fromBorders(hasBorderLeft, hasBorderRight, true, true);
+    }
+
+    public MultiblockType getLeftRightFaceType() {
+        return fromBorders(true, true, hasBorderUp, hasBorderDown);
+    }
+
+    public int getSheetColumn(boolean isRightHalf) {
+        if (isRightHalf) return hasBorderRight ? 2 : 1;
+        return hasBorderLeft ? 0 : 1;
+    }
+
+    public int getSheetRow(boolean isBottomHalf) {
+        if (isBottomHalf) return hasBorderDown ? 2 : 1;
+        return hasBorderUp ? 0 : 1;
+    }
+
+    public Identifier getSheetSpriteId(Identifier sheet) {
+        return sheet.withPath(path -> "block/" + path + "_" + getSerializedName());
+    }
+
+    public Identifier getFrontSpriteId() {
+        return getSheetSpriteId(FRONT_SHEET);
+    }
+
+    public Identifier getFrameSpriteId() {
+        return getSheetSpriteId(FRAME_SHEET);
+    }
+
+    public Identifier getModelId() {
+        return EnergyMeter.getRL("block/monitor/" + getSerializedName());
     }
 
     @Override
     public String getSerializedName() {
         return name().toLowerCase(Locale.ROOT);
-    }
-
-    public Identifier getTexture() {
-        return EnergyMeter.getRL("block/" + getSerializedName());
-    }
-
-    public Identifier getFrontTexture() {
-        return EnergyMeter.getRL("block/" + getSerializedName() + "_front");
-    }
-
-    @Nullable
-    public Identifier getUpTexture() {
-        return getSidedTexture(up);
-    }
-
-    @Nullable
-    public Identifier getDownTexture() {
-        return getSidedTexture(down);
-    }
-
-    @Nullable
-    public Identifier getLeftTexture() {
-        return getSidedTexture(left);
-    }
-
-    @Nullable
-    public Identifier getRightTexture() {
-        return getSidedTexture(right);
-    }
-
-    @Nullable
-    private Identifier getSidedTexture(@Nullable MultiblockType side) {
-        Preconditions.checkNotNull(side, "side for " + this + " must not be null");
-
-        if (side == NONE) return null;
-        if (side == SELF) return getTexture();
-        return side.getTexture();
     }
 }

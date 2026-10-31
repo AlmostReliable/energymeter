@@ -1,6 +1,5 @@
 package com.almostreliable.energymeter.data;
 
-import com.almostreliable.energymeter.EnergyMeter;
 import com.almostreliable.energymeter.ModConstants;
 import com.almostreliable.energymeter.block.FacingEntityBlock;
 import com.almostreliable.energymeter.block.MonitorBlock;
@@ -13,7 +12,6 @@ import net.minecraft.client.data.models.ModelProvider;
 import net.minecraft.client.data.models.blockstates.MultiVariantGenerator;
 import net.minecraft.client.data.models.blockstates.PropertyDispatch;
 import net.minecraft.client.data.models.model.ItemModelUtils;
-import net.minecraft.client.data.models.model.ModelInstance;
 import net.minecraft.client.data.models.model.ModelTemplates;
 import net.minecraft.client.data.models.model.TextureMapping;
 import net.minecraft.client.data.models.model.TextureSlot;
@@ -22,17 +20,33 @@ import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.core.Direction;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.Identifier;
+import net.neoforged.neoforge.client.model.generators.template.ExtendedModelTemplate;
+import net.neoforged.neoforge.client.model.generators.template.ExtendedModelTemplateBuilder;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import com.mojang.math.Quadrant;
 
 import org.jspecify.annotations.Nullable;
 
-import java.util.EnumMap;
-import java.util.Map;
-
 class EnergyMeterModels extends ModelProvider {
+
+    private static final ExtendedModelTemplate MONITOR_TEMPLATE = ExtendedModelTemplateBuilder.builder()
+        .parent(Identifier.withDefaultNamespace("block/block"))
+        .requiredTextureSlot(TextureSlot.PARTICLE)
+        .requiredTextureSlot(TextureSlot.FRONT)
+        .requiredTextureSlot(TextureSlot.BACK)
+        .requiredTextureSlot(TextureSlot.UP)
+        .requiredTextureSlot(TextureSlot.DOWN)
+        .requiredTextureSlot(TextureSlot.EAST)
+        .requiredTextureSlot(TextureSlot.WEST)
+        .element(element -> element
+            .allFaces((direction, face) -> face.cullface(direction))
+            .face(Direction.NORTH, face -> face.texture(TextureSlot.FRONT))
+            .face(Direction.SOUTH, face -> face.texture(TextureSlot.BACK).uvs(16, 0, 0, 16))
+            .face(Direction.UP, face -> face.texture(TextureSlot.UP).uvs(16, 0, 0, 16))
+            .face(Direction.DOWN, face -> face.texture(TextureSlot.DOWN).uvs(16, 16, 0, 0))
+            .face(Direction.EAST, face -> face.texture(TextureSlot.EAST))
+            .face(Direction.WEST, face -> face.texture(TextureSlot.WEST)))
+        .build();
 
     EnergyMeterModels(PackOutput output) {
         super(output, ModConstants.MOD_ID);
@@ -46,15 +60,14 @@ class EnergyMeterModels extends ModelProvider {
 
     private static void energyMeter(BlockModelGenerators blockModels) {
         var block = ModRegistration.METER_BLOCK.get();
+        var frameSprite = new Material(MultiblockType.NORMAL.getFrameSpriteId());
+        var frontSprite = new Material(MultiblockType.NORMAL.getFrontSpriteId());
+        var textureMapping = new TextureMapping()
+            .put(TextureSlot.SIDE, frameSprite)
+            .put(TextureSlot.FRONT, frontSprite)
+            .put(TextureSlot.TOP, frameSprite);
 
-        Identifier model = ModelTemplates.CUBE_ORIENTABLE.create(
-            block,
-            new TextureMapping()
-                .put(TextureSlot.SIDE, new Material(EnergyMeter.getRL("block/normal")))
-                .put(TextureSlot.FRONT, new Material(EnergyMeter.getRL("block/normal_front")))
-                .put(TextureSlot.TOP, new Material(EnergyMeter.getRL("block/normal"))),
-            blockModels.modelOutput
-        );
+        Identifier model = ModelTemplates.CUBE_ORIENTABLE.create(block, textureMapping, blockModels.modelOutput);
 
         blockModels.blockStateOutput.accept(
             MultiVariantGenerator.dispatch(block, BlockModelGenerators.plainVariant(model))
@@ -66,103 +79,37 @@ class EnergyMeterModels extends ModelProvider {
     private static void externalMonitor(BlockModelGenerators blockModels) {
         var block = ModRegistration.MONITOR_BLOCK.get();
 
-        Map<MultiblockType, Identifier> models = new EnumMap<>(MultiblockType.class);
-        for (MultiblockType type : MultiblockType.values()) {
-            models.put(type, createMonitorModel(blockModels, type));
+        for (var type : MultiblockType.values()) {
+            monitorModel(blockModels, type);
         }
 
         blockModels.blockStateOutput.accept(
             MultiVariantGenerator.dispatch(block)
                 .with(PropertyDispatch.initial(MonitorBlock.TYPE)
-                    .generate(type -> BlockModelGenerators.plainVariant(models.get(type))))
+                    .generate(type -> BlockModelGenerators.plainVariant(type.getModelId())))
                 .with(PropertyDispatch.modify(FacingEntityBlock.FACING, FacingEntityBlock.BOTTOM)
                     .generate(EnergyMeterModels::rotate))
         );
 
-        blockModels.itemModelOutput.accept(
-            block.asItem(),
-            ItemModelUtils.plainModel(models.get(MultiblockType.NORMAL))
-        );
+        var itemModel = ItemModelUtils.plainModel(MultiblockType.NORMAL.getModelId());
+        blockModels.itemModelOutput.accept(block.asItem(), itemModel);
     }
 
-    private static Identifier createMonitorModel(BlockModelGenerators blockModels, MultiblockType type) {
-        if (type == MultiblockType.NONE || type == MultiblockType.SELF) {
-            return ModelTemplates.CUBE_ALL.create(
-                EnergyMeter.getRL("block/" + type.getSerializedName()),
-                TextureMapping.cube(new Material(MultiblockType.NORMAL.getTexture())),
-                blockModels.modelOutput
-            );
-        }
+    private static void monitorModel(BlockModelGenerators blockModels, MultiblockType type) {
+        var frameSprite = new Material(type.getFrameSpriteId());
+        var frontSprite = new Material(type.getFrontSpriteId());
+        var upDownSprite = new Material(type.getUpDownFaceType().getFrameSpriteId());
+        var leftRightSprite = new Material(type.getLeftRightFaceType().getFrameSpriteId());
+        var textureMapping = new TextureMapping()
+            .put(TextureSlot.PARTICLE, frameSprite)
+            .put(TextureSlot.FRONT, frontSprite)
+            .put(TextureSlot.BACK, frameSprite)
+            .put(TextureSlot.UP, upDownSprite)
+            .put(TextureSlot.DOWN, upDownSprite)
+            .put(TextureSlot.EAST, leftRightSprite)
+            .put(TextureSlot.WEST, leftRightSprite);
 
-        Identifier model = type.getTexture();
-        blockModels.modelOutput.accept(model, monitorModel(type));
-        return model;
-    }
-
-    private static ModelInstance monitorModel(MultiblockType type) {
-        JsonObject faces = new JsonObject();
-        faces.add("north", face("#front", null));
-        faces.add("south", face("#particle", new float[]{16, 0, 0, 16}));
-        addFace(faces, "up", "#up", type.getUpTexture(), new float[]{16, 0, 0, 16});
-        addFace(faces, "down", "#down", type.getDownTexture(), new float[]{16, 16, 0, 0});
-        addFace(faces, "east", "#left", type.getLeftTexture(), null);
-        addFace(faces, "west", "#right", type.getRightTexture(), null);
-
-        JsonObject element = new JsonObject();
-        element.add("from", vector(0, 0, 0));
-        element.add("to", vector(16, 16, 16));
-        element.add("faces", faces);
-
-        JsonArray elements = new JsonArray();
-        elements.add(element);
-
-        JsonObject textures = new JsonObject();
-        textures.addProperty("particle", type.getTexture().toString());
-        textures.addProperty("front", type.getFrontTexture().toString());
-        addTexture(textures, "up", type.getUpTexture());
-        addTexture(textures, "down", type.getDownTexture());
-        addTexture(textures, "left", type.getLeftTexture());
-        addTexture(textures, "right", type.getRightTexture());
-
-        JsonObject model = new JsonObject();
-        model.addProperty("parent", "minecraft:block/block");
-        model.add("elements", elements);
-        model.add("textures", textures);
-
-        return () -> model;
-    }
-
-    private static void addFace(
-        JsonObject faces, String side, String textureSlot, @Nullable Identifier texture, float @Nullable [] uv
-    ) {
-        if (texture == null) return;
-        faces.add(side, face(textureSlot, uv));
-    }
-
-    private static JsonObject face(String textureSlot, float @Nullable [] uv) {
-        JsonObject face = new JsonObject();
-        face.addProperty("texture", textureSlot);
-        if (uv != null) {
-            JsonArray array = new JsonArray();
-            for (float value : uv) {
-                array.add(value);
-            }
-            face.add("uv", array);
-        }
-        return face;
-    }
-
-    private static void addTexture(JsonObject textures, String slot, @Nullable Identifier texture) {
-        if (texture == null) return;
-        textures.addProperty(slot, texture.toString());
-    }
-
-    private static JsonArray vector(int x, int y, int z) {
-        JsonArray array = new JsonArray();
-        array.add(x);
-        array.add(y);
-        array.add(z);
-        return array;
+        MONITOR_TEMPLATE.create(type.getModelId(), textureMapping, blockModels.modelOutput);
     }
 
     private static VariantMutator rotate(Direction facing, @Nullable Direction bottom) {

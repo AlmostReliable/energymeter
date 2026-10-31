@@ -235,12 +235,8 @@ public class MonitorBlock extends FacingEntityBlock {
     }
 
     private static BlockState setMultiblockTypeProps(BlockState state, int x, int y, int right, int top) {
-        String posInMultiblock = "";
-        if (x == 0) posInMultiblock += "L";
-        if (x == right) posInMultiblock += "R";
-        if (y == top) posInMultiblock += "U";
-        if (y == 0) posInMultiblock += "D";
-        return state.setValue(TYPE, MultiblockType.fromPosInMultiblock(posInMultiblock));
+        var type = MultiblockType.fromBorders(x == 0, x == right, y == top, y == 0);
+        return state.setValue(TYPE, type);
     }
 
     private static BlockState setControllerOffsetProps(BlockState state, BlockPos pos, BlockPos controllerPos) {

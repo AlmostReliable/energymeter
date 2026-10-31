@@ -1,6 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "energymeter:block/normal"
+    "model": "energymeter:block/monitor/normal"
   }
 }

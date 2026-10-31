@@ -1,2595 +1,2307 @@
 {
   "variants": {
     "bottom=down,facing=down,multiblock_type=corner_d": {
-      "model": "energymeter:block/corner_d",
+      "model": "energymeter:block/monitor/corner_d",
       "x": 90
     },
     "bottom=down,facing=down,multiblock_type=corner_dl": {
-      "model": "energymeter:block/corner_dl",
+      "model": "energymeter:block/monitor/corner_dl",
       "x": 90
     },
     "bottom=down,facing=down,multiblock_type=corner_dr": {
-      "model": "energymeter:block/corner_dr",
+      "model": "energymeter:block/monitor/corner_dr",
       "x": 90
     },
     "bottom=down,facing=down,multiblock_type=corner_l": {
-      "model": "energymeter:block/corner_l",
+      "model": "energymeter:block/monitor/corner_l",
       "x": 90
     },
     "bottom=down,facing=down,multiblock_type=corner_r": {
-      "model": "energymeter:block/corner_r",
+      "model": "energymeter:block/monitor/corner_r",
       "x": 90
     },
     "bottom=down,facing=down,multiblock_type=corner_u": {
-      "model": "energymeter:block/corner_u",
+      "model": "energymeter:block/monitor/corner_u",
       "x": 90
     },
     "bottom=down,facing=down,multiblock_type=corner_ul": {
-      "model": "energymeter:block/corner_ul",
+      "model": "energymeter:block/monitor/corner_ul",
       "x": 90
     },
     "bottom=down,facing=down,multiblock_type=corner_ur": {
-      "model": "energymeter:block/corner_ur",
+      "model": "energymeter:block/monitor/corner_ur",
       "x": 90
     },
     "bottom=down,facing=down,multiblock_type=horizontal": {
-      "model": "energymeter:block/horizontal",
+      "model": "energymeter:block/monitor/horizontal",
       "x": 90
     },
     "bottom=down,facing=down,multiblock_type=middle": {
-      "model": "energymeter:block/middle",
-      "x": 90
-    },
-    "bottom=down,facing=down,multiblock_type=none": {
-      "model": "energymeter:block/none",
+      "model": "energymeter:block/monitor/middle",
       "x": 90
     },
     "bottom=down,facing=down,multiblock_type=normal": {
-      "model": "energymeter:block/normal",
-      "x": 90
-    },
-    "bottom=down,facing=down,multiblock_type=self": {
-      "model": "energymeter:block/self",
+      "model": "energymeter:block/monitor/normal",
       "x": 90
     },
     "bottom=down,facing=down,multiblock_type=side_d": {
-      "model": "energymeter:block/side_d",
+      "model": "energymeter:block/monitor/side_d",
       "x": 90
     },
     "bottom=down,facing=down,multiblock_type=side_l": {
-      "model": "energymeter:block/side_l",
+      "model": "energymeter:block/monitor/side_l",
       "x": 90
     },
     "bottom=down,facing=down,multiblock_type=side_r": {
-      "model": "energymeter:block/side_r",
+      "model": "energymeter:block/monitor/side_r",
       "x": 90
     },
     "bottom=down,facing=down,multiblock_type=side_u": {
-      "model": "energymeter:block/side_u",
+      "model": "energymeter:block/monitor/side_u",
       "x": 90
     },
     "bottom=down,facing=down,multiblock_type=vertical": {
-      "model": "energymeter:block/vertical",
+      "model": "energymeter:block/monitor/vertical",
       "x": 90
     },
     "bottom=down,facing=east,multiblock_type=corner_d": {
-      "model": "energymeter:block/corner_d",
+      "model": "energymeter:block/monitor/corner_d",
       "y": 90
     },
     "bottom=down,facing=east,multiblock_type=corner_dl": {
-      "model": "energymeter:block/corner_dl",
+      "model": "energymeter:block/monitor/corner_dl",
       "y": 90
     },
     "bottom=down,facing=east,multiblock_type=corner_dr": {
-      "model": "energymeter:block/corner_dr",
+      "model": "energymeter:block/monitor/corner_dr",
       "y": 90
     },
     "bottom=down,facing=east,multiblock_type=corner_l": {
-      "model": "energymeter:block/corner_l",
+      "model": "energymeter:block/monitor/corner_l",
       "y": 90
     },
     "bottom=down,facing=east,multiblock_type=corner_r": {
-      "model": "energymeter:block/corner_r",
+      "model": "energymeter:block/monitor/corner_r",
       "y": 90
     },
     "bottom=down,facing=east,multiblock_type=corner_u": {
-      "model": "energymeter:block/corner_u",
+      "model": "energymeter:block/monitor/corner_u",
       "y": 90
     },
     "bottom=down,facing=east,multiblock_type=corner_ul": {
-      "model": "energymeter:block/corner_ul",
+      "model": "energymeter:block/monitor/corner_ul",
       "y": 90
     },
     "bottom=down,facing=east,multiblock_type=corner_ur": {
-      "model": "energymeter:block/corner_ur",
+      "model": "energymeter:block/monitor/corner_ur",
       "y": 90
     },
     "bottom=down,facing=east,multiblock_type=horizontal": {
-      "model": "energymeter:block/horizontal",
+      "model": "energymeter:block/monitor/horizontal",
       "y": 90
     },
     "bottom=down,facing=east,multiblock_type=middle": {
-      "model": "energymeter:block/middle",
-      "y": 90
-    },
-    "bottom=down,facing=east,multiblock_type=none": {
-      "model": "energymeter:block/none",
+      "model": "energymeter:block/monitor/middle",
       "y": 90
     },
     "bottom=down,facing=east,multiblock_type=normal": {
-      "model": "energymeter:block/normal",
-      "y": 90
-    },
-    "bottom=down,facing=east,multiblock_type=self": {
-      "model": "energymeter:block/self",
+      "model": "energymeter:block/monitor/normal",
       "y": 90
     },
     "bottom=down,facing=east,multiblock_type=side_d": {
-      "model": "energymeter:block/side_d",
+      "model": "energymeter:block/monitor/side_d",
       "y": 90
     },
     "bottom=down,facing=east,multiblock_type=side_l": {
-      "model": "energymeter:block/side_l",
+      "model": "energymeter:block/monitor/side_l",
       "y": 90
     },
     "bottom=down,facing=east,multiblock_type=side_r": {
-      "model": "energymeter:block/side_r",
+      "model": "energymeter:block/monitor/side_r",
       "y": 90
     },
     "bottom=down,facing=east,multiblock_type=side_u": {
-      "model": "energymeter:block/side_u",
+      "model": "energymeter:block/monitor/side_u",
       "y": 90
     },
     "bottom=down,facing=east,multiblock_type=vertical": {
-      "model": "energymeter:block/vertical",
+      "model": "energymeter:block/monitor/vertical",
       "y": 90
     },
     "bottom=down,facing=north,multiblock_type=corner_d": {
-      "model": "energymeter:block/corner_d"
+      "model": "energymeter:block/monitor/corner_d"
     },
     "bottom=down,facing=north,multiblock_type=corner_dl": {
-      "model": "energymeter:block/corner_dl"
+      "model": "energymeter:block/monitor/corner_dl"
     },
     "bottom=down,facing=north,multiblock_type=corner_dr": {
-      "model": "energymeter:block/corner_dr"
+      "model": "energymeter:block/monitor/corner_dr"
     },
     "bottom=down,facing=north,multiblock_type=corner_l": {
-      "model": "energymeter:block/corner_l"
+      "model": "energymeter:block/monitor/corner_l"
     },
     "bottom=down,facing=north,multiblock_type=corner_r": {
-      "model": "energymeter:block/corner_r"
+      "model": "energymeter:block/monitor/corner_r"
     },
     "bottom=down,facing=north,multiblock_type=corner_u": {
-      "model": "energymeter:block/corner_u"
+      "model": "energymeter:block/monitor/corner_u"
     },
     "bottom=down,facing=north,multiblock_type=corner_ul": {
-      "model": "energymeter:block/corner_ul"
+      "model": "energymeter:block/monitor/corner_ul"
     },
     "bottom=down,facing=north,multiblock_type=corner_ur": {
-      "model": "energymeter:block/corner_ur"
+      "model": "energymeter:block/monitor/corner_ur"
     },
     "bottom=down,facing=north,multiblock_type=horizontal": {
-      "model": "energymeter:block/horizontal"
+      "model": "energymeter:block/monitor/horizontal"
     },
     "bottom=down,facing=north,multiblock_type=middle": {
-      "model": "energymeter:block/middle"
-    },
-    "bottom=down,facing=north,multiblock_type=none": {
-      "model": "energymeter:block/none"
+      "model": "energymeter:block/monitor/middle"
     },
     "bottom=down,facing=north,multiblock_type=normal": {
-      "model": "energymeter:block/normal"
-    },
-    "bottom=down,facing=north,multiblock_type=self": {
-      "model": "energymeter:block/self"
+      "model": "energymeter:block/monitor/normal"
     },
     "bottom=down,facing=north,multiblock_type=side_d": {
-      "model": "energymeter:block/side_d"
+      "model": "energymeter:block/monitor/side_d"
     },
     "bottom=down,facing=north,multiblock_type=side_l": {
-      "model": "energymeter:block/side_l"
+      "model": "energymeter:block/monitor/side_l"
     },
     "bottom=down,facing=north,multiblock_type=side_r": {
-      "model": "energymeter:block/side_r"
+      "model": "energymeter:block/monitor/side_r"
     },
     "bottom=down,facing=north,multiblock_type=side_u": {
-      "model": "energymeter:block/side_u"
+      "model": "energymeter:block/monitor/side_u"
     },
     "bottom=down,facing=north,multiblock_type=vertical": {
-      "model": "energymeter:block/vertical"
+      "model": "energymeter:block/monitor/vertical"
     },
     "bottom=down,facing=south,multiblock_type=corner_d": {
-      "model": "energymeter:block/corner_d",
+      "model": "energymeter:block/monitor/corner_d",
       "y": 180
     },
     "bottom=down,facing=south,multiblock_type=corner_dl": {
-      "model": "energymeter:block/corner_dl",
+      "model": "energymeter:block/monitor/corner_dl",
       "y": 180
     },
     "bottom=down,facing=south,multiblock_type=corner_dr": {
-      "model": "energymeter:block/corner_dr",
+      "model": "energymeter:block/monitor/corner_dr",
       "y": 180
     },
     "bottom=down,facing=south,multiblock_type=corner_l": {
-      "model": "energymeter:block/corner_l",
+      "model": "energymeter:block/monitor/corner_l",
       "y": 180
     },
     "bottom=down,facing=south,multiblock_type=corner_r": {
-      "model": "energymeter:block/corner_r",
+      "model": "energymeter:block/monitor/corner_r",
       "y": 180
     },
     "bottom=down,facing=south,multiblock_type=corner_u": {
-      "model": "energymeter:block/corner_u",
+      "model": "energymeter:block/monitor/corner_u",
       "y": 180
     },
     "bottom=down,facing=south,multiblock_type=corner_ul": {
-      "model": "energymeter:block/corner_ul",
+      "model": "energymeter:block/monitor/corner_ul",
       "y": 180
     },
     "bottom=down,facing=south,multiblock_type=corner_ur": {
-      "model": "energymeter:block/corner_ur",
+      "model": "energymeter:block/monitor/corner_ur",
       "y": 180
     },
     "bottom=down,facing=south,multiblock_type=horizontal": {
-      "model": "energymeter:block/horizontal",
+      "model": "energymeter:block/monitor/horizontal",
       "y": 180
     },
     "bottom=down,facing=south,multiblock_type=middle": {
-      "model": "energymeter:block/middle",
-      "y": 180
-    },
-    "bottom=down,facing=south,multiblock_type=none": {
-      "model": "energymeter:block/none",
+      "model": "energymeter:block/monitor/middle",
       "y": 180
     },
     "bottom=down,facing=south,multiblock_type=normal": {
-      "model": "energymeter:block/normal",
-      "y": 180
-    },
-    "bottom=down,facing=south,multiblock_type=self": {
-      "model": "energymeter:block/self",
+      "model": "energymeter:block/monitor/normal",
       "y": 180
     },
     "bottom=down,facing=south,multiblock_type=side_d": {
-      "model": "energymeter:block/side_d",
+      "model": "energymeter:block/monitor/side_d",
       "y": 180
     },
     "bottom=down,facing=south,multiblock_type=side_l": {
-      "model": "energymeter:block/side_l",
+      "model": "energymeter:block/monitor/side_l",
       "y": 180
     },
     "bottom=down,facing=south,multiblock_type=side_r": {
-      "model": "energymeter:block/side_r",
+      "model": "energymeter:block/monitor/side_r",
       "y": 180
     },
     "bottom=down,facing=south,multiblock_type=side_u": {
-      "model": "energymeter:block/side_u",
+      "model": "energymeter:block/monitor/side_u",
       "y": 180
     },
     "bottom=down,facing=south,multiblock_type=vertical": {
-      "model": "energymeter:block/vertical",
+      "model": "energymeter:block/monitor/vertical",
       "y": 180
     },
     "bottom=down,facing=up,multiblock_type=corner_d": {
-      "model": "energymeter:block/corner_d",
+      "model": "energymeter:block/monitor/corner_d",
       "x": 270
     },
     "bottom=down,facing=up,multiblock_type=corner_dl": {
-      "model": "energymeter:block/corner_dl",
+      "model": "energymeter:block/monitor/corner_dl",
       "x": 270
     },
     "bottom=down,facing=up,multiblock_type=corner_dr": {
-      "model": "energymeter:block/corner_dr",
+      "model": "energymeter:block/monitor/corner_dr",
       "x": 270
     },
     "bottom=down,facing=up,multiblock_type=corner_l": {
-      "model": "energymeter:block/corner_l",
+      "model": "energymeter:block/monitor/corner_l",
       "x": 270
     },
     "bottom=down,facing=up,multiblock_type=corner_r": {
-      "model": "energymeter:block/corner_r",
+      "model": "energymeter:block/monitor/corner_r",
       "x": 270
     },
     "bottom=down,facing=up,multiblock_type=corner_u": {
-      "model": "energymeter:block/corner_u",
+      "model": "energymeter:block/monitor/corner_u",
       "x": 270
     },
     "bottom=down,facing=up,multiblock_type=corner_ul": {
-      "model": "energymeter:block/corner_ul",
+      "model": "energymeter:block/monitor/corner_ul",
       "x": 270
     },
     "bottom=down,facing=up,multiblock_type=corner_ur": {
-      "model": "energymeter:block/corner_ur",
+      "model": "energymeter:block/monitor/corner_ur",
       "x": 270
     },
     "bottom=down,facing=up,multiblock_type=horizontal": {
-      "model": "energymeter:block/horizontal",
+      "model": "energymeter:block/monitor/horizontal",
       "x": 270
     },
     "bottom=down,facing=up,multiblock_type=middle": {
-      "model": "energymeter:block/middle",
-      "x": 270
-    },
-    "bottom=down,facing=up,multiblock_type=none": {
-      "model": "energymeter:block/none",
+      "model": "energymeter:block/monitor/middle",
       "x": 270
     },
     "bottom=down,facing=up,multiblock_type=normal": {
-      "model": "energymeter:block/normal",
-      "x": 270
-    },
-    "bottom=down,facing=up,multiblock_type=self": {
-      "model": "energymeter:block/self",
+      "model": "energymeter:block/monitor/normal",
       "x": 270
     },
     "bottom=down,facing=up,multiblock_type=side_d": {
-      "model": "energymeter:block/side_d",
+      "model": "energymeter:block/monitor/side_d",
       "x": 270
     },
     "bottom=down,facing=up,multiblock_type=side_l": {
-      "model": "energymeter:block/side_l",
+      "model": "energymeter:block/monitor/side_l",
       "x": 270
     },
     "bottom=down,facing=up,multiblock_type=side_r": {
-      "model": "energymeter:block/side_r",
+      "model": "energymeter:block/monitor/side_r",
       "x": 270
     },
     "bottom=down,facing=up,multiblock_type=side_u": {
-      "model": "energymeter:block/side_u",
+      "model": "energymeter:block/monitor/side_u",
       "x": 270
     },
     "bottom=down,facing=up,multiblock_type=vertical": {
-      "model": "energymeter:block/vertical",
+      "model": "energymeter:block/monitor/vertical",
       "x": 270
     },
     "bottom=down,facing=west,multiblock_type=corner_d": {
-      "model": "energymeter:block/corner_d",
+      "model": "energymeter:block/monitor/corner_d",
       "y": 270
     },
     "bottom=down,facing=west,multiblock_type=corner_dl": {
-      "model": "energymeter:block/corner_dl",
+      "model": "energymeter:block/monitor/corner_dl",
       "y": 270
     },
     "bottom=down,facing=west,multiblock_type=corner_dr": {
-      "model": "energymeter:block/corner_dr",
+      "model": "energymeter:block/monitor/corner_dr",
       "y": 270
     },
     "bottom=down,facing=west,multiblock_type=corner_l": {
-      "model": "energymeter:block/corner_l",
+      "model": "energymeter:block/monitor/corner_l",
       "y": 270
     },
     "bottom=down,facing=west,multiblock_type=corner_r": {
-      "model": "energymeter:block/corner_r",
+      "model": "energymeter:block/monitor/corner_r",
       "y": 270
     },
     "bottom=down,facing=west,multiblock_type=corner_u": {
-      "model": "energymeter:block/corner_u",
+      "model": "energymeter:block/monitor/corner_u",
       "y": 270
     },
     "bottom=down,facing=west,multiblock_type=corner_ul": {
-      "model": "energymeter:block/corner_ul",
+      "model": "energymeter:block/monitor/corner_ul",
       "y": 270
     },
     "bottom=down,facing=west,multiblock_type=corner_ur": {
-      "model": "energymeter:block/corner_ur",
+      "model": "energymeter:block/monitor/corner_ur",
       "y": 270
     },
     "bottom=down,facing=west,multiblock_type=horizontal": {
-      "model": "energymeter:block/horizontal",
+      "model": "energymeter:block/monitor/horizontal",
       "y": 270
     },
     "bottom=down,facing=west,multiblock_type=middle": {
-      "model": "energymeter:block/middle",
-      "y": 270
-    },
-    "bottom=down,facing=west,multiblock_type=none": {
-      "model": "energymeter:block/none",
+      "model": "energymeter:block/monitor/middle",
       "y": 270
     },
     "bottom=down,facing=west,multiblock_type=normal": {
-      "model": "energymeter:block/normal",
-      "y": 270
-    },
-    "bottom=down,facing=west,multiblock_type=self": {
-      "model": "energymeter:block/self",
+      "model": "energymeter:block/monitor/normal",
       "y": 270
     },
     "bottom=down,facing=west,multiblock_type=side_d": {
-      "model": "energymeter:block/side_d",
+      "model": "energymeter:block/monitor/side_d",
       "y": 270
     },
     "bottom=down,facing=west,multiblock_type=side_l": {
-      "model": "energymeter:block/side_l",
+      "model": "energymeter:block/monitor/side_l",
       "y": 270
     },
     "bottom=down,facing=west,multiblock_type=side_r": {
-      "model": "energymeter:block/side_r",
+      "model": "energymeter:block/monitor/side_r",
       "y": 270
     },
     "bottom=down,facing=west,multiblock_type=side_u": {
-      "model": "energymeter:block/side_u",
+      "model": "energymeter:block/monitor/side_u",
       "y": 270
     },
     "bottom=down,facing=west,multiblock_type=vertical": {
-      "model": "energymeter:block/vertical",
+      "model": "energymeter:block/monitor/vertical",
       "y": 270
     },
     "bottom=east,facing=down,multiblock_type=corner_d": {
-      "model": "energymeter:block/corner_d",
+      "model": "energymeter:block/monitor/corner_d",
       "x": 90,
       "y": 90
     },
     "bottom=east,facing=down,multiblock_type=corner_dl": {
-      "model": "energymeter:block/corner_dl",
+      "model": "energymeter:block/monitor/corner_dl",
       "x": 90,
       "y": 90
     },
     "bottom=east,facing=down,multiblock_type=corner_dr": {
-      "model": "energymeter:block/corner_dr",
+      "model": "energymeter:block/monitor/corner_dr",
       "x": 90,
       "y": 90
     },
     "bottom=east,facing=down,multiblock_type=corner_l": {
-      "model": "energymeter:block/corner_l",
+      "model": "energymeter:block/monitor/corner_l",
       "x": 90,
       "y": 90
     },
     "bottom=east,facing=down,multiblock_type=corner_r": {
-      "model": "energymeter:block/corner_r",
+      "model": "energymeter:block/monitor/corner_r",
       "x": 90,
       "y": 90
     },
     "bottom=east,facing=down,multiblock_type=corner_u": {
-      "model": "energymeter:block/corner_u",
+      "model": "energymeter:block/monitor/corner_u",
       "x": 90,
       "y": 90
     },
     "bottom=east,facing=down,multiblock_type=corner_ul": {
-      "model": "energymeter:block/corner_ul",
+      "model": "energymeter:block/monitor/corner_ul",
       "x": 90,
       "y": 90
     },
     "bottom=east,facing=down,multiblock_type=corner_ur": {
-      "model": "energymeter:block/corner_ur",
+      "model": "energymeter:block/monitor/corner_ur",
       "x": 90,
       "y": 90
     },
     "bottom=east,facing=down,multiblock_type=horizontal": {
-      "model": "energymeter:block/horizontal",
+      "model": "energymeter:block/monitor/horizontal",
       "x": 90,
       "y": 90
     },
     "bottom=east,facing=down,multiblock_type=middle": {
-      "model": "energymeter:block/middle",
-      "x": 90,
-      "y": 90
-    },
-    "bottom=east,facing=down,multiblock_type=none": {
-      "model": "energymeter:block/none",
+      "model": "energymeter:block/monitor/middle",
       "x": 90,
       "y": 90
     },
     "bottom=east,facing=down,multiblock_type=normal": {
-      "model": "energymeter:block/normal",
-      "x": 90,
-      "y": 90
-    },
-    "bottom=east,facing=down,multiblock_type=self": {
-      "model": "energymeter:block/self",
+      "model": "energymeter:block/monitor/normal",
       "x": 90,
       "y": 90
     },
     "bottom=east,facing=down,multiblock_type=side_d": {
-      "model": "energymeter:block/side_d",
+      "model": "energymeter:block/monitor/side_d",
       "x": 90,
       "y": 90
     },
     "bottom=east,facing=down,multiblock_type=side_l": {
-      "model": "energymeter:block/side_l",
+      "model": "energymeter:block/monitor/side_l",
       "x": 90,
       "y": 90
     },
     "bottom=east,facing=down,multiblock_type=side_r": {
-      "model": "energymeter:block/side_r",
+      "model": "energymeter:block/monitor/side_r",
       "x": 90,
       "y": 90
     },
     "bottom=east,facing=down,multiblock_type=side_u": {
-      "model": "energymeter:block/side_u",
+      "model": "energymeter:block/monitor/side_u",
       "x": 90,
       "y": 90
     },
     "bottom=east,facing=down,multiblock_type=vertical": {
-      "model": "energymeter:block/vertical",
+      "model": "energymeter:block/monitor/vertical",
       "x": 90,
       "y": 90
     },
     "bottom=east,facing=east,multiblock_type=corner_d": {
-      "model": "energymeter:block/corner_d",
+      "model": "energymeter:block/monitor/corner_d",
       "y": 90
     },
     "bottom=east,facing=east,multiblock_type=corner_dl": {
-      "model": "energymeter:block/corner_dl",
+      "model": "energymeter:block/monitor/corner_dl",
       "y": 90
     },
     "bottom=east,facing=east,multiblock_type=corner_dr": {
-      "model": "energymeter:block/corner_dr",
+      "model": "energymeter:block/monitor/corner_dr",
       "y": 90
     },
     "bottom=east,facing=east,multiblock_type=corner_l": {
-      "model": "energymeter:block/corner_l",
+      "model": "energymeter:block/monitor/corner_l",
       "y": 90
     },
     "bottom=east,facing=east,multiblock_type=corner_r": {
-      "model": "energymeter:block/corner_r",
+      "model": "energymeter:block/monitor/corner_r",
       "y": 90
     },
     "bottom=east,facing=east,multiblock_type=corner_u": {
-      "model": "energymeter:block/corner_u",
+      "model": "energymeter:block/monitor/corner_u",
       "y": 90
     },
     "bottom=east,facing=east,multiblock_type=corner_ul": {
-      "model": "energymeter:block/corner_ul",
+      "model": "energymeter:block/monitor/corner_ul",
       "y": 90
     },
     "bottom=east,facing=east,multiblock_type=corner_ur": {
-      "model": "energymeter:block/corner_ur",
+      "model": "energymeter:block/monitor/corner_ur",
       "y": 90
     },
     "bottom=east,facing=east,multiblock_type=horizontal": {
-      "model": "energymeter:block/horizontal",
+      "model": "energymeter:block/monitor/horizontal",
       "y": 90
     },
     "bottom=east,facing=east,multiblock_type=middle": {
-      "model": "energymeter:block/middle",
-      "y": 90
-    },
-    "bottom=east,facing=east,multiblock_type=none": {
-      "model": "energymeter:block/none",
+      "model": "energymeter:block/monitor/middle",
       "y": 90
     },
     "bottom=east,facing=east,multiblock_type=normal": {
-      "model": "energymeter:block/normal",
-      "y": 90
-    },
-    "bottom=east,facing=east,multiblock_type=self": {
-      "model": "energymeter:block/self",
+      "model": "energymeter:block/monitor/normal",
       "y": 90
     },
     "bottom=east,facing=east,multiblock_type=side_d": {
-      "model": "energymeter:block/side_d",
+      "model": "energymeter:block/monitor/side_d",
       "y": 90
     },
     "bottom=east,facing=east,multiblock_type=side_l": {
-      "model": "energymeter:block/side_l",
+      "model": "energymeter:block/monitor/side_l",
       "y": 90
     },
     "bottom=east,facing=east,multiblock_type=side_r": {
-      "model": "energymeter:block/side_r",
+      "model": "energymeter:block/monitor/side_r",
       "y": 90
     },
     "bottom=east,facing=east,multiblock_type=side_u": {
-      "model": "energymeter:block/side_u",
+      "model": "energymeter:block/monitor/side_u",
       "y": 90
     },
     "bottom=east,facing=east,multiblock_type=vertical": {
-      "model": "energymeter:block/vertical",
+      "model": "energymeter:block/monitor/vertical",
       "y": 90
     },
     "bottom=east,facing=north,multiblock_type=corner_d": {
-      "model": "energymeter:block/corner_d"
+      "model": "energymeter:block/monitor/corner_d"
     },
     "bottom=east,facing=north,multiblock_type=corner_dl": {
-      "model": "energymeter:block/corner_dl"
+      "model": "energymeter:block/monitor/corner_dl"
     },
     "bottom=east,facing=north,multiblock_type=corner_dr": {
-      "model": "energymeter:block/corner_dr"
+      "model": "energymeter:block/monitor/corner_dr"
     },
     "bottom=east,facing=north,multiblock_type=corner_l": {
-      "model": "energymeter:block/corner_l"
+      "model": "energymeter:block/monitor/corner_l"
     },
     "bottom=east,facing=north,multiblock_type=corner_r": {
-      "model": "energymeter:block/corner_r"
+      "model": "energymeter:block/monitor/corner_r"
     },
     "bottom=east,facing=north,multiblock_type=corner_u": {
-      "model": "energymeter:block/corner_u"
+      "model": "energymeter:block/monitor/corner_u"
     },
     "bottom=east,facing=north,multiblock_type=corner_ul": {
-      "model": "energymeter:block/corner_ul"
+      "model": "energymeter:block/monitor/corner_ul"
     },
     "bottom=east,facing=north,multiblock_type=corner_ur": {
-      "model": "energymeter:block/corner_ur"
+      "model": "energymeter:block/monitor/corner_ur"
     },
     "bottom=east,facing=north,multiblock_type=horizontal": {
-      "model": "energymeter:block/horizontal"
+      "model": "energymeter:block/monitor/horizontal"
     },
     "bottom=east,facing=north,multiblock_type=middle": {
-      "model": "energymeter:block/middle"
-    },
-    "bottom=east,facing=north,multiblock_type=none": {
-      "model": "energymeter:block/none"
+      "model": "energymeter:block/monitor/middle"
     },
     "bottom=east,facing=north,multiblock_type=normal": {
-      "model": "energymeter:block/normal"
-    },
-    "bottom=east,facing=north,multiblock_type=self": {
-      "model": "energymeter:block/self"
+      "model": "energymeter:block/monitor/normal"
     },
     "bottom=east,facing=north,multiblock_type=side_d": {
-      "model": "energymeter:block/side_d"
+      "model": "energymeter:block/monitor/side_d"
     },
     "bottom=east,facing=north,multiblock_type=side_l": {
-      "model": "energymeter:block/side_l"
+      "model": "energymeter:block/monitor/side_l"
     },
     "bottom=east,facing=north,multiblock_type=side_r": {
-      "model": "energymeter:block/side_r"
+      "model": "energymeter:block/monitor/side_r"
     },
     "bottom=east,facing=north,multiblock_type=side_u": {
-      "model": "energymeter:block/side_u"
+      "model": "energymeter:block/monitor/side_u"
     },
     "bottom=east,facing=north,multiblock_type=vertical": {
-      "model": "energymeter:block/vertical"
+      "model": "energymeter:block/monitor/vertical"
     },
     "bottom=east,facing=south,multiblock_type=corner_d": {
-      "model": "energymeter:block/corner_d",
+      "model": "energymeter:block/monitor/corner_d",
       "y": 180
     },
     "bottom=east,facing=south,multiblock_type=corner_dl": {
-      "model": "energymeter:block/corner_dl",
+      "model": "energymeter:block/monitor/corner_dl",
       "y": 180
     },
     "bottom=east,facing=south,multiblock_type=corner_dr": {
-      "model": "energymeter:block/corner_dr",
+      "model": "energymeter:block/monitor/corner_dr",
       "y": 180
     },
     "bottom=east,facing=south,multiblock_type=corner_l": {
-      "model": "energymeter:block/corner_l",
+      "model": "energymeter:block/monitor/corner_l",
       "y": 180
     },
     "bottom=east,facing=south,multiblock_type=corner_r": {
-      "model": "energymeter:block/corner_r",
+      "model": "energymeter:block/monitor/corner_r",
       "y": 180
     },
     "bottom=east,facing=south,multiblock_type=corner_u": {
-      "model": "energymeter:block/corner_u",
+      "model": "energymeter:block/monitor/corner_u",
       "y": 180
     },
     "bottom=east,facing=south,multiblock_type=corner_ul": {
-      "model": "energymeter:block/corner_ul",
+      "model": "energymeter:block/monitor/corner_ul",
       "y": 180
     },
     "bottom=east,facing=south,multiblock_type=corner_ur": {
-      "model": "energymeter:block/corner_ur",
+      "model": "energymeter:block/monitor/corner_ur",
       "y": 180
     },
     "bottom=east,facing=south,multiblock_type=horizontal": {
-      "model": "energymeter:block/horizontal",
+      "model": "energymeter:block/monitor/horizontal",
       "y": 180
     },
     "bottom=east,facing=south,multiblock_type=middle": {
-      "model": "energymeter:block/middle",
-      "y": 180
-    },
-    "bottom=east,facing=south,multiblock_type=none": {
-      "model": "energymeter:block/none",
+      "model": "energymeter:block/monitor/middle",
       "y": 180
     },
     "bottom=east,facing=south,multiblock_type=normal": {
-      "model": "energymeter:block/normal",
-      "y": 180
-    },
-    "bottom=east,facing=south,multiblock_type=self": {
-      "model": "energymeter:block/self",
+      "model": "energymeter:block/monitor/normal",
       "y": 180
     },
     "bottom=east,facing=south,multiblock_type=side_d": {
-      "model": "energymeter:block/side_d",
+      "model": "energymeter:block/monitor/side_d",
       "y": 180
     },
     "bottom=east,facing=south,multiblock_type=side_l": {
-      "model": "energymeter:block/side_l",
+      "model": "energymeter:block/monitor/side_l",
       "y": 180
     },
     "bottom=east,facing=south,multiblock_type=side_r": {
-      "model": "energymeter:block/side_r",
+      "model": "energymeter:block/monitor/side_r",
       "y": 180
     },
     "bottom=east,facing=south,multiblock_type=side_u": {
-      "model": "energymeter:block/side_u",
+      "model": "energymeter:block/monitor/side_u",
       "y": 180
     },
     "bottom=east,facing=south,multiblock_type=vertical": {
-      "model": "energymeter:block/vertical",
+      "model": "energymeter:block/monitor/vertical",
       "y": 180
     },
     "bottom=east,facing=up,multiblock_type=corner_d": {
-      "model": "energymeter:block/corner_d",
+      "model": "energymeter:block/monitor/corner_d",
       "x": 270,
       "y": 90
     },
     "bottom=east,facing=up,multiblock_type=corner_dl": {
-      "model": "energymeter:block/corner_dl",
+      "model": "energymeter:block/monitor/corner_dl",
       "x": 270,
       "y": 90
     },
     "bottom=east,facing=up,multiblock_type=corner_dr": {
-      "model": "energymeter:block/corner_dr",
+      "model": "energymeter:block/monitor/corner_dr",
       "x": 270,
       "y": 90
     },
     "bottom=east,facing=up,multiblock_type=corner_l": {
-      "model": "energymeter:block/corner_l",
+      "model": "energymeter:block/monitor/corner_l",
       "x": 270,
       "y": 90
     },
     "bottom=east,facing=up,multiblock_type=corner_r": {
-      "model": "energymeter:block/corner_r",
+      "model": "energymeter:block/monitor/corner_r",
       "x": 270,
       "y": 90
     },
     "bottom=east,facing=up,multiblock_type=corner_u": {
-      "model": "energymeter:block/corner_u",
+      "model": "energymeter:block/monitor/corner_u",
       "x": 270,
       "y": 90
     },
     "bottom=east,facing=up,multiblock_type=corner_ul": {
-      "model": "energymeter:block/corner_ul",
+      "model": "energymeter:block/monitor/corner_ul",
       "x": 270,
       "y": 90
     },
     "bottom=east,facing=up,multiblock_type=corner_ur": {
-      "model": "energymeter:block/corner_ur",
+      "model": "energymeter:block/monitor/corner_ur",
       "x": 270,
       "y": 90
     },
     "bottom=east,facing=up,multiblock_type=horizontal": {
-      "model": "energymeter:block/horizontal",
+      "model": "energymeter:block/monitor/horizontal",
       "x": 270,
       "y": 90
     },
     "bottom=east,facing=up,multiblock_type=middle": {
-      "model": "energymeter:block/middle",
-      "x": 270,
-      "y": 90
-    },
-    "bottom=east,facing=up,multiblock_type=none": {
-      "model": "energymeter:block/none",
+      "model": "energymeter:block/monitor/middle",
       "x": 270,
       "y": 90
     },
     "bottom=east,facing=up,multiblock_type=normal": {
-      "model": "energymeter:block/normal",
-      "x": 270,
-      "y": 90
-    },
-    "bottom=east,facing=up,multiblock_type=self": {
-      "model": "energymeter:block/self",
+      "model": "energymeter:block/monitor/normal",
       "x": 270,
       "y": 90
     },
     "bottom=east,facing=up,multiblock_type=side_d": {
-      "model": "energymeter:block/side_d",
+      "model": "energymeter:block/monitor/side_d",
       "x": 270,
       "y": 90
     },
     "bottom=east,facing=up,multiblock_type=side_l": {
-      "model": "energymeter:block/side_l",
+      "model": "energymeter:block/monitor/side_l",
       "x": 270,
       "y": 90
     },
     "bottom=east,facing=up,multiblock_type=side_r": {
-      "model": "energymeter:block/side_r",
+      "model": "energymeter:block/monitor/side_r",
       "x": 270,
       "y": 90
     },
     "bottom=east,facing=up,multiblock_type=side_u": {
-      "model": "energymeter:block/side_u",
+      "model": "energymeter:block/monitor/side_u",
       "x": 270,
       "y": 90
     },
     "bottom=east,facing=up,multiblock_type=vertical": {
-      "model": "energymeter:block/vertical",
+      "model": "energymeter:block/monitor/vertical",
       "x": 270,
       "y": 90
     },
     "bottom=east,facing=west,multiblock_type=corner_d": {
-      "model": "energymeter:block/corner_d",
+      "model": "energymeter:block/monitor/corner_d",
       "y": 270
     },
     "bottom=east,facing=west,multiblock_type=corner_dl": {
-      "model": "energymeter:block/corner_dl",
+      "model": "energymeter:block/monitor/corner_dl",
       "y": 270
     },
     "bottom=east,facing=west,multiblock_type=corner_dr": {
-      "model": "energymeter:block/corner_dr",
+      "model": "energymeter:block/monitor/corner_dr",
       "y": 270
     },
     "bottom=east,facing=west,multiblock_type=corner_l": {
-      "model": "energymeter:block/corner_l",
+      "model": "energymeter:block/monitor/corner_l",
       "y": 270
     },
     "bottom=east,facing=west,multiblock_type=corner_r": {
-      "model": "energymeter:block/corner_r",
+      "model": "energymeter:block/monitor/corner_r",
       "y": 270
     },
     "bottom=east,facing=west,multiblock_type=corner_u": {
-      "model": "energymeter:block/corner_u",
+      "model": "energymeter:block/monitor/corner_u",
       "y": 270
     },
     "bottom=east,facing=west,multiblock_type=corner_ul": {
-      "model": "energymeter:block/corner_ul",
+      "model": "energymeter:block/monitor/corner_ul",
       "y": 270
     },
     "bottom=east,facing=west,multiblock_type=corner_ur": {
-      "model": "energymeter:block/corner_ur",
+      "model": "energymeter:block/monitor/corner_ur",
       "y": 270
     },
     "bottom=east,facing=west,multiblock_type=horizontal": {
-      "model": "energymeter:block/horizontal",
+      "model": "energymeter:block/monitor/horizontal",
       "y": 270
     },
     "bottom=east,facing=west,multiblock_type=middle": {
-      "model": "energymeter:block/middle",
-      "y": 270
-    },
-    "bottom=east,facing=west,multiblock_type=none": {
-      "model": "energymeter:block/none",
+      "model": "energymeter:block/monitor/middle",
       "y": 270
     },
     "bottom=east,facing=west,multiblock_type=normal": {
-      "model": "energymeter:block/normal",
-      "y": 270
-    },
-    "bottom=east,facing=west,multiblock_type=self": {
-      "model": "energymeter:block/self",
+      "model": "energymeter:block/monitor/normal",
       "y": 270
     },
     "bottom=east,facing=west,multiblock_type=side_d": {
-      "model": "energymeter:block/side_d",
+      "model": "energymeter:block/monitor/side_d",
       "y": 270
     },
     "bottom=east,facing=west,multiblock_type=side_l": {
-      "model": "energymeter:block/side_l",
+      "model": "energymeter:block/monitor/side_l",
       "y": 270
     },
     "bottom=east,facing=west,multiblock_type=side_r": {
-      "model": "energymeter:block/side_r",
+      "model": "energymeter:block/monitor/side_r",
       "y": 270
     },
     "bottom=east,facing=west,multiblock_type=side_u": {
-      "model": "energymeter:block/side_u",
+      "model": "energymeter:block/monitor/side_u",
       "y": 270
     },
     "bottom=east,facing=west,multiblock_type=vertical": {
-      "model": "energymeter:block/vertical",
+      "model": "energymeter:block/monitor/vertical",
       "y": 270
     },
     "bottom=north,facing=down,multiblock_type=corner_d": {
-      "model": "energymeter:block/corner_d",
+      "model": "energymeter:block/monitor/corner_d",
       "x": 90
     },
     "bottom=north,facing=down,multiblock_type=corner_dl": {
-      "model": "energymeter:block/corner_dl",
+      "model": "energymeter:block/monitor/corner_dl",
       "x": 90
     },
     "bottom=north,facing=down,multiblock_type=corner_dr": {
-      "model": "energymeter:block/corner_dr",
+      "model": "energymeter:block/monitor/corner_dr",
       "x": 90
     },
     "bottom=north,facing=down,multiblock_type=corner_l": {
-      "model": "energymeter:block/corner_l",
+      "model": "energymeter:block/monitor/corner_l",
       "x": 90
     },
     "bottom=north,facing=down,multiblock_type=corner_r": {
-      "model": "energymeter:block/corner_r",
+      "model": "energymeter:block/monitor/corner_r",
       "x": 90
     },
     "bottom=north,facing=down,multiblock_type=corner_u": {
-      "model": "energymeter:block/corner_u",
+      "model": "energymeter:block/monitor/corner_u",
       "x": 90
     },
     "bottom=north,facing=down,multiblock_type=corner_ul": {
-      "model": "energymeter:block/corner_ul",
+      "model": "energymeter:block/monitor/corner_ul",
       "x": 90
     },
     "bottom=north,facing=down,multiblock_type=corner_ur": {
-      "model": "energymeter:block/corner_ur",
+      "model": "energymeter:block/monitor/corner_ur",
       "x": 90
     },
     "bottom=north,facing=down,multiblock_type=horizontal": {
-      "model": "energymeter:block/horizontal",
+      "model": "energymeter:block/monitor/horizontal",
       "x": 90
     },
     "bottom=north,facing=down,multiblock_type=middle": {
-      "model": "energymeter:block/middle",
-      "x": 90
-    },
-    "bottom=north,facing=down,multiblock_type=none": {
-      "model": "energymeter:block/none",
+      "model": "energymeter:block/monitor/middle",
       "x": 90
     },
     "bottom=north,facing=down,multiblock_type=normal": {
-      "model": "energymeter:block/normal",
-      "x": 90
-    },
-    "bottom=north,facing=down,multiblock_type=self": {
-      "model": "energymeter:block/self",
+      "model": "energymeter:block/monitor/normal",
       "x": 90
     },
     "bottom=north,facing=down,multiblock_type=side_d": {
-      "model": "energymeter:block/side_d",
+      "model": "energymeter:block/monitor/side_d",
       "x": 90
     },
     "bottom=north,facing=down,multiblock_type=side_l": {
-      "model": "energymeter:block/side_l",
+      "model": "energymeter:block/monitor/side_l",
       "x": 90
     },
     "bottom=north,facing=down,multiblock_type=side_r": {
-      "model": "energymeter:block/side_r",
+      "model": "energymeter:block/monitor/side_r",
       "x": 90
     },
     "bottom=north,facing=down,multiblock_type=side_u": {
-      "model": "energymeter:block/side_u",
+      "model": "energymeter:block/monitor/side_u",
       "x": 90
     },
     "bottom=north,facing=down,multiblock_type=vertical": {
-      "model": "energymeter:block/vertical",
+      "model": "energymeter:block/monitor/vertical",
       "x": 90
     },
     "bottom=north,facing=east,multiblock_type=corner_d": {
-      "model": "energymeter:block/corner_d",
+      "model": "energymeter:block/monitor/corner_d",
       "y": 90
     },
     "bottom=north,facing=east,multiblock_type=corner_dl": {
-      "model": "energymeter:block/corner_dl",
+      "model": "energymeter:block/monitor/corner_dl",
       "y": 90
     },
     "bottom=north,facing=east,multiblock_type=corner_dr": {
-      "model": "energymeter:block/corner_dr",
+      "model": "energymeter:block/monitor/corner_dr",
       "y": 90
     },
     "bottom=north,facing=east,multiblock_type=corner_l": {
-      "model": "energymeter:block/corner_l",
+      "model": "energymeter:block/monitor/corner_l",
       "y": 90
     },
     "bottom=north,facing=east,multiblock_type=corner_r": {
-      "model": "energymeter:block/corner_r",
+      "model": "energymeter:block/monitor/corner_r",
       "y": 90
     },
     "bottom=north,facing=east,multiblock_type=corner_u": {
-      "model": "energymeter:block/corner_u",
+      "model": "energymeter:block/monitor/corner_u",
       "y": 90
     },
     "bottom=north,facing=east,multiblock_type=corner_ul": {
-      "model": "energymeter:block/corner_ul",
+      "model": "energymeter:block/monitor/corner_ul",
       "y": 90
     },
     "bottom=north,facing=east,multiblock_type=corner_ur": {
-      "model": "energymeter:block/corner_ur",
+      "model": "energymeter:block/monitor/corner_ur",
       "y": 90
     },
     "bottom=north,facing=east,multiblock_type=horizontal": {
-      "model": "energymeter:block/horizontal",
+      "model": "energymeter:block/monitor/horizontal",
       "y": 90
     },
     "bottom=north,facing=east,multiblock_type=middle": {
-      "model": "energymeter:block/middle",
-      "y": 90
-    },
-    "bottom=north,facing=east,multiblock_type=none": {
-      "model": "energymeter:block/none",
+      "model": "energymeter:block/monitor/middle",
       "y": 90
     },
     "bottom=north,facing=east,multiblock_type=normal": {
-      "model": "energymeter:block/normal",
-      "y": 90
-    },
-    "bottom=north,facing=east,multiblock_type=self": {
-      "model": "energymeter:block/self",
+      "model": "energymeter:block/monitor/normal",
       "y": 90
     },
     "bottom=north,facing=east,multiblock_type=side_d": {
-      "model": "energymeter:block/side_d",
+      "model": "energymeter:block/monitor/side_d",
       "y": 90
     },
     "bottom=north,facing=east,multiblock_type=side_l": {
-      "model": "energymeter:block/side_l",
+      "model": "energymeter:block/monitor/side_l",
       "y": 90
     },
     "bottom=north,facing=east,multiblock_type=side_r": {
-      "model": "energymeter:block/side_r",
+      "model": "energymeter:block/monitor/side_r",
       "y": 90
     },
     "bottom=north,facing=east,multiblock_type=side_u": {
-      "model": "energymeter:block/side_u",
+      "model": "energymeter:block/monitor/side_u",
       "y": 90
     },
     "bottom=north,facing=east,multiblock_type=vertical": {
-      "model": "energymeter:block/vertical",
+      "model": "energymeter:block/monitor/vertical",
       "y": 90
     },
     "bottom=north,facing=north,multiblock_type=corner_d": {
-      "model": "energymeter:block/corner_d"
+      "model": "energymeter:block/monitor/corner_d"
     },
     "bottom=north,facing=north,multiblock_type=corner_dl": {
-      "model": "energymeter:block/corner_dl"
+      "model": "energymeter:block/monitor/corner_dl"
     },
     "bottom=north,facing=north,multiblock_type=corner_dr": {
-      "model": "energymeter:block/corner_dr"
+      "model": "energymeter:block/monitor/corner_dr"
     },
     "bottom=north,facing=north,multiblock_type=corner_l": {
-      "model": "energymeter:block/corner_l"
+      "model": "energymeter:block/monitor/corner_l"
     },
     "bottom=north,facing=north,multiblock_type=corner_r": {
-      "model": "energymeter:block/corner_r"
+      "model": "energymeter:block/monitor/corner_r"
     },
     "bottom=north,facing=north,multiblock_type=corner_u": {
-      "model": "energymeter:block/corner_u"
+      "model": "energymeter:block/monitor/corner_u"
     },
     "bottom=north,facing=north,multiblock_type=corner_ul": {
-      "model": "energymeter:block/corner_ul"
+      "model": "energymeter:block/monitor/corner_ul"
     },
     "bottom=north,facing=north,multiblock_type=corner_ur": {
-      "model": "energymeter:block/corner_ur"
+      "model": "energymeter:block/monitor/corner_ur"
     },
     "bottom=north,facing=north,multiblock_type=horizontal": {
-      "model": "energymeter:block/horizontal"
+      "model": "energymeter:block/monitor/horizontal"
     },
     "bottom=north,facing=north,multiblock_type=middle": {
-      "model": "energymeter:block/middle"
-    },
-    "bottom=north,facing=north,multiblock_type=none": {
-      "model": "energymeter:block/none"
+      "model": "energymeter:block/monitor/middle"
     },
     "bottom=north,facing=north,multiblock_type=normal": {
-      "model": "energymeter:block/normal"
-    },
-    "bottom=north,facing=north,multiblock_type=self": {
-      "model": "energymeter:block/self"
+      "model": "energymeter:block/monitor/normal"
     },
     "bottom=north,facing=north,multiblock_type=side_d": {
-      "model": "energymeter:block/side_d"
+      "model": "energymeter:block/monitor/side_d"
     },
     "bottom=north,facing=north,multiblock_type=side_l": {
-      "model": "energymeter:block/side_l"
+      "model": "energymeter:block/monitor/side_l"
     },
     "bottom=north,facing=north,multiblock_type=side_r": {
-      "model": "energymeter:block/side_r"
+      "model": "energymeter:block/monitor/side_r"
     },
     "bottom=north,facing=north,multiblock_type=side_u": {
-      "model": "energymeter:block/side_u"
+      "model": "energymeter:block/monitor/side_u"
     },
     "bottom=north,facing=north,multiblock_type=vertical": {
-      "model": "energymeter:block/vertical"
+      "model": "energymeter:block/monitor/vertical"
     },
     "bottom=north,facing=south,multiblock_type=corner_d": {
-      "model": "energymeter:block/corner_d",
+      "model": "energymeter:block/monitor/corner_d",
       "y": 180
     },
     "bottom=north,facing=south,multiblock_type=corner_dl": {
-      "model": "energymeter:block/corner_dl",
+      "model": "energymeter:block/monitor/corner_dl",
       "y": 180
     },
     "bottom=north,facing=south,multiblock_type=corner_dr": {
-      "model": "energymeter:block/corner_dr",
+      "model": "energymeter:block/monitor/corner_dr",
       "y": 180
     },
     "bottom=north,facing=south,multiblock_type=corner_l": {
-      "model": "energymeter:block/corner_l",
+      "model": "energymeter:block/monitor/corner_l",
       "y": 180
     },
     "bottom=north,facing=south,multiblock_type=corner_r": {
-      "model": "energymeter:block/corner_r",
+      "model": "energymeter:block/monitor/corner_r",
       "y": 180
     },
     "bottom=north,facing=south,multiblock_type=corner_u": {
-      "model": "energymeter:block/corner_u",
+      "model": "energymeter:block/monitor/corner_u",
       "y": 180
     },
     "bottom=north,facing=south,multiblock_type=corner_ul": {
-      "model": "energymeter:block/corner_ul",
+      "model": "energymeter:block/monitor/corner_ul",
       "y": 180
     },
     "bottom=north,facing=south,multiblock_type=corner_ur": {
-      "model": "energymeter:block/corner_ur",
+      "model": "energymeter:block/monitor/corner_ur",
       "y": 180
     },
     "bottom=north,facing=south,multiblock_type=horizontal": {
-      "model": "energymeter:block/horizontal",
+      "model": "energymeter:block/monitor/horizontal",
       "y": 180
     },
     "bottom=north,facing=south,multiblock_type=middle": {
-      "model": "energymeter:block/middle",
-      "y": 180
-    },
-    "bottom=north,facing=south,multiblock_type=none": {
-      "model": "energymeter:block/none",
+      "model": "energymeter:block/monitor/middle",
       "y": 180
     },
     "bottom=north,facing=south,multiblock_type=normal": {
-      "model": "energymeter:block/normal",
-      "y": 180
-    },
-    "bottom=north,facing=south,multiblock_type=self": {
-      "model": "energymeter:block/self",
+      "model": "energymeter:block/monitor/normal",
       "y": 180
     },
     "bottom=north,facing=south,multiblock_type=side_d": {
-      "model": "energymeter:block/side_d",
+      "model": "energymeter:block/monitor/side_d",
       "y": 180
     },
     "bottom=north,facing=south,multiblock_type=side_l": {
-      "model": "energymeter:block/side_l",
+      "model": "energymeter:block/monitor/side_l",
       "y": 180
     },
     "bottom=north,facing=south,multiblock_type=side_r": {
-      "model": "energymeter:block/side_r",
+      "model": "energymeter:block/monitor/side_r",
       "y": 180
     },
     "bottom=north,facing=south,multiblock_type=side_u": {
-      "model": "energymeter:block/side_u",
+      "model": "energymeter:block/monitor/side_u",
       "y": 180
     },
     "bottom=north,facing=south,multiblock_type=vertical": {
-      "model": "energymeter:block/vertical",
+      "model": "energymeter:block/monitor/vertical",
       "y": 180
     },
     "bottom=north,facing=up,multiblock_type=corner_d": {
-      "model": "energymeter:block/corner_d",
+      "model": "energymeter:block/monitor/corner_d",
       "x": 270
     },
     "bottom=north,facing=up,multiblock_type=corner_dl": {
-      "model": "energymeter:block/corner_dl",
+      "model": "energymeter:block/monitor/corner_dl",
       "x": 270
     },
     "bottom=north,facing=up,multiblock_type=corner_dr": {
-      "model": "energymeter:block/corner_dr",
+      "model": "energymeter:block/monitor/corner_dr",
       "x": 270
     },
     "bottom=north,facing=up,multiblock_type=corner_l": {
-      "model": "energymeter:block/corner_l",
+      "model": "energymeter:block/monitor/corner_l",
       "x": 270
     },
     "bottom=north,facing=up,multiblock_type=corner_r": {
-      "model": "energymeter:block/corner_r",
+      "model": "energymeter:block/monitor/corner_r",
       "x": 270
     },
     "bottom=north,facing=up,multiblock_type=corner_u": {
-      "model": "energymeter:block/corner_u",
+      "model": "energymeter:block/monitor/corner_u",
       "x": 270
     },
     "bottom=north,facing=up,multiblock_type=corner_ul": {
-      "model": "energymeter:block/corner_ul",
+      "model": "energymeter:block/monitor/corner_ul",
       "x": 270
     },
     "bottom=north,facing=up,multiblock_type=corner_ur": {
-      "model": "energymeter:block/corner_ur",
+      "model": "energymeter:block/monitor/corner_ur",
       "x": 270
     },
     "bottom=north,facing=up,multiblock_type=horizontal": {
-      "model": "energymeter:block/horizontal",
+      "model": "energymeter:block/monitor/horizontal",
       "x": 270
     },
     "bottom=north,facing=up,multiblock_type=middle": {
-      "model": "energymeter:block/middle",
-      "x": 270
-    },
-    "bottom=north,facing=up,multiblock_type=none": {
-      "model": "energymeter:block/none",
+      "model": "energymeter:block/monitor/middle",
       "x": 270
     },
     "bottom=north,facing=up,multiblock_type=normal": {
-      "model": "energymeter:block/normal",
-      "x": 270
-    },
-    "bottom=north,facing=up,multiblock_type=self": {
-      "model": "energymeter:block/self",
+      "model": "energymeter:block/monitor/normal",
       "x": 270
     },
     "bottom=north,facing=up,multiblock_type=side_d": {
-      "model": "energymeter:block/side_d",
+      "model": "energymeter:block/monitor/side_d",
       "x": 270
     },
     "bottom=north,facing=up,multiblock_type=side_l": {
-      "model": "energymeter:block/side_l",
+      "model": "energymeter:block/monitor/side_l",
       "x": 270
     },
     "bottom=north,facing=up,multiblock_type=side_r": {
-      "model": "energymeter:block/side_r",
+      "model": "energymeter:block/monitor/side_r",
       "x": 270
     },
     "bottom=north,facing=up,multiblock_type=side_u": {
-      "model": "energymeter:block/side_u",
+      "model": "energymeter:block/monitor/side_u",
       "x": 270
     },
     "bottom=north,facing=up,multiblock_type=vertical": {
-      "model": "energymeter:block/vertical",
+      "model": "energymeter:block/monitor/vertical",
       "x": 270
     },
     "bottom=north,facing=west,multiblock_type=corner_d": {
-      "model": "energymeter:block/corner_d",
+      "model": "energymeter:block/monitor/corner_d",
       "y": 270
     },
     "bottom=north,facing=west,multiblock_type=corner_dl": {
-      "model": "energymeter:block/corner_dl",
+      "model": "energymeter:block/monitor/corner_dl",
       "y": 270
     },
     "bottom=north,facing=west,multiblock_type=corner_dr": {
-      "model": "energymeter:block/corner_dr",
+      "model": "energymeter:block/monitor/corner_dr",
       "y": 270
     },
     "bottom=north,facing=west,multiblock_type=corner_l": {
-      "model": "energymeter:block/corner_l",
+      "model": "energymeter:block/monitor/corner_l",
       "y": 270
     },
     "bottom=north,facing=west,multiblock_type=corner_r": {
-      "model": "energymeter:block/corner_r",
+      "model": "energymeter:block/monitor/corner_r",
       "y": 270
     },
     "bottom=north,facing=west,multiblock_type=corner_u": {
-      "model": "energymeter:block/corner_u",
+      "model": "energymeter:block/monitor/corner_u",
       "y": 270
     },
     "bottom=north,facing=west,multiblock_type=corner_ul": {
-      "model": "energymeter:block/corner_ul",
+      "model": "energymeter:block/monitor/corner_ul",
       "y": 270
     },
     "bottom=north,facing=west,multiblock_type=corner_ur": {
-      "model": "energymeter:block/corner_ur",
+      "model": "energymeter:block/monitor/corner_ur",
       "y": 270
     },
     "bottom=north,facing=west,multiblock_type=horizontal": {
-      "model": "energymeter:block/horizontal",
+      "model": "energymeter:block/monitor/horizontal",
       "y": 270
     },
     "bottom=north,facing=west,multiblock_type=middle": {
-      "model": "energymeter:block/middle",
-      "y": 270
-    },
-    "bottom=north,facing=west,multiblock_type=none": {
-      "model": "energymeter:block/none",
+      "model": "energymeter:block/monitor/middle",
       "y": 270
     },
     "bottom=north,facing=west,multiblock_type=normal": {
-      "model": "energymeter:block/normal",
-      "y": 270
-    },
-    "bottom=north,facing=west,multiblock_type=self": {
-      "model": "energymeter:block/self",
+      "model": "energymeter:block/monitor/normal",
       "y": 270
     },
     "bottom=north,facing=west,multiblock_type=side_d": {
-      "model": "energymeter:block/side_d",
+      "model": "energymeter:block/monitor/side_d",
       "y": 270
     },
     "bottom=north,facing=west,multiblock_type=side_l": {
-      "model": "energymeter:block/side_l",
+      "model": "energymeter:block/monitor/side_l",
       "y": 270
     },
     "bottom=north,facing=west,multiblock_type=side_r": {
-      "model": "energymeter:block/side_r",
+      "model": "energymeter:block/monitor/side_r",
       "y": 270
     },
     "bottom=north,facing=west,multiblock_type=side_u": {
-      "model": "energymeter:block/side_u",
+      "model": "energymeter:block/monitor/side_u",
       "y": 270
     },
     "bottom=north,facing=west,multiblock_type=vertical": {
-      "model": "energymeter:block/vertical",
+      "model": "energymeter:block/monitor/vertical",
       "y": 270
     },
     "bottom=south,facing=down,multiblock_type=corner_d": {
-      "model": "energymeter:block/corner_d",
+      "model": "energymeter:block/monitor/corner_d",
       "x": 90,
       "y": 180
     },
     "bottom=south,facing=down,multiblock_type=corner_dl": {
-      "model": "energymeter:block/corner_dl",
+      "model": "energymeter:block/monitor/corner_dl",
       "x": 90,
       "y": 180
     },
     "bottom=south,facing=down,multiblock_type=corner_dr": {
-      "model": "energymeter:block/corner_dr",
+      "model": "energymeter:block/monitor/corner_dr",
       "x": 90,
       "y": 180
     },
     "bottom=south,facing=down,multiblock_type=corner_l": {
-      "model": "energymeter:block/corner_l",
+      "model": "energymeter:block/monitor/corner_l",
       "x": 90,
       "y": 180
     },
     "bottom=south,facing=down,multiblock_type=corner_r": {
-      "model": "energymeter:block/corner_r",
+      "model": "energymeter:block/monitor/corner_r",
       "x": 90,
       "y": 180
     },
     "bottom=south,facing=down,multiblock_type=corner_u": {
-      "model": "energymeter:block/corner_u",
+      "model": "energymeter:block/monitor/corner_u",
       "x": 90,
       "y": 180
     },
     "bottom=south,facing=down,multiblock_type=corner_ul": {
-      "model": "energymeter:block/corner_ul",
+      "model": "energymeter:block/monitor/corner_ul",
       "x": 90,
       "y": 180
     },
     "bottom=south,facing=down,multiblock_type=corner_ur": {
-      "model": "energymeter:block/corner_ur",
+      "model": "energymeter:block/monitor/corner_ur",
       "x": 90,
       "y": 180
     },
     "bottom=south,facing=down,multiblock_type=horizontal": {
-      "model": "energymeter:block/horizontal",
+      "model": "energymeter:block/monitor/horizontal",
       "x": 90,
       "y": 180
     },
     "bottom=south,facing=down,multiblock_type=middle": {
-      "model": "energymeter:block/middle",
-      "x": 90,
-      "y": 180
-    },
-    "bottom=south,facing=down,multiblock_type=none": {
-      "model": "energymeter:block/none",
+      "model": "energymeter:block/monitor/middle",
       "x": 90,
       "y": 180
     },
     "bottom=south,facing=down,multiblock_type=normal": {
-      "model": "energymeter:block/normal",
-      "x": 90,
-      "y": 180
-    },
-    "bottom=south,facing=down,multiblock_type=self": {
-      "model": "energymeter:block/self",
+      "model": "energymeter:block/monitor/normal",
       "x": 90,
       "y": 180
     },
     "bottom=south,facing=down,multiblock_type=side_d": {
-      "model": "energymeter:block/side_d",
+      "model": "energymeter:block/monitor/side_d",
       "x": 90,
       "y": 180
     },
     "bottom=south,facing=down,multiblock_type=side_l": {
-      "model": "energymeter:block/side_l",
+      "model": "energymeter:block/monitor/side_l",
       "x": 90,
       "y": 180
     },
     "bottom=south,facing=down,multiblock_type=side_r": {
-      "model": "energymeter:block/side_r",
+      "model": "energymeter:block/monitor/side_r",
       "x": 90,
       "y": 180
     },
     "bottom=south,facing=down,multiblock_type=side_u": {
-      "model": "energymeter:block/side_u",
+      "model": "energymeter:block/monitor/side_u",
       "x": 90,
       "y": 180
     },
     "bottom=south,facing=down,multiblock_type=vertical": {
-      "model": "energymeter:block/vertical",
+      "model": "energymeter:block/monitor/vertical",
       "x": 90,
       "y": 180
     },
     "bottom=south,facing=east,multiblock_type=corner_d": {
-      "model": "energymeter:block/corner_d",
+      "model": "energymeter:block/monitor/corner_d",
       "y": 90
     },
     "bottom=south,facing=east,multiblock_type=corner_dl": {
-      "model": "energymeter:block/corner_dl",
+      "model": "energymeter:block/monitor/corner_dl",
       "y": 90
     },
     "bottom=south,facing=east,multiblock_type=corner_dr": {
-      "model": "energymeter:block/corner_dr",
+      "model": "energymeter:block/monitor/corner_dr",
       "y": 90
     },
     "bottom=south,facing=east,multiblock_type=corner_l": {
-      "model": "energymeter:block/corner_l",
+      "model": "energymeter:block/monitor/corner_l",
       "y": 90
     },
     "bottom=south,facing=east,multiblock_type=corner_r": {
-      "model": "energymeter:block/corner_r",
+      "model": "energymeter:block/monitor/corner_r",
       "y": 90
     },
     "bottom=south,facing=east,multiblock_type=corner_u": {
-      "model": "energymeter:block/corner_u",
+      "model": "energymeter:block/monitor/corner_u",
       "y": 90
     },
     "bottom=south,facing=east,multiblock_type=corner_ul": {
-      "model": "energymeter:block/corner_ul",
+      "model": "energymeter:block/monitor/corner_ul",
       "y": 90
     },
     "bottom=south,facing=east,multiblock_type=corner_ur": {
-      "model": "energymeter:block/corner_ur",
+      "model": "energymeter:block/monitor/corner_ur",
       "y": 90
     },
     "bottom=south,facing=east,multiblock_type=horizontal": {
-      "model": "energymeter:block/horizontal",
+      "model": "energymeter:block/monitor/horizontal",
       "y": 90
     },
     "bottom=south,facing=east,multiblock_type=middle": {
-      "model": "energymeter:block/middle",
-      "y": 90
-    },
-    "bottom=south,facing=east,multiblock_type=none": {
-      "model": "energymeter:block/none",
+      "model": "energymeter:block/monitor/middle",
       "y": 90
     },
     "bottom=south,facing=east,multiblock_type=normal": {
-      "model": "energymeter:block/normal",
-      "y": 90
-    },
-    "bottom=south,facing=east,multiblock_type=self": {
-      "model": "energymeter:block/self",
+      "model": "energymeter:block/monitor/normal",
       "y": 90
     },
     "bottom=south,facing=east,multiblock_type=side_d": {
-      "model": "energymeter:block/side_d",
+      "model": "energymeter:block/monitor/side_d",
       "y": 90
     },
     "bottom=south,facing=east,multiblock_type=side_l": {
-      "model": "energymeter:block/side_l",
+      "model": "energymeter:block/monitor/side_l",
       "y": 90
     },
     "bottom=south,facing=east,multiblock_type=side_r": {
-      "model": "energymeter:block/side_r",
+      "model": "energymeter:block/monitor/side_r",
       "y": 90
     },
     "bottom=south,facing=east,multiblock_type=side_u": {
-      "model": "energymeter:block/side_u",
+      "model": "energymeter:block/monitor/side_u",
       "y": 90
     },
     "bottom=south,facing=east,multiblock_type=vertical": {
-      "model": "energymeter:block/vertical",
+      "model": "energymeter:block/monitor/vertical",
       "y": 90
     },
     "bottom=south,facing=north,multiblock_type=corner_d": {
-      "model": "energymeter:block/corner_d"
+      "model": "energymeter:block/monitor/corner_d"
     },
     "bottom=south,facing=north,multiblock_type=corner_dl": {
-      "model": "energymeter:block/corner_dl"
+      "model": "energymeter:block/monitor/corner_dl"
     },
     "bottom=south,facing=north,multiblock_type=corner_dr": {
-      "model": "energymeter:block/corner_dr"
+      "model": "energymeter:block/monitor/corner_dr"
     },
     "bottom=south,facing=north,multiblock_type=corner_l": {
-      "model": "energymeter:block/corner_l"
+      "model": "energymeter:block/monitor/corner_l"
     },
     "bottom=south,facing=north,multiblock_type=corner_r": {
-      "model": "energymeter:block/corner_r"
+      "model": "energymeter:block/monitor/corner_r"
     },
     "bottom=south,facing=north,multiblock_type=corner_u": {
-      "model": "energymeter:block/corner_u"
+      "model": "energymeter:block/monitor/corner_u"
     },
     "bottom=south,facing=north,multiblock_type=corner_ul": {
-      "model": "energymeter:block/corner_ul"
+      "model": "energymeter:block/monitor/corner_ul"
     },
     "bottom=south,facing=north,multiblock_type=corner_ur": {
-      "model": "energymeter:block/corner_ur"
+      "model": "energymeter:block/monitor/corner_ur"
     },
     "bottom=south,facing=north,multiblock_type=horizontal": {
-      "model": "energymeter:block/horizontal"
+      "model": "energymeter:block/monitor/horizontal"
     },
     "bottom=south,facing=north,multiblock_type=middle": {
-      "model": "energymeter:block/middle"
-    },
-    "bottom=south,facing=north,multiblock_type=none": {
-      "model": "energymeter:block/none"
+      "model": "energymeter:block/monitor/middle"
     },
     "bottom=south,facing=north,multiblock_type=normal": {
-      "model": "energymeter:block/normal"
-    },
-    "bottom=south,facing=north,multiblock_type=self": {
-      "model": "energymeter:block/self"
+      "model": "energymeter:block/monitor/normal"
     },
     "bottom=south,facing=north,multiblock_type=side_d": {
-      "model": "energymeter:block/side_d"
+      "model": "energymeter:block/monitor/side_d"
     },
     "bottom=south,facing=north,multiblock_type=side_l": {
-      "model": "energymeter:block/side_l"
+      "model": "energymeter:block/monitor/side_l"
     },
     "bottom=south,facing=north,multiblock_type=side_r": {
-      "model": "energymeter:block/side_r"
+      "model": "energymeter:block/monitor/side_r"
     },
     "bottom=south,facing=north,multiblock_type=side_u": {
-      "model": "energymeter:block/side_u"
+      "model": "energymeter:block/monitor/side_u"
     },
     "bottom=south,facing=north,multiblock_type=vertical": {
-      "model": "energymeter:block/vertical"
+      "model": "energymeter:block/monitor/vertical"
     },
     "bottom=south,facing=south,multiblock_type=corner_d": {
-      "model": "energymeter:block/corner_d",
+      "model": "energymeter:block/monitor/corner_d",
       "y": 180
     },
     "bottom=south,facing=south,multiblock_type=corner_dl": {
-      "model": "energymeter:block/corner_dl",
+      "model": "energymeter:block/monitor/corner_dl",
       "y": 180
     },
     "bottom=south,facing=south,multiblock_type=corner_dr": {
-      "model": "energymeter:block/corner_dr",
+      "model": "energymeter:block/monitor/corner_dr",
       "y": 180
     },
     "bottom=south,facing=south,multiblock_type=corner_l": {
-      "model": "energymeter:block/corner_l",
+      "model": "energymeter:block/monitor/corner_l",
       "y": 180
     },
     "bottom=south,facing=south,multiblock_type=corner_r": {
-      "model": "energymeter:block/corner_r",
+      "model": "energymeter:block/monitor/corner_r",
       "y": 180
     },
     "bottom=south,facing=south,multiblock_type=corner_u": {
-      "model": "energymeter:block/corner_u",
+      "model": "energymeter:block/monitor/corner_u",
       "y": 180
     },
     "bottom=south,facing=south,multiblock_type=corner_ul": {
-      "model": "energymeter:block/corner_ul",
+      "model": "energymeter:block/monitor/corner_ul",
       "y": 180
     },
     "bottom=south,facing=south,multiblock_type=corner_ur": {
-      "model": "energymeter:block/corner_ur",
+      "model": "energymeter:block/monitor/corner_ur",
       "y": 180
     },
     "bottom=south,facing=south,multiblock_type=horizontal": {
-      "model": "energymeter:block/horizontal",
+      "model": "energymeter:block/monitor/horizontal",
       "y": 180
     },
     "bottom=south,facing=south,multiblock_type=middle": {
-      "model": "energymeter:block/middle",
-      "y": 180
-    },
-    "bottom=south,facing=south,multiblock_type=none": {
-      "model": "energymeter:block/none",
+      "model": "energymeter:block/monitor/middle",
       "y": 180
     },
     "bottom=south,facing=south,multiblock_type=normal": {
-      "model": "energymeter:block/normal",
-      "y": 180
-    },
-    "bottom=south,facing=south,multiblock_type=self": {
-      "model": "energymeter:block/self",
+      "model": "energymeter:block/monitor/normal",
       "y": 180
     },
     "bottom=south,facing=south,multiblock_type=side_d": {
-      "model": "energymeter:block/side_d",
+      "model": "energymeter:block/monitor/side_d",
       "y": 180
     },
     "bottom=south,facing=south,multiblock_type=side_l": {
-      "model": "energymeter:block/side_l",
+      "model": "energymeter:block/monitor/side_l",
       "y": 180
     },
     "bottom=south,facing=south,multiblock_type=side_r": {
-      "model": "energymeter:block/side_r",
+      "model": "energymeter:block/monitor/side_r",
       "y": 180
     },
     "bottom=south,facing=south,multiblock_type=side_u": {
-      "model": "energymeter:block/side_u",
+      "model": "energymeter:block/monitor/side_u",
       "y": 180
     },
     "bottom=south,facing=south,multiblock_type=vertical": {
-      "model": "energymeter:block/vertical",
+      "model": "energymeter:block/monitor/vertical",
       "y": 180
     },
     "bottom=south,facing=up,multiblock_type=corner_d": {
-      "model": "energymeter:block/corner_d",
+      "model": "energymeter:block/monitor/corner_d",
       "x": 270,
       "y": 180
     },
     "bottom=south,facing=up,multiblock_type=corner_dl": {
-      "model": "energymeter:block/corner_dl",
+      "model": "energymeter:block/monitor/corner_dl",
       "x": 270,
       "y": 180
     },
     "bottom=south,facing=up,multiblock_type=corner_dr": {
-      "model": "energymeter:block/corner_dr",
+      "model": "energymeter:block/monitor/corner_dr",
       "x": 270,
       "y": 180
     },
     "bottom=south,facing=up,multiblock_type=corner_l": {
-      "model": "energymeter:block/corner_l",
+      "model": "energymeter:block/monitor/corner_l",
       "x": 270,
       "y": 180
     },
     "bottom=south,facing=up,multiblock_type=corner_r": {
-      "model": "energymeter:block/corner_r",
+      "model": "energymeter:block/monitor/corner_r",
       "x": 270,
       "y": 180
     },
     "bottom=south,facing=up,multiblock_type=corner_u": {
-      "model": "energymeter:block/corner_u",
+      "model": "energymeter:block/monitor/corner_u",
       "x": 270,
       "y": 180
     },
     "bottom=south,facing=up,multiblock_type=corner_ul": {
-      "model": "energymeter:block/corner_ul",
+      "model": "energymeter:block/monitor/corner_ul",
       "x": 270,
       "y": 180
     },
     "bottom=south,facing=up,multiblock_type=corner_ur": {
-      "model": "energymeter:block/corner_ur",
+      "model": "energymeter:block/monitor/corner_ur",
       "x": 270,
       "y": 180
     },
     "bottom=south,facing=up,multiblock_type=horizontal": {
-      "model": "energymeter:block/horizontal",
+      "model": "energymeter:block/monitor/horizontal",
       "x": 270,
       "y": 180
     },
     "bottom=south,facing=up,multiblock_type=middle": {
-      "model": "energymeter:block/middle",
-      "x": 270,
-      "y": 180
-    },
-    "bottom=south,facing=up,multiblock_type=none": {
-      "model": "energymeter:block/none",
+      "model": "energymeter:block/monitor/middle",
       "x": 270,
       "y": 180
     },
     "bottom=south,facing=up,multiblock_type=normal": {
-      "model": "energymeter:block/normal",
-      "x": 270,
-      "y": 180
-    },
-    "bottom=south,facing=up,multiblock_type=self": {
-      "model": "energymeter:block/self",
+      "model": "energymeter:block/monitor/normal",
       "x": 270,
       "y": 180
     },
     "bottom=south,facing=up,multiblock_type=side_d": {
-      "model": "energymeter:block/side_d",
+      "model": "energymeter:block/monitor/side_d",
       "x": 270,
       "y": 180
     },
     "bottom=south,facing=up,multiblock_type=side_l": {
-      "model": "energymeter:block/side_l",
+      "model": "energymeter:block/monitor/side_l",
       "x": 270,
       "y": 180
     },
     "bottom=south,facing=up,multiblock_type=side_r": {
-      "model": "energymeter:block/side_r",
+      "model": "energymeter:block/monitor/side_r",
       "x": 270,
       "y": 180
     },
     "bottom=south,facing=up,multiblock_type=side_u": {
-      "model": "energymeter:block/side_u",
+      "model": "energymeter:block/monitor/side_u",
       "x": 270,
       "y": 180
     },
     "bottom=south,facing=up,multiblock_type=vertical": {
-      "model": "energymeter:block/vertical",
+      "model": "energymeter:block/monitor/vertical",
       "x": 270,
       "y": 180
     },
     "bottom=south,facing=west,multiblock_type=corner_d": {
-      "model": "energymeter:block/corner_d",
+      "model": "energymeter:block/monitor/corner_d",
       "y": 270
     },
     "bottom=south,facing=west,multiblock_type=corner_dl": {
-      "model": "energymeter:block/corner_dl",
+      "model": "energymeter:block/monitor/corner_dl",
       "y": 270
     },
     "bottom=south,facing=west,multiblock_type=corner_dr": {
-      "model": "energymeter:block/corner_dr",
+      "model": "energymeter:block/monitor/corner_dr",
       "y": 270
     },
     "bottom=south,facing=west,multiblock_type=corner_l": {
-      "model": "energymeter:block/corner_l",
+      "model": "energymeter:block/monitor/corner_l",
       "y": 270
     },
     "bottom=south,facing=west,multiblock_type=corner_r": {
-      "model": "energymeter:block/corner_r",
+      "model": "energymeter:block/monitor/corner_r",
       "y": 270
     },
     "bottom=south,facing=west,multiblock_type=corner_u": {
-      "model": "energymeter:block/corner_u",
+      "model": "energymeter:block/monitor/corner_u",
       "y": 270
     },
     "bottom=south,facing=west,multiblock_type=corner_ul": {
-      "model": "energymeter:block/corner_ul",
+      "model": "energymeter:block/monitor/corner_ul",
       "y": 270
     },
     "bottom=south,facing=west,multiblock_type=corner_ur": {
-      "model": "energymeter:block/corner_ur",
+      "model": "energymeter:block/monitor/corner_ur",
       "y": 270
     },
     "bottom=south,facing=west,multiblock_type=horizontal": {
-      "model": "energymeter:block/horizontal",
+      "model": "energymeter:block/monitor/horizontal",
       "y": 270
     },
     "bottom=south,facing=west,multiblock_type=middle": {
-      "model": "energymeter:block/middle",
-      "y": 270
-    },
-    "bottom=south,facing=west,multiblock_type=none": {
-      "model": "energymeter:block/none",
+      "model": "energymeter:block/monitor/middle",
       "y": 270
     },
     "bottom=south,facing=west,multiblock_type=normal": {
-      "model": "energymeter:block/normal",
-      "y": 270
-    },
-    "bottom=south,facing=west,multiblock_type=self": {
-      "model": "energymeter:block/self",
+      "model": "energymeter:block/monitor/normal",
       "y": 270
     },
     "bottom=south,facing=west,multiblock_type=side_d": {
-      "model": "energymeter:block/side_d",
+      "model": "energymeter:block/monitor/side_d",
       "y": 270
     },
     "bottom=south,facing=west,multiblock_type=side_l": {
-      "model": "energymeter:block/side_l",
+      "model": "energymeter:block/monitor/side_l",
       "y": 270
     },
     "bottom=south,facing=west,multiblock_type=side_r": {
-      "model": "energymeter:block/side_r",
+      "model": "energymeter:block/monitor/side_r",
       "y": 270
     },
     "bottom=south,facing=west,multiblock_type=side_u": {
-      "model": "energymeter:block/side_u",
+      "model": "energymeter:block/monitor/side_u",
       "y": 270
     },
     "bottom=south,facing=west,multiblock_type=vertical": {
-      "model": "energymeter:block/vertical",
+      "model": "energymeter:block/monitor/vertical",
       "y": 270
     },
     "bottom=up,facing=down,multiblock_type=corner_d": {
-      "model": "energymeter:block/corner_d",
+      "model": "energymeter:block/monitor/corner_d",
       "x": 90
     },
     "bottom=up,facing=down,multiblock_type=corner_dl": {
-      "model": "energymeter:block/corner_dl",
+      "model": "energymeter:block/monitor/corner_dl",
       "x": 90
     },
     "bottom=up,facing=down,multiblock_type=corner_dr": {
-      "model": "energymeter:block/corner_dr",
+      "model": "energymeter:block/monitor/corner_dr",
       "x": 90
     },
     "bottom=up,facing=down,multiblock_type=corner_l": {
-      "model": "energymeter:block/corner_l",
+      "model": "energymeter:block/monitor/corner_l",
       "x": 90
     },
     "bottom=up,facing=down,multiblock_type=corner_r": {
-      "model": "energymeter:block/corner_r",
+      "model": "energymeter:block/monitor/corner_r",
       "x": 90
     },
     "bottom=up,facing=down,multiblock_type=corner_u": {
-      "model": "energymeter:block/corner_u",
+      "model": "energymeter:block/monitor/corner_u",
       "x": 90
     },
     "bottom=up,facing=down,multiblock_type=corner_ul": {
-      "model": "energymeter:block/corner_ul",
+      "model": "energymeter:block/monitor/corner_ul",
       "x": 90
     },
     "bottom=up,facing=down,multiblock_type=corner_ur": {
-      "model": "energymeter:block/corner_ur",
+      "model": "energymeter:block/monitor/corner_ur",
       "x": 90
     },
     "bottom=up,facing=down,multiblock_type=horizontal": {
-      "model": "energymeter:block/horizontal",
+      "model": "energymeter:block/monitor/horizontal",
       "x": 90
     },
     "bottom=up,facing=down,multiblock_type=middle": {
-      "model": "energymeter:block/middle",
-      "x": 90
-    },
-    "bottom=up,facing=down,multiblock_type=none": {
-      "model": "energymeter:block/none",
+      "model": "energymeter:block/monitor/middle",
       "x": 90
     },
     "bottom=up,facing=down,multiblock_type=normal": {
-      "model": "energymeter:block/normal",
-      "x": 90
-    },
-    "bottom=up,facing=down,multiblock_type=self": {
-      "model": "energymeter:block/self",
+      "model": "energymeter:block/monitor/normal",
       "x": 90
     },
     "bottom=up,facing=down,multiblock_type=side_d": {
-      "model": "energymeter:block/side_d",
+      "model": "energymeter:block/monitor/side_d",
       "x": 90
     },
     "bottom=up,facing=down,multiblock_type=side_l": {
-      "model": "energymeter:block/side_l",
+      "model": "energymeter:block/monitor/side_l",
       "x": 90
     },
     "bottom=up,facing=down,multiblock_type=side_r": {
-      "model": "energymeter:block/side_r",
+      "model": "energymeter:block/monitor/side_r",
       "x": 90
     },
     "bottom=up,facing=down,multiblock_type=side_u": {
-      "model": "energymeter:block/side_u",
+      "model": "energymeter:block/monitor/side_u",
       "x": 90
     },
     "bottom=up,facing=down,multiblock_type=vertical": {
-      "model": "energymeter:block/vertical",
+      "model": "energymeter:block/monitor/vertical",
       "x": 90
     },
     "bottom=up,facing=east,multiblock_type=corner_d": {
-      "model": "energymeter:block/corner_d",
+      "model": "energymeter:block/monitor/corner_d",
       "y": 90
     },
     "bottom=up,facing=east,multiblock_type=corner_dl": {
-      "model": "energymeter:block/corner_dl",
+      "model": "energymeter:block/monitor/corner_dl",
       "y": 90
     },
     "bottom=up,facing=east,multiblock_type=corner_dr": {
-      "model": "energymeter:block/corner_dr",
+      "model": "energymeter:block/monitor/corner_dr",
       "y": 90
     },
     "bottom=up,facing=east,multiblock_type=corner_l": {
-      "model": "energymeter:block/corner_l",
+      "model": "energymeter:block/monitor/corner_l",
       "y": 90
     },
     "bottom=up,facing=east,multiblock_type=corner_r": {
-      "model": "energymeter:block/corner_r",
+      "model": "energymeter:block/monitor/corner_r",
       "y": 90
     },
     "bottom=up,facing=east,multiblock_type=corner_u": {
-      "model": "energymeter:block/corner_u",
+      "model": "energymeter:block/monitor/corner_u",
       "y": 90
     },
     "bottom=up,facing=east,multiblock_type=corner_ul": {
-      "model": "energymeter:block/corner_ul",
+      "model": "energymeter:block/monitor/corner_ul",
       "y": 90
     },
     "bottom=up,facing=east,multiblock_type=corner_ur": {
-      "model": "energymeter:block/corner_ur",
+      "model": "energymeter:block/monitor/corner_ur",
       "y": 90
     },
     "bottom=up,facing=east,multiblock_type=horizontal": {
-      "model": "energymeter:block/horizontal",
+      "model": "energymeter:block/monitor/horizontal",
       "y": 90
     },
     "bottom=up,facing=east,multiblock_type=middle": {
-      "model": "energymeter:block/middle",
-      "y": 90
-    },
-    "bottom=up,facing=east,multiblock_type=none": {
-      "model": "energymeter:block/none",
+      "model": "energymeter:block/monitor/middle",
       "y": 90
     },
     "bottom=up,facing=east,multiblock_type=normal": {
-      "model": "energymeter:block/normal",
-      "y": 90
-    },
-    "bottom=up,facing=east,multiblock_type=self": {
-      "model": "energymeter:block/self",
+      "model": "energymeter:block/monitor/normal",
       "y": 90
     },
     "bottom=up,facing=east,multiblock_type=side_d": {
-      "model": "energymeter:block/side_d",
+      "model": "energymeter:block/monitor/side_d",
       "y": 90
     },
     "bottom=up,facing=east,multiblock_type=side_l": {
-      "model": "energymeter:block/side_l",
+      "model": "energymeter:block/monitor/side_l",
       "y": 90
     },
     "bottom=up,facing=east,multiblock_type=side_r": {
-      "model": "energymeter:block/side_r",
+      "model": "energymeter:block/monitor/side_r",
       "y": 90
     },
     "bottom=up,facing=east,multiblock_type=side_u": {
-      "model": "energymeter:block/side_u",
+      "model": "energymeter:block/monitor/side_u",
       "y": 90
     },
     "bottom=up,facing=east,multiblock_type=vertical": {
-      "model": "energymeter:block/vertical",
+      "model": "energymeter:block/monitor/vertical",
       "y": 90
     },
     "bottom=up,facing=north,multiblock_type=corner_d": {
-      "model": "energymeter:block/corner_d"
+      "model": "energymeter:block/monitor/corner_d"
     },
     "bottom=up,facing=north,multiblock_type=corner_dl": {
-      "model": "energymeter:block/corner_dl"
+      "model": "energymeter:block/monitor/corner_dl"
     },
     "bottom=up,facing=north,multiblock_type=corner_dr": {
-      "model": "energymeter:block/corner_dr"
+      "model": "energymeter:block/monitor/corner_dr"
     },
     "bottom=up,facing=north,multiblock_type=corner_l": {
-      "model": "energymeter:block/corner_l"
+      "model": "energymeter:block/monitor/corner_l"
     },
     "bottom=up,facing=north,multiblock_type=corner_r": {
-      "model": "energymeter:block/corner_r"
+      "model": "energymeter:block/monitor/corner_r"
     },
     "bottom=up,facing=north,multiblock_type=corner_u": {
-      "model": "energymeter:block/corner_u"
+      "model": "energymeter:block/monitor/corner_u"
     },
     "bottom=up,facing=north,multiblock_type=corner_ul": {
-      "model": "energymeter:block/corner_ul"
+      "model": "energymeter:block/monitor/corner_ul"
     },
     "bottom=up,facing=north,multiblock_type=corner_ur": {
-      "model": "energymeter:block/corner_ur"
+      "model": "energymeter:block/monitor/corner_ur"
     },
     "bottom=up,facing=north,multiblock_type=horizontal": {
-      "model": "energymeter:block/horizontal"
+      "model": "energymeter:block/monitor/horizontal"
     },
     "bottom=up,facing=north,multiblock_type=middle": {
-      "model": "energymeter:block/middle"
-    },
-    "bottom=up,facing=north,multiblock_type=none": {
-      "model": "energymeter:block/none"
+      "model": "energymeter:block/monitor/middle"
     },
     "bottom=up,facing=north,multiblock_type=normal": {
-      "model": "energymeter:block/normal"
-    },
-    "bottom=up,facing=north,multiblock_type=self": {
-      "model": "energymeter:block/self"
+      "model": "energymeter:block/monitor/normal"
     },
     "bottom=up,facing=north,multiblock_type=side_d": {
-      "model": "energymeter:block/side_d"
+      "model": "energymeter:block/monitor/side_d"
     },
     "bottom=up,facing=north,multiblock_type=side_l": {
-      "model": "energymeter:block/side_l"
+      "model": "energymeter:block/monitor/side_l"
     },
     "bottom=up,facing=north,multiblock_type=side_r": {
-      "model": "energymeter:block/side_r"
+      "model": "energymeter:block/monitor/side_r"
     },
     "bottom=up,facing=north,multiblock_type=side_u": {
-      "model": "energymeter:block/side_u"
+      "model": "energymeter:block/monitor/side_u"
     },
     "bottom=up,facing=north,multiblock_type=vertical": {
-      "model": "energymeter:block/vertical"
+      "model": "energymeter:block/monitor/vertical"
     },
     "bottom=up,facing=south,multiblock_type=corner_d": {
-      "model": "energymeter:block/corner_d",
+      "model": "energymeter:block/monitor/corner_d",
       "y": 180
     },
     "bottom=up,facing=south,multiblock_type=corner_dl": {
-      "model": "energymeter:block/corner_dl",
+      "model": "energymeter:block/monitor/corner_dl",
       "y": 180
     },
     "bottom=up,facing=south,multiblock_type=corner_dr": {
-      "model": "energymeter:block/corner_dr",
+      "model": "energymeter:block/monitor/corner_dr",
       "y": 180
     },
     "bottom=up,facing=south,multiblock_type=corner_l": {
-      "model": "energymeter:block/corner_l",
+      "model": "energymeter:block/monitor/corner_l",
       "y": 180
     },
     "bottom=up,facing=south,multiblock_type=corner_r": {
-      "model": "energymeter:block/corner_r",
+      "model": "energymeter:block/monitor/corner_r",
       "y": 180
     },
     "bottom=up,facing=south,multiblock_type=corner_u": {
-      "model": "energymeter:block/corner_u",
+      "model": "energymeter:block/monitor/corner_u",
       "y": 180
     },
     "bottom=up,facing=south,multiblock_type=corner_ul": {
-      "model": "energymeter:block/corner_ul",
+      "model": "energymeter:block/monitor/corner_ul",
       "y": 180
     },
     "bottom=up,facing=south,multiblock_type=corner_ur": {
-      "model": "energymeter:block/corner_ur",
+      "model": "energymeter:block/monitor/corner_ur",
       "y": 180
     },
     "bottom=up,facing=south,multiblock_type=horizontal": {
-      "model": "energymeter:block/horizontal",
+      "model": "energymeter:block/monitor/horizontal",
       "y": 180
     },
     "bottom=up,facing=south,multiblock_type=middle": {
-      "model": "energymeter:block/middle",
-      "y": 180
-    },
-    "bottom=up,facing=south,multiblock_type=none": {
-      "model": "energymeter:block/none",
+      "model": "energymeter:block/monitor/middle",
       "y": 180
     },
     "bottom=up,facing=south,multiblock_type=normal": {
-      "model": "energymeter:block/normal",
-      "y": 180
-    },
-    "bottom=up,facing=south,multiblock_type=self": {
-      "model": "energymeter:block/self",
+      "model": "energymeter:block/monitor/normal",
       "y": 180
     },
     "bottom=up,facing=south,multiblock_type=side_d": {
-      "model": "energymeter:block/side_d",
+      "model": "energymeter:block/monitor/side_d",
       "y": 180
     },
     "bottom=up,facing=south,multiblock_type=side_l": {
-      "model": "energymeter:block/side_l",
+      "model": "energymeter:block/monitor/side_l",
       "y": 180
     },
     "bottom=up,facing=south,multiblock_type=side_r": {
-      "model": "energymeter:block/side_r",
+      "model": "energymeter:block/monitor/side_r",
       "y": 180
     },
     "bottom=up,facing=south,multiblock_type=side_u": {
-      "model": "energymeter:block/side_u",
+      "model": "energymeter:block/monitor/side_u",
       "y": 180
     },
     "bottom=up,facing=south,multiblock_type=vertical": {
-      "model": "energymeter:block/vertical",
+      "model": "energymeter:block/monitor/vertical",
       "y": 180
     },
     "bottom=up,facing=up,multiblock_type=corner_d": {
-      "model": "energymeter:block/corner_d",
+      "model": "energymeter:block/monitor/corner_d",
       "x": 270
     },
     "bottom=up,facing=up,multiblock_type=corner_dl": {
-      "model": "energymeter:block/corner_dl",
+      "model": "energymeter:block/monitor/corner_dl",
       "x": 270
     },
     "bottom=up,facing=up,multiblock_type=corner_dr": {
-      "model": "energymeter:block/corner_dr",
+      "model": "energymeter:block/monitor/corner_dr",
       "x": 270
     },
     "bottom=up,facing=up,multiblock_type=corner_l": {
-      "model": "energymeter:block/corner_l",
+      "model": "energymeter:block/monitor/corner_l",
       "x": 270
     },
     "bottom=up,facing=up,multiblock_type=corner_r": {
-      "model": "energymeter:block/corner_r",
+      "model": "energymeter:block/monitor/corner_r",
       "x": 270
     },
     "bottom=up,facing=up,multiblock_type=corner_u": {
-      "model": "energymeter:block/corner_u",
+      "model": "energymeter:block/monitor/corner_u",
       "x": 270
     },
     "bottom=up,facing=up,multiblock_type=corner_ul": {
-      "model": "energymeter:block/corner_ul",
+      "model": "energymeter:block/monitor/corner_ul",
       "x": 270
     },
     "bottom=up,facing=up,multiblock_type=corner_ur": {
-      "model": "energymeter:block/corner_ur",
+      "model": "energymeter:block/monitor/corner_ur",
       "x": 270
     },
     "bottom=up,facing=up,multiblock_type=horizontal": {
-      "model": "energymeter:block/horizontal",
+      "model": "energymeter:block/monitor/horizontal",
       "x": 270
     },
     "bottom=up,facing=up,multiblock_type=middle": {
-      "model": "energymeter:block/middle",
-      "x": 270
-    },
-    "bottom=up,facing=up,multiblock_type=none": {
-      "model": "energymeter:block/none",
+      "model": "energymeter:block/monitor/middle",
       "x": 270
     },
     "bottom=up,facing=up,multiblock_type=normal": {
-      "model": "energymeter:block/normal",
-      "x": 270
-    },
-    "bottom=up,facing=up,multiblock_type=self": {
-      "model": "energymeter:block/self",
+      "model": "energymeter:block/monitor/normal",
       "x": 270
     },
     "bottom=up,facing=up,multiblock_type=side_d": {
-      "model": "energymeter:block/side_d",
+      "model": "energymeter:block/monitor/side_d",
       "x": 270
     },
     "bottom=up,facing=up,multiblock_type=side_l": {
-      "model": "energymeter:block/side_l",
+      "model": "energymeter:block/monitor/side_l",
       "x": 270
     },
     "bottom=up,facing=up,multiblock_type=side_r": {
-      "model": "energymeter:block/side_r",
+      "model": "energymeter:block/monitor/side_r",
       "x": 270
     },
     "bottom=up,facing=up,multiblock_type=side_u": {
-      "model": "energymeter:block/side_u",
+      "model": "energymeter:block/monitor/side_u",
       "x": 270
     },
     "bottom=up,facing=up,multiblock_type=vertical": {
-      "model": "energymeter:block/vertical",
+      "model": "energymeter:block/monitor/vertical",
       "x": 270
     },
     "bottom=up,facing=west,multiblock_type=corner_d": {
-      "model": "energymeter:block/corner_d",
+      "model": "energymeter:block/monitor/corner_d",
       "y": 270
     },
     "bottom=up,facing=west,multiblock_type=corner_dl": {
-      "model": "energymeter:block/corner_dl",
+      "model": "energymeter:block/monitor/corner_dl",
       "y": 270
     },
     "bottom=up,facing=west,multiblock_type=corner_dr": {
-      "model": "energymeter:block/corner_dr",
+      "model": "energymeter:block/monitor/corner_dr",
       "y": 270
     },
     "bottom=up,facing=west,multiblock_type=corner_l": {
-      "model": "energymeter:block/corner_l",
+      "model": "energymeter:block/monitor/corner_l",
       "y": 270
     },
     "bottom=up,facing=west,multiblock_type=corner_r": {
-      "model": "energymeter:block/corner_r",
+      "model": "energymeter:block/monitor/corner_r",
       "y": 270
     },
     "bottom=up,facing=west,multiblock_type=corner_u": {
-      "model": "energymeter:block/corner_u",
+      "model": "energymeter:block/monitor/corner_u",
       "y": 270
     },
     "bottom=up,facing=west,multiblock_type=corner_ul": {
-      "model": "energymeter:block/corner_ul",
+      "model": "energymeter:block/monitor/corner_ul",
       "y": 270
     },
     "bottom=up,facing=west,multiblock_type=corner_ur": {
-      "model": "energymeter:block/corner_ur",
+      "model": "energymeter:block/monitor/corner_ur",
       "y": 270
     },
     "bottom=up,facing=west,multiblock_type=horizontal": {
-      "model": "energymeter:block/horizontal",
+      "model": "energymeter:block/monitor/horizontal",
       "y": 270
     },
     "bottom=up,facing=west,multiblock_type=middle": {
-      "model": "energymeter:block/middle",
-      "y": 270
-    },
-    "bottom=up,facing=west,multiblock_type=none": {
-      "model": "energymeter:block/none",
+      "model": "energymeter:block/monitor/middle",
       "y": 270
     },
     "bottom=up,facing=west,multiblock_type=normal": {
-      "model": "energymeter:block/normal",
-      "y": 270
-    },
-    "bottom=up,facing=west,multiblock_type=self": {
-      "model": "energymeter:block/self",
+      "model": "energymeter:block/monitor/normal",
       "y": 270
     },
     "bottom=up,facing=west,multiblock_type=side_d": {
-      "model": "energymeter:block/side_d",
+      "model": "energymeter:block/monitor/side_d",
       "y": 270
     },
     "bottom=up,facing=west,multiblock_type=side_l": {
-      "model": "energymeter:block/side_l",
+      "model": "energymeter:block/monitor/side_l",
       "y": 270
     },
     "bottom=up,facing=west,multiblock_type=side_r": {
-      "model": "energymeter:block/side_r",
+      "model": "energymeter:block/monitor/side_r",
       "y": 270
     },
     "bottom=up,facing=west,multiblock_type=side_u": {
-      "model": "energymeter:block/side_u",
+      "model": "energymeter:block/monitor/side_u",
       "y": 270
     },
     "bottom=up,facing=west,multiblock_type=vertical": {
-      "model": "energymeter:block/vertical",
+      "model": "energymeter:block/monitor/vertical",
       "y": 270
     },
     "bottom=west,facing=down,multiblock_type=corner_d": {
-      "model": "energymeter:block/corner_d",
+      "model": "energymeter:block/monitor/corner_d",
       "x": 90,
       "y": 270
     },
     "bottom=west,facing=down,multiblock_type=corner_dl": {
-      "model": "energymeter:block/corner_dl",
+      "model": "energymeter:block/monitor/corner_dl",
       "x": 90,
       "y": 270
     },
     "bottom=west,facing=down,multiblock_type=corner_dr": {
-      "model": "energymeter:block/corner_dr",
+      "model": "energymeter:block/monitor/corner_dr",
       "x": 90,
       "y": 270
     },
     "bottom=west,facing=down,multiblock_type=corner_l": {
-      "model": "energymeter:block/corner_l",
+      "model": "energymeter:block/monitor/corner_l",
       "x": 90,
       "y": 270
     },
     "bottom=west,facing=down,multiblock_type=corner_r": {
-      "model": "energymeter:block/corner_r",
+      "model": "energymeter:block/monitor/corner_r",
       "x": 90,
       "y": 270
     },
     "bottom=west,facing=down,multiblock_type=corner_u": {
-      "model": "energymeter:block/corner_u",
+      "model": "energymeter:block/monitor/corner_u",
       "x": 90,
       "y": 270
     },
     "bottom=west,facing=down,multiblock_type=corner_ul": {
-      "model": "energymeter:block/corner_ul",
+      "model": "energymeter:block/monitor/corner_ul",
       "x": 90,
       "y": 270
     },
     "bottom=west,facing=down,multiblock_type=corner_ur": {
-      "model": "energymeter:block/corner_ur",
+      "model": "energymeter:block/monitor/corner_ur",
       "x": 90,
       "y": 270
     },
     "bottom=west,facing=down,multiblock_type=horizontal": {
-      "model": "energymeter:block/horizontal",
+      "model": "energymeter:block/monitor/horizontal",
       "x": 90,
       "y": 270
     },
     "bottom=west,facing=down,multiblock_type=middle": {
-      "model": "energymeter:block/middle",
-      "x": 90,
-      "y": 270
-    },
-    "bottom=west,facing=down,multiblock_type=none": {
-      "model": "energymeter:block/none",
+      "model": "energymeter:block/monitor/middle",
       "x": 90,
       "y": 270
     },
     "bottom=west,facing=down,multiblock_type=normal": {
-      "model": "energymeter:block/normal",
-      "x": 90,
-      "y": 270
-    },
-    "bottom=west,facing=down,multiblock_type=self": {
-      "model": "energymeter:block/self",
+      "model": "energymeter:block/monitor/normal",
       "x": 90,
       "y": 270
     },
     "bottom=west,facing=down,multiblock_type=side_d": {
-      "model": "energymeter:block/side_d",
+      "model": "energymeter:block/monitor/side_d",
       "x": 90,
       "y": 270
     },
     "bottom=west,facing=down,multiblock_type=side_l": {
-      "model": "energymeter:block/side_l",
+      "model": "energymeter:block/monitor/side_l",
       "x": 90,
       "y": 270
     },
     "bottom=west,facing=down,multiblock_type=side_r": {
-      "model": "energymeter:block/side_r",
+      "model": "energymeter:block/monitor/side_r",
       "x": 90,
       "y": 270
     },
     "bottom=west,facing=down,multiblock_type=side_u": {
-      "model": "energymeter:block/side_u",
+      "model": "energymeter:block/monitor/side_u",
       "x": 90,
       "y": 270
     },
     "bottom=west,facing=down,multiblock_type=vertical": {
-      "model": "energymeter:block/vertical",
+      "model": "energymeter:block/monitor/vertical",
       "x": 90,
       "y": 270
     },
     "bottom=west,facing=east,multiblock_type=corner_d": {
-      "model": "energymeter:block/corner_d",
+      "model": "energymeter:block/monitor/corner_d",
       "y": 90
     },
     "bottom=west,facing=east,multiblock_type=corner_dl": {
-      "model": "energymeter:block/corner_dl",
+      "model": "energymeter:block/monitor/corner_dl",
       "y": 90
     },
     "bottom=west,facing=east,multiblock_type=corner_dr": {
-      "model": "energymeter:block/corner_dr",
+      "model": "energymeter:block/monitor/corner_dr",
       "y": 90
     },
     "bottom=west,facing=east,multiblock_type=corner_l": {
-      "model": "energymeter:block/corner_l",
+      "model": "energymeter:block/monitor/corner_l",
       "y": 90
     },
     "bottom=west,facing=east,multiblock_type=corner_r": {
-      "model": "energymeter:block/corner_r",
+      "model": "energymeter:block/monitor/corner_r",
       "y": 90
     },
     "bottom=west,facing=east,multiblock_type=corner_u": {
-      "model": "energymeter:block/corner_u",
+      "model": "energymeter:block/monitor/corner_u",
       "y": 90
     },
     "bottom=west,facing=east,multiblock_type=corner_ul": {
-      "model": "energymeter:block/corner_ul",
+      "model": "energymeter:block/monitor/corner_ul",
       "y": 90
     },
     "bottom=west,facing=east,multiblock_type=corner_ur": {
-      "model": "energymeter:block/corner_ur",
+      "model": "energymeter:block/monitor/corner_ur",
       "y": 90
     },
     "bottom=west,facing=east,multiblock_type=horizontal": {
-      "model": "energymeter:block/horizontal",
+      "model": "energymeter:block/monitor/horizontal",
       "y": 90
     },
     "bottom=west,facing=east,multiblock_type=middle": {
-      "model": "energymeter:block/middle",
-      "y": 90
-    },
-    "bottom=west,facing=east,multiblock_type=none": {
-      "model": "energymeter:block/none",
+      "model": "energymeter:block/monitor/middle",
       "y": 90
     },
     "bottom=west,facing=east,multiblock_type=normal": {
-      "model": "energymeter:block/normal",
-      "y": 90
-    },
-    "bottom=west,facing=east,multiblock_type=self": {
-      "model": "energymeter:block/self",
+      "model": "energymeter:block/monitor/normal",
       "y": 90
     },
     "bottom=west,facing=east,multiblock_type=side_d": {
-      "model": "energymeter:block/side_d",
+      "model": "energymeter:block/monitor/side_d",
       "y": 90
     },
     "bottom=west,facing=east,multiblock_type=side_l": {
-      "model": "energymeter:block/side_l",
+      "model": "energymeter:block/monitor/side_l",
       "y": 90
     },
     "bottom=west,facing=east,multiblock_type=side_r": {
-      "model": "energymeter:block/side_r",
+      "model": "energymeter:block/monitor/side_r",
       "y": 90
     },
     "bottom=west,facing=east,multiblock_type=side_u": {
-      "model": "energymeter:block/side_u",
+      "model": "energymeter:block/monitor/side_u",
       "y": 90
     },
     "bottom=west,facing=east,multiblock_type=vertical": {
-      "model": "energymeter:block/vertical",
+      "model": "energymeter:block/monitor/vertical",
       "y": 90
     },
     "bottom=west,facing=north,multiblock_type=corner_d": {
-      "model": "energymeter:block/corner_d"
+      "model": "energymeter:block/monitor/corner_d"
     },
     "bottom=west,facing=north,multiblock_type=corner_dl": {
-      "model": "energymeter:block/corner_dl"
+      "model": "energymeter:block/monitor/corner_dl"
     },
     "bottom=west,facing=north,multiblock_type=corner_dr": {
-      "model": "energymeter:block/corner_dr"
+      "model": "energymeter:block/monitor/corner_dr"
     },
     "bottom=west,facing=north,multiblock_type=corner_l": {
-      "model": "energymeter:block/corner_l"
+      "model": "energymeter:block/monitor/corner_l"
     },
     "bottom=west,facing=north,multiblock_type=corner_r": {
-      "model": "energymeter:block/corner_r"
+      "model": "energymeter:block/monitor/corner_r"
     },
     "bottom=west,facing=north,multiblock_type=corner_u": {
-      "model": "energymeter:block/corner_u"
+      "model": "energymeter:block/monitor/corner_u"
     },
     "bottom=west,facing=north,multiblock_type=corner_ul": {
-      "model": "energymeter:block/corner_ul"
+      "model": "energymeter:block/monitor/corner_ul"
     },
     "bottom=west,facing=north,multiblock_type=corner_ur": {
-      "model": "energymeter:block/corner_ur"
+      "model": "energymeter:block/monitor/corner_ur"
     },
     "bottom=west,facing=north,multiblock_type=horizontal": {
-      "model": "energymeter:block/horizontal"
+      "model": "energymeter:block/monitor/horizontal"
     },
     "bottom=west,facing=north,multiblock_type=middle": {
-      "model": "energymeter:block/middle"
-    },
-    "bottom=west,facing=north,multiblock_type=none": {
-      "model": "energymeter:block/none"
+      "model": "energymeter:block/monitor/middle"
     },
     "bottom=west,facing=north,multiblock_type=normal": {
-      "model": "energymeter:block/normal"
-    },
-    "bottom=west,facing=north,multiblock_type=self": {
-      "model": "energymeter:block/self"
+      "model": "energymeter:block/monitor/normal"
     },
     "bottom=west,facing=north,multiblock_type=side_d": {
-      "model": "energymeter:block/side_d"
+      "model": "energymeter:block/monitor/side_d"
     },
     "bottom=west,facing=north,multiblock_type=side_l": {
-      "model": "energymeter:block/side_l"
+      "model": "energymeter:block/monitor/side_l"
     },
     "bottom=west,facing=north,multiblock_type=side_r": {
-      "model": "energymeter:block/side_r"
+      "model": "energymeter:block/monitor/side_r"
     },
     "bottom=west,facing=north,multiblock_type=side_u": {
-      "model": "energymeter:block/side_u"
+      "model": "energymeter:block/monitor/side_u"
     },
     "bottom=west,facing=north,multiblock_type=vertical": {
-      "model": "energymeter:block/vertical"
+      "model": "energymeter:block/monitor/vertical"
     },
     "bottom=west,facing=south,multiblock_type=corner_d": {
-      "model": "energymeter:block/corner_d",
+      "model": "energymeter:block/monitor/corner_d",
       "y": 180
     },
     "bottom=west,facing=south,multiblock_type=corner_dl": {
-      "model": "energymeter:block/corner_dl",
+      "model": "energymeter:block/monitor/corner_dl",
       "y": 180
     },
     "bottom=west,facing=south,multiblock_type=corner_dr": {
-      "model": "energymeter:block/corner_dr",
+      "model": "energymeter:block/monitor/corner_dr",
       "y": 180
     },
     "bottom=west,facing=south,multiblock_type=corner_l": {
-      "model": "energymeter:block/corner_l",
+      "model": "energymeter:block/monitor/corner_l",
       "y": 180
     },
     "bottom=west,facing=south,multiblock_type=corner_r": {
-      "model": "energymeter:block/corner_r",
+      "model": "energymeter:block/monitor/corner_r",
       "y": 180
     },
     "bottom=west,facing=south,multiblock_type=corner_u": {
-      "model": "energymeter:block/corner_u",
+      "model": "energymeter:block/monitor/corner_u",
       "y": 180
     },
     "bottom=west,facing=south,multiblock_type=corner_ul": {
-      "model": "energymeter:block/corner_ul",
+      "model": "energymeter:block/monitor/corner_ul",
       "y": 180
     },
     "bottom=west,facing=south,multiblock_type=corner_ur": {
-      "model": "energymeter:block/corner_ur",
+      "model": "energymeter:block/monitor/corner_ur",
       "y": 180
     },
     "bottom=west,facing=south,multiblock_type=horizontal": {
-      "model": "energymeter:block/horizontal",
+      "model": "energymeter:block/monitor/horizontal",
       "y": 180
     },
     "bottom=west,facing=south,multiblock_type=middle": {
-      "model": "energymeter:block/middle",
-      "y": 180
-    },
-    "bottom=west,facing=south,multiblock_type=none": {
-      "model": "energymeter:block/none",
+      "model": "energymeter:block/monitor/middle",
       "y": 180
     },
     "bottom=west,facing=south,multiblock_type=normal": {
-      "model": "energymeter:block/normal",
-      "y": 180
-    },
-    "bottom=west,facing=south,multiblock_type=self": {
-      "model": "energymeter:block/self",
+      "model": "energymeter:block/monitor/normal",
       "y": 180
     },
     "bottom=west,facing=south,multiblock_type=side_d": {
-      "model": "energymeter:block/side_d",
+      "model": "energymeter:block/monitor/side_d",
       "y": 180
     },
     "bottom=west,facing=south,multiblock_type=side_l": {
-      "model": "energymeter:block/side_l",
+      "model": "energymeter:block/monitor/side_l",
       "y": 180
     },
     "bottom=west,facing=south,multiblock_type=side_r": {
-      "model": "energymeter:block/side_r",
+      "model": "energymeter:block/monitor/side_r",
       "y": 180
     },
     "bottom=west,facing=south,multiblock_type=side_u": {
-      "model": "energymeter:block/side_u",
+      "model": "energymeter:block/monitor/side_u",
       "y": 180
     },
     "bottom=west,facing=south,multiblock_type=vertical": {
-      "model": "energymeter:block/vertical",
+      "model": "energymeter:block/monitor/vertical",
       "y": 180
     },
     "bottom=west,facing=up,multiblock_type=corner_d": {
-      "model": "energymeter:block/corner_d",
+      "model": "energymeter:block/monitor/corner_d",
       "x": 270,
       "y": 270
     },
     "bottom=west,facing=up,multiblock_type=corner_dl": {
-      "model": "energymeter:block/corner_dl",
+      "model": "energymeter:block/monitor/corner_dl",
       "x": 270,
       "y": 270
     },
     "bottom=west,facing=up,multiblock_type=corner_dr": {
-      "model": "energymeter:block/corner_dr",
+      "model": "energymeter:block/monitor/corner_dr",
       "x": 270,
       "y": 270
     },
     "bottom=west,facing=up,multiblock_type=corner_l": {
-      "model": "energymeter:block/corner_l",
+      "model": "energymeter:block/monitor/corner_l",
       "x": 270,
       "y": 270
     },
     "bottom=west,facing=up,multiblock_type=corner_r": {
-      "model": "energymeter:block/corner_r",
+      "model": "energymeter:block/monitor/corner_r",
       "x": 270,
       "y": 270
     },
     "bottom=west,facing=up,multiblock_type=corner_u": {
-      "model": "energymeter:block/corner_u",
+      "model": "energymeter:block/monitor/corner_u",
       "x": 270,
       "y": 270
     },
     "bottom=west,facing=up,multiblock_type=corner_ul": {
-      "model": "energymeter:block/corner_ul",
+      "model": "energymeter:block/monitor/corner_ul",
       "x": 270,
       "y": 270
     },
     "bottom=west,facing=up,multiblock_type=corner_ur": {
-      "model": "energymeter:block/corner_ur",
+      "model": "energymeter:block/monitor/corner_ur",
       "x": 270,
       "y": 270
     },
     "bottom=west,facing=up,multiblock_type=horizontal": {
-      "model": "energymeter:block/horizontal",
+      "model": "energymeter:block/monitor/horizontal",
       "x": 270,
       "y": 270
     },
     "bottom=west,facing=up,multiblock_type=middle": {
-      "model": "energymeter:block/middle",
-      "x": 270,
-      "y": 270
-    },
-    "bottom=west,facing=up,multiblock_type=none": {
-      "model": "energymeter:block/none",
+      "model": "energymeter:block/monitor/middle",
       "x": 270,
       "y": 270
     },
     "bottom=west,facing=up,multiblock_type=normal": {
-      "model": "energymeter:block/normal",
-      "x": 270,
-      "y": 270
-    },
-    "bottom=west,facing=up,multiblock_type=self": {
-      "model": "energymeter:block/self",
+      "model": "energymeter:block/monitor/normal",
       "x": 270,
       "y": 270
     },
     "bottom=west,facing=up,multiblock_type=side_d": {
-      "model": "energymeter:block/side_d",
+      "model": "energymeter:block/monitor/side_d",
       "x": 270,
       "y": 270
     },
     "bottom=west,facing=up,multiblock_type=side_l": {
-      "model": "energymeter:block/side_l",
+      "model": "energymeter:block/monitor/side_l",
       "x": 270,
       "y": 270
     },
     "bottom=west,facing=up,multiblock_type=side_r": {
-      "model": "energymeter:block/side_r",
+      "model": "energymeter:block/monitor/side_r",
       "x": 270,
       "y": 270
     },
     "bottom=west,facing=up,multiblock_type=side_u": {
-      "model": "energymeter:block/side_u",
+      "model": "energymeter:block/monitor/side_u",
       "x": 270,
       "y": 270
     },
     "bottom=west,facing=up,multiblock_type=vertical": {
-      "model": "energymeter:block/vertical",
+      "model": "energymeter:block/monitor/vertical",
       "x": 270,
       "y": 270
     },
     "bottom=west,facing=west,multiblock_type=corner_d": {
-      "model": "energymeter:block/corner_d",
+      "model": "energymeter:block/monitor/corner_d",
       "y": 270
     },
     "bottom=west,facing=west,multiblock_type=corner_dl": {
-      "model": "energymeter:block/corner_dl",
+      "model": "energymeter:block/monitor/corner_dl",
       "y": 270
     },
     "bottom=west,facing=west,multiblock_type=corner_dr": {
-      "model": "energymeter:block/corner_dr",
+      "model": "energymeter:block/monitor/corner_dr",
       "y": 270
     },
     "bottom=west,facing=west,multiblock_type=corner_l": {
-      "model": "energymeter:block/corner_l",
+      "model": "energymeter:block/monitor/corner_l",
       "y": 270
     },
     "bottom=west,facing=west,multiblock_type=corner_r": {
-      "model": "energymeter:block/corner_r",
+      "model": "energymeter:block/monitor/corner_r",
       "y": 270
     },
     "bottom=west,facing=west,multiblock_type=corner_u": {
-      "model": "energymeter:block/corner_u",
+      "model": "energymeter:block/monitor/corner_u",
       "y": 270
     },
     "bottom=west,facing=west,multiblock_type=corner_ul": {
-      "model": "energymeter:block/corner_ul",
+      "model": "energymeter:block/monitor/corner_ul",
       "y": 270
     },
     "bottom=west,facing=west,multiblock_type=corner_ur": {
-      "model": "energymeter:block/corner_ur",
+      "model": "energymeter:block/monitor/corner_ur",
       "y": 270
     },
     "bottom=west,facing=west,multiblock_type=horizontal": {
-      "model": "energymeter:block/horizontal",
+      "model": "energymeter:block/monitor/horizontal",
       "y": 270
     },
     "bottom=west,facing=west,multiblock_type=middle": {
-      "model": "energymeter:block/middle",
-      "y": 270
-    },
-    "bottom=west,facing=west,multiblock_type=none": {
-      "model": "energymeter:block/none",
+      "model": "energymeter:block/monitor/middle",
       "y": 270
     },
     "bottom=west,facing=west,multiblock_type=normal": {
-      "model": "energymeter:block/normal",
-      "y": 270
-    },
-    "bottom=west,facing=west,multiblock_type=self": {
-      "model": "energymeter:block/self",
+      "model": "energymeter:block/monitor/normal",
       "y": 270
     },
     "bottom=west,facing=west,multiblock_type=side_d": {
-      "model": "energymeter:block/side_d",
+      "model": "energymeter:block/monitor/side_d",
       "y": 270
     },
     "bottom=west,facing=west,multiblock_type=side_l": {
-      "model": "energymeter:block/side_l",
+      "model": "energymeter:block/monitor/side_l",
       "y": 270
     },
     "bottom=west,facing=west,multiblock_type=side_r": {
-      "model": "energymeter:block/side_r",
+      "model": "energymeter:block/monitor/side_r",
       "y": 270
     },
     "bottom=west,facing=west,multiblock_type=side_u": {
-      "model": "energymeter:block/side_u",
+      "model": "energymeter:block/monitor/side_u",
       "y": 270
     },
     "bottom=west,facing=west,multiblock_type=vertical": {
-      "model": "energymeter:block/vertical",
+      "model": "energymeter:block/monitor/vertical",
       "y": 270
     }
   }
