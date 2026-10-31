@@ -1,6 +1,8 @@
+import org.gradle.internal.classpath.Instrumented.systemProperty
+
 plugins {
     id("net.neoforged.moddev") version "2.0.143"
-    id("com.almostreliable.almostgradle") version "2.3.2"
+    id("com.almostreliable.almostgradle") version "2.4.0"
 }
 
 almostgradle.setup {

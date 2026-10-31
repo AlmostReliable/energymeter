@@ -1,0 +1,5 @@
+// 26.1.2	2026-10-31T15:49:48.012881	Energy Meter recipes
+0ab2ce4a0f919c8587e804896481270630e7d56e data/energymeter/advancement/recipes/misc/meter.json
+ee65fbbec9b7ec76fd090289a0aecbf5f7c4c298 data/energymeter/advancement/recipes/misc/monitor.json
+603e2ddb8d7df883a2c75e0ca7e22b44bccebadc data/energymeter/recipe/meter.json
+e06c7f9fe6ea09dab2a2e4082e1828c3a93dc35b data/energymeter/recipe/monitor.json

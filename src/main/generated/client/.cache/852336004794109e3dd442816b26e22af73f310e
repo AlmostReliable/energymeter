@@ -1,0 +1,22 @@
+// 26.1.2	2026-10-31T15:49:41.2778262	Model Definitions - energymeter
+e65e0aaefa09b276edaecf87e1b7d00899619306 assets/energymeter/blockstates/meter.json
+33910ed6b799a0d6ff83f43a36186d6d7af56d1f assets/energymeter/blockstates/monitor.json
+8f4911960bdcf9681a94513d204ecf5661daedc8 assets/energymeter/items/meter.json
+411039aaf9e0996ca99a78556c96710ecb3a6e06 assets/energymeter/items/monitor.json
+b0825244bee4c6f60747083cdfd99569293dc3b1 assets/energymeter/models/block/meter.json
+a5e810cd79cebafdb2fe56bac3829263a1eb9676 assets/energymeter/models/block/monitor/corner_d.json
+3737c44daf61de1874f81232a71c3f5d15387466 assets/energymeter/models/block/monitor/corner_dl.json
+0d4cba49a47c42d39fa05ad2f72956b513bbaf0b assets/energymeter/models/block/monitor/corner_dr.json
+7d2bf900917fbcae33e2b76948b7e393b07e95e4 assets/energymeter/models/block/monitor/corner_l.json
+0a02b00070bc655e70c44a133a38343d4a200454 assets/energymeter/models/block/monitor/corner_r.json
+3f0c40d8c9279dea0be57d68fed2c12f83e05a74 assets/energymeter/models/block/monitor/corner_u.json
+84871211f381fafa32674fe0cf414b46b72a7404 assets/energymeter/models/block/monitor/corner_ul.json
+f3ea5c2b04cc51d88c378fd2b3c47238f477dc55 assets/energymeter/models/block/monitor/corner_ur.json
+f9a466d885ae113357504349d1298677c005b320 assets/energymeter/models/block/monitor/horizontal.json
+d9c5e9554f892e6e6beabfe2aa9527ed426fbe8b assets/energymeter/models/block/monitor/middle.json
+dfe160715bbdf13c05b9a5ef0f7e8c9685ba6444 assets/energymeter/models/block/monitor/normal.json
+e8ae67af941e1ddfd275031a54de2b4926f1f11b assets/energymeter/models/block/monitor/side_d.json
+542d396cc496d338ad100cffa60d851aeaa9c6ce assets/energymeter/models/block/monitor/side_l.json
+c610ef6f297cd1080989cfc5277d907e080b639d assets/energymeter/models/block/monitor/side_r.json
+5c3d4d4239ebf724ac090de71614ba504c2c71ce assets/energymeter/models/block/monitor/side_u.json
+e810ed9ea1e8f3b890222ee7f359014daf36969a assets/energymeter/models/block/monitor/vertical.json
