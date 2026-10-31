@@ -16,7 +16,7 @@ Welcome to the introduction to the **Energy Meter** mod!
 
 <FloatingImage src="assets/logo.png" align="right"/>
 
-Energy Meter is a small content mod that adds a block called the <ItemLink id="meter" components="rarity=epic"/> which allows you to measure energy flow rates.
+Energy Meter is a small content mod that adds a block called the <ItemLink id="meter" components="rarity=epic"/>, which allows you to measure energy flow rates.
 The block functions as a cable: incoming requests are simply forwarded to the outputs. All values of these requests are stored and used at
 a configurable interval to calculate the flow rate.
 
@@ -25,7 +25,7 @@ there at any time. The display can be rotated in any direction, including upward
 used for the display, only the remaining five sides can be configured as input or output.
 
 A newly placed Energy Meter does not transfer or measure any energy because all of its sides are disabled. Before it can be used, its
-sides have to be configured as inputs and outputs in the I/O grid of its user interface, see the [Global Panel](interface.md#global-panel) section.
+sides have to be configured as inputs and outputs in the I/O grid of its user interface. See the [Global Panel](interface.md#global-panel) section for details.
 
 To review the rates of previous intervals, the Energy Meter’s user interface also includes a graph view. This shows the measurements of
 the last 10 intervals and can also be paused. The interface provides many additional configuration options. Besides different
