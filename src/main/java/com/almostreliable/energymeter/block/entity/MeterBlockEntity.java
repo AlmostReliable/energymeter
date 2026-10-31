@@ -152,6 +152,10 @@ public class MeterBlockEntity extends BlockEntity implements TickableMenuBlockEn
 
     @Override
     public void tick(ServerLevel level) {
+        if (redstoneHandler.needsInputRefresh()) {
+            refreshRedstoneInput(level);
+        }
+
         if (!transferMode.isCorrectlyConfigured(ioConfig::hasInput, ioConfig::hasOutput)) {
             updateConnectionStatus();
             return;
@@ -194,7 +198,7 @@ public class MeterBlockEntity extends BlockEntity implements TickableMenuBlockEn
             setChanged();
         }
 
-        updateRedstone();
+        refreshRedstoneOutput();
 
         return energyRateChanged;
     }
@@ -216,14 +220,29 @@ public class MeterBlockEntity extends BlockEntity implements TickableMenuBlockEn
         energyHandler.clearOutputCacheAndReset();
         energyRate = 0;
         syncEnergyRate(serverLevel);
-        updateRedstone();
+        refreshRedstoneOutput();
 
         if (!updateConnectionStatus()) setChanged();
     }
 
-    private void updateRedstone() {
+    private void refreshRedstoneInput(ServerLevel level) {
+        var frontDirection = MeterBlock.getFacingDir(getBlockState());
+        var inputSignal = 0;
+
+        for (var direction : Direction.values()) {
+            if (direction == frontDirection) continue;
+
+            var neighborPos = worldPosition.relative(direction);
+            var neighborSignal = level.getSignal(neighborPos, direction);
+            inputSignal = Math.max(inputSignal, neighborSignal);
+        }
+
+        redstoneHandler.refreshInput(inputSignal);
+    }
+
+    private void refreshRedstoneOutput() {
         if (!(level instanceof ServerLevel serverLevel)) return;
-        if (!redstoneHandler.refreshSignal(energyRate)) return;
+        if (!redstoneHandler.refreshOutput(energyRate)) return;
 
         serverLevel.updateNeighborsAt(worldPosition, getBlockState().getBlock());
         setChanged();
@@ -237,25 +256,25 @@ public class MeterBlockEntity extends BlockEntity implements TickableMenuBlockEn
             level.setBlock(worldPosition, newState, Block.UPDATE_ALL);
         }
 
-        updateRedstone();
+        refreshRedstoneOutput();
         setChanged();
     }
 
     private boolean updateConnectionStatus() {
-        var newStatus = ConnectionStatus.IDLE;
-
-        if (transferMode.isCorrectlyConfigured(ioConfig::hasInput, ioConfig::hasOutput)) {
-            newStatus = energyRate > 0 ? transferMode.activeStatus : ConnectionStatus.IDLE;
-        } else {
-            newStatus = ConnectionStatus.DISCONNECTED;
-        }
-
+        var newStatus = calculateConnectionStatus();
         if (connectionStatus == newStatus) return false;
 
         connectionStatus = newStatus;
         setChanged();
 
         return true;
+    }
+
+    private ConnectionStatus calculateConnectionStatus() {
+        if (!transferMode.isCorrectlyConfigured(ioConfig::hasInput, ioConfig::hasOutput)) return ConnectionStatus.DISCONNECTED;
+        if (redstoneHandler.isTransferBlocked()) return ConnectionStatus.BLOCKED;
+
+        return energyRate > 0 ? transferMode.activeStatus : ConnectionStatus.IDLE;
     }
 
     // fall-back to clear output capability cache in case a block doesn't invalidate the capability
@@ -368,6 +387,11 @@ public class MeterBlockEntity extends BlockEntity implements TickableMenuBlockEn
         setChanged();
     }
 
+    @Override
+    public boolean isTransferBlocked() {
+        return redstoneHandler.isTransferBlocked();
+    }
+
     public void setEnergyRate(double energyRate) {
         this.energyRate = energyRate;
     }
@@ -377,7 +401,7 @@ public class MeterBlockEntity extends BlockEntity implements TickableMenuBlockEn
     }
 
     public enum ConnectionStatus {
-        DISCONNECTED, IDLE, SPLITTING, TRANSFERRING, CONSUMING
+        DISCONNECTED, IDLE, SPLITTING, TRANSFERRING, CONSUMING, BLOCKED
     }
 
     public enum TransferMode implements EnumExtension<TransferMode> {

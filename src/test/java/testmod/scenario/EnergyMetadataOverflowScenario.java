@@ -151,5 +151,10 @@ public final class EnergyMetadataOverflowScenario {
         public long getTransferLimit() {
             return 0;
         }
+
+        @Override
+        public boolean isTransferBlocked() {
+            return false;
+        }
     }
 }

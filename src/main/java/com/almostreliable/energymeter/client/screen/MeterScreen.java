@@ -250,7 +250,9 @@ public class MeterScreen extends SynchronizedContainerScreen<MeterMenu> {
         var redstoneHandler = menu.getRedstoneHandler();
         lastRedstoneFunction = redstoneHandler.getFunction();
         var isEnabled = lastRedstoneFunction != RedstoneFunction.OFF;
+        var isEmitting = lastRedstoneFunction.emitsSignal();
         var isThreshold = lastRedstoneFunction == RedstoneFunction.THRESHOLD;
+        var isControl = lastRedstoneFunction == RedstoneFunction.CONTROL;
 
         var functionRadioButtons = RadioButton.createGroup(
             REDSTONE_ELEMENT_WIDTH,
@@ -279,7 +281,7 @@ public class MeterScreen extends SynchronizedContainerScreen<MeterMenu> {
             lowerBoundLabel.get().append(":"),
             () -> NumberFormatter.formatCompact(redstoneHandler.getLowerBound()),
             this::onTextValueUpdated
-        ).withActive(isEnabled));
+        ).withActive(isEmitting));
         settingsLayout.addChild(new InputLayoutElement<>(
             MeterTextBoxType.REDSTONE_UPPER_BOUND,
             REDSTONE_ELEMENT_WIDTH,
@@ -287,7 +289,7 @@ public class MeterScreen extends SynchronizedContainerScreen<MeterMenu> {
             upperBoundLabel.get().append(":"),
             () -> NumberFormatter.formatCompact(redstoneHandler.getUpperBound()),
             this::onTextValueUpdated
-        ).withActive(isEnabled));
+        ).withActive(isEmitting));
 
         var invertCheckbox = new Checkbox(
             REDSTONE_ELEMENT_WIDTH,
@@ -299,19 +301,29 @@ public class MeterScreen extends SynchronizedContainerScreen<MeterMenu> {
         settingsLayout.addChild(invertCheckbox);
         var settingsComposite = OutlinedCompositeWidget.ofLayout(EnergyMeterLang.HEADER_SETTINGS.get(), settingsLayout);
 
-        var outputLayout = LinearLayout.vertical().spacing(2);
-        outputLayout.addChild(new DynamicMarqueeStringWidget(
-            REDSTONE_ELEMENT_WIDTH,
-            () -> EnergyMeterLang.REDSTONE_SIGNAL.get().append(": " + redstoneHandler.getOutputSignal())
-        ));
-        outputLayout.addChild(new DynamicMarqueeStringWidget(REDSTONE_ELEMENT_WIDTH, this::getRedstoneStepText));
-        var outputComposite = OutlinedCompositeWidget.ofLayout(EnergyMeterLang.HEADER_OUTPUT.get(), outputLayout);
+        var signalLayout = LinearLayout.vertical().spacing(2);
+        if (isControl) {
+            signalLayout.addChild(new DynamicMarqueeStringWidget(
+                REDSTONE_ELEMENT_WIDTH,
+                () -> EnergyMeterLang.REDSTONE_SIGNAL.get().append(": " + redstoneHandler.getInputSignal())
+            ));
+            signalLayout.addChild(new DynamicMarqueeStringWidget(REDSTONE_ELEMENT_WIDTH, this::getRedstoneTransferText));
+        } else {
+            signalLayout.addChild(new DynamicMarqueeStringWidget(
+                REDSTONE_ELEMENT_WIDTH,
+                () -> EnergyMeterLang.REDSTONE_SIGNAL.get().append(": " + redstoneHandler.getOutputSignal())
+            ));
+            signalLayout.addChild(new DynamicMarqueeStringWidget(REDSTONE_ELEMENT_WIDTH, this::getRedstoneStepText));
+        }
+
+        var signalHeader = isControl ? EnergyMeterLang.HEADER_INPUT : EnergyMeterLang.HEADER_OUTPUT;
+        var signalComposite = OutlinedCompositeWidget.ofLayout(signalHeader.get(), signalLayout);
 
         var layout = LinearLayout.vertical().spacing(VERTICAL_ELEMENT_SPACING);
         layout.addChild(functionComposite);
         layout.addChild(scaleComposite);
         layout.addChild(settingsComposite);
-        layout.addChild(outputComposite);
+        layout.addChild(signalComposite);
 
         layout.arrangeElements();
         FrameLayout.centerInRectangle(layout, leftPos + LEFT_PANE_WIDTH + PANE_SPACING, topPos, RIGHT_PANE_WIDTH, GUI_HEIGHT);
@@ -488,6 +500,13 @@ public class MeterScreen extends SynchronizedContainerScreen<MeterMenu> {
         }
 
         return EnergyMeterLang.REDSTONE_STEP.get().append(": ").append(step);
+    }
+
+    private Component getRedstoneTransferText() {
+        var transferState = menu.getRedstoneHandler().isTransferBlocked() ?
+            EnergyMeterLang.REDSTONE_TRANSFER_BLOCKED :
+            EnergyMeterLang.REDSTONE_TRANSFER_ALLOWED;
+        return EnergyMeterLang.REDSTONE_TRANSFER.get().append(": ").append(transferState.get());
     }
 
     private void onTabButtonClicked(TabType tabType) {

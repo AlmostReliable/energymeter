@@ -5,6 +5,8 @@ import com.almostreliable.energymeter.block.component.RedstoneHandler;
 import com.almostreliable.energymeter.block.component.RedstoneHandler.RedstoneFunction;
 import com.almostreliable.energymeter.block.component.RedstoneHandler.RedstoneScale;
 import com.almostreliable.energymeter.block.entity.MeterBlockEntity;
+import com.almostreliable.energymeter.block.entity.MeterBlockEntity.ConnectionStatus;
+import com.almostreliable.energymeter.block.entity.MeterBlockEntity.TransferMode;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -15,6 +17,7 @@ import net.minecraft.world.level.block.state.properties.RedstoneSide;
 
 import testmod.TestUtils;
 
+import java.util.function.BiFunction;
 import java.util.function.Consumer;
 
 public class MeterRedstoneTests {
@@ -200,8 +203,81 @@ public class MeterRedstoneTests {
         helper.succeed();
     }
 
+    public static void redstone_control(GameTestHelper helper) {
+        // set up the plot
+        var plotResult = TestUtils.setupSimplePlot(helper);
+        var sidePos = TestUtils.DEFAULT_POS.relative(Direction.SOUTH);
+        var frontPos = TestUtils.DEFAULT_POS.relative(Direction.NORTH);
+
+        var meterBlockEntity = plotResult.meterBlockEntity();
+        var redstoneHandler = meterBlockEntity.getRedstoneHandler();
+        var inputEnergyFunction = plotResult.inputEnergyFunctionWithResult();
+
+        // test that control transfers without a signal
+        redstoneHandler.setFunction(RedstoneFunction.CONTROL);
+        meterBlockEntity.tick(helper.getLevel());
+        assertTransferAllowed(helper, meterBlockEntity, inputEnergyFunction, "control without a signal");
+
+        // test that a signal on a side face blocks the transfer
+        helper.setBlock(sidePos, Blocks.REDSTONE_BLOCK);
+        meterBlockEntity.tick(helper.getLevel());
+        helper.assertValueEqual(15, redstoneHandler.getInputSignal(), "input signal with a redstone block on the side");
+        assertTransferBlocked(helper, meterBlockEntity, inputEnergyFunction, "control with a redstone block on the side");
+
+        // test that removing the signal resumes the transfer
+        helper.setBlock(sidePos, Blocks.AIR);
+        meterBlockEntity.tick(helper.getLevel());
+        assertTransferAllowed(helper, meterBlockEntity, inputEnergyFunction, "control after removing the signal");
+
+        // test that the front face is ignored
+        helper.setBlock(frontPos, Blocks.REDSTONE_BLOCK);
+        meterBlockEntity.tick(helper.getLevel());
+        helper.assertValueEqual(0, redstoneHandler.getInputSignal(), "input signal with a redstone block on the front");
+        assertTransferAllowed(helper, meterBlockEntity, inputEnergyFunction, "control with a redstone block on the front");
+        helper.setBlock(frontPos, Blocks.AIR);
+
+        // test that invert blocks without a signal and transfers with one
+        redstoneHandler.setInverted(true);
+        meterBlockEntity.tick(helper.getLevel());
+        assertTransferBlocked(helper, meterBlockEntity, inputEnergyFunction, "inverted control without a signal");
+        helper.setBlock(sidePos, Blocks.REDSTONE_BLOCK);
+        meterBlockEntity.tick(helper.getLevel());
+        assertTransferAllowed(helper, meterBlockEntity, inputEnergyFunction, "inverted control with a signal");
+        redstoneHandler.setInverted(false);
+
+        // test that consume mode is blocked as well
+        meterBlockEntity.setTransferMode(TransferMode.CONSUME);
+        meterBlockEntity.tick(helper.getLevel());
+        assertTransferBlocked(helper, meterBlockEntity, inputEnergyFunction, "control in consume mode");
+        meterBlockEntity.setTransferMode(TransferMode.SPLIT);
+        helper.setBlock(sidePos, Blocks.AIR);
+
+        // test that the meter emits nothing so powered dust does not latch
+        var sideDustPos = placeDust(helper, Direction.SOUTH);
+        helper.setBlock(sideDustPos.relative(Direction.WEST), Blocks.REDSTONE_BLOCK);
+        meterBlockEntity.tick(helper.getLevel());
+        assertDustPower(helper, sideDustPos, 15, "side dust powered by a redstone block");
+        assertTransferBlocked(helper, meterBlockEntity, inputEnergyFunction, "control with powered dust");
+        assertNoMeterSignal(helper, meterBlockEntity);
+        helper.setBlock(sideDustPos.relative(Direction.WEST), Blocks.AIR);
+        meterBlockEntity.tick(helper.getLevel());
+        assertDustPower(helper, sideDustPos, 0, "side dust after removing the redstone block");
+        assertTransferAllowed(helper, meterBlockEntity, inputEnergyFunction, "control after unpowering the dust");
+
+        // test that a new meter reads an existing signal on its first tick
+        helper.setBlock(sideDustPos.relative(Direction.WEST), Blocks.REDSTONE_BLOCK);
+        helper.setBlock(TestUtils.DEFAULT_POS, Blocks.AIR);
+        var newMeterBlockEntity = TestUtils.setupMeter(helper);
+        newMeterBlockEntity.getRedstoneHandler().setFunction(RedstoneFunction.CONTROL);
+        newMeterBlockEntity.tick(helper.getLevel());
+        helper.assertValueEqual(15, newMeterBlockEntity.getRedstoneHandler().getInputSignal(), "input signal of a new meter");
+        helper.assertTrue(newMeterBlockEntity.isTransferBlocked(), "new meter next to powered dust should be blocked");
+
+        helper.succeed();
+    }
+
     private static void assertSignal(GameTestHelper helper, RedstoneHandler redstoneHandler, double energyRate, int expected) {
-        redstoneHandler.refreshSignal(energyRate);
+        redstoneHandler.refreshOutput(energyRate);
         helper.assertValueEqual(expected, redstoneHandler.getOutputSignal(), "signal for rate " + energyRate);
     }
 
@@ -212,6 +288,38 @@ public class MeterRedstoneTests {
 
     private static void assertDustPower(GameTestHelper helper, BlockPos dustPos, int expected, String message) {
         helper.assertValueEqual(expected, helper.getBlockState(dustPos).getValue(RedStoneWireBlock.POWER), message);
+    }
+
+    private static void assertTransferAllowed(
+        GameTestHelper helper,
+        MeterBlockEntity meterBlockEntity,
+        BiFunction<Integer, Boolean, Integer> inputEnergyFunction,
+        String message
+    ) {
+        helper.assertFalse(meterBlockEntity.isTransferBlocked(), message + " should not be blocked");
+        helper.assertValueEqual(1_000, inputEnergyFunction.apply(1_000, true), message + " accepted energy");
+        helper.assertValueEqual(ConnectionStatus.IDLE, meterBlockEntity.getConnectionStatus(), message + " connection status");
+    }
+
+    private static void assertTransferBlocked(
+        GameTestHelper helper,
+        MeterBlockEntity meterBlockEntity,
+        BiFunction<Integer, Boolean, Integer> inputEnergyFunction,
+        String message
+    ) {
+        helper.assertTrue(meterBlockEntity.isTransferBlocked(), message + " should be blocked");
+        helper.assertValueEqual(0, inputEnergyFunction.apply(1_000, true), message + " accepted energy");
+        helper.assertValueEqual(ConnectionStatus.BLOCKED, meterBlockEntity.getConnectionStatus(), message + " connection status");
+    }
+
+    private static void assertNoMeterSignal(GameTestHelper helper, MeterBlockEntity meterBlockEntity) {
+        var meterState = meterBlockEntity.getBlockState();
+        var meterPos = meterBlockEntity.getBlockPos();
+
+        for (var direction : Direction.values()) {
+            var signal = meterState.getSignal(helper.getLevel(), meterPos, direction);
+            helper.assertValueEqual(0, signal, "meter signal towards " + direction);
+        }
     }
 
     private static void measureRate(MeterBlockEntity meterBlockEntity, Consumer<Integer> inputEnergyFunction, int energyRate) {

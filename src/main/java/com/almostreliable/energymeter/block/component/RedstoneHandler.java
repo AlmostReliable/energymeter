@@ -25,7 +25,9 @@ public class RedstoneHandler implements DataHandler {
 
     // state
     private boolean thresholdActive;
+    private int inputSignal;
     private int outputSignal;
+    private boolean inputDirty = true;
     private boolean changed;
 
     public RedstoneHandler(Runnable changeListener) {
@@ -52,15 +54,38 @@ public class RedstoneHandler implements DataHandler {
         outputSignal = input.getIntOr(Constants.OUTPUT_SIGNAL_ID, outputSignal);
     }
 
-    public boolean refreshSignal(double energyRate) {
+    public boolean refreshOutput(double energyRate) {
         var signal = switch (function) {
-            case OFF -> 0;
+            case OFF, CONTROL -> 0;
             case ANALOG -> calculateAnalogSignal(energyRate);
             case THRESHOLD -> calculateThresholdSignal(energyRate);
         };
 
-        var isInverted = inverted && function != RedstoneFunction.OFF;
+        var isInverted = inverted && function.emitsSignal();
         return setSignal(isInverted ? Redstone.SIGNAL_MAX - signal : signal);
+    }
+
+    public void refreshInput(int signal) {
+        inputDirty = false;
+        if (inputSignal == signal) return;
+
+        inputSignal = signal;
+        changed = true;
+    }
+
+    public boolean needsInputRefresh() {
+        return inputDirty && function == RedstoneFunction.CONTROL;
+    }
+
+    public void markInputDirty() {
+        inputDirty = true;
+    }
+
+    public boolean isTransferBlocked() {
+        if (function != RedstoneFunction.CONTROL) return false;
+
+        var isPowered = inputSignal > 0;
+        return isPowered != inverted;
     }
 
     private boolean setSignal(int signal) {
@@ -118,6 +143,7 @@ public class RedstoneHandler implements DataHandler {
         buffer.writeVarLong(lowerBound);
         buffer.writeVarLong(upperBound);
         buffer.writeBoolean(inverted);
+        buffer.writeByte(inputSignal);
         buffer.writeByte(outputSignal);
         changed = false;
     }
@@ -129,6 +155,7 @@ public class RedstoneHandler implements DataHandler {
         lowerBound = buffer.readVarLong();
         upperBound = buffer.readVarLong();
         inverted = buffer.readBoolean();
+        inputSignal = buffer.readByte();
         outputSignal = buffer.readByte();
     }
 
@@ -191,10 +218,19 @@ public class RedstoneHandler implements DataHandler {
         return outputSignal;
     }
 
+    public int getInputSignal() {
+        return inputSignal;
+    }
+
     public enum RedstoneFunction {
         OFF, // no signal, redstone does not connect
         ANALOG, // maps the rate between the bounds to a signal strength
-        THRESHOLD // full signal from the upper bound until the rate drops below the lower bound
+        THRESHOLD, // full signal from the upper bound until the rate drops below the lower bound
+        CONTROL; // reads a signal to block the transfer, emits nothing
+
+        public boolean emitsSignal() {
+            return this == ANALOG || this == THRESHOLD;
+        }
     }
 
     public enum RedstoneScale implements EnumExtension<RedstoneScale> {

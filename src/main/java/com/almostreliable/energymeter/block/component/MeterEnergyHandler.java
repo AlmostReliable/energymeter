@@ -91,6 +91,8 @@ public class MeterEnergyHandler {
     }
 
     private int forwardEnergyToOutputs(int amount, TransactionContext transaction) {
+        if (host.isTransferBlocked()) return 0;
+
         if (host.getTransferMode() == TransferMode.CONSUME) {
             journal.updateSnapshots(transaction);
             energyPerInterval += amount;

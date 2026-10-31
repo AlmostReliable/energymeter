@@ -43,6 +43,7 @@ public final class EnergyMeterLang extends LanguageProvider {
     public static final LangEntry HEADER_SETTINGS = LangEntry.label("header_settings", "Settings");
     public static final LangEntry HEADER_FUNCTION = LangEntry.label("header_function", "Function");
     public static final LangEntry HEADER_OUTPUT = LangEntry.label("header_output", "Output");
+    public static final LangEntry HEADER_INPUT = LangEntry.label("header_input", "Input");
 
     // sub header labels
     public static final LangEntry SUB_HEADER_TRANSFERRING = LangEntry.label("sub_header_transferring", "Transferring");
@@ -68,6 +69,9 @@ public final class EnergyMeterLang extends LanguageProvider {
     public static final LangEntry REDSTONE_SIGNAL = LangEntry.label("redstone_signal", "Signal");
     public static final LangEntry REDSTONE_STEP = LangEntry.label("redstone_step", "Per level");
     public static final LangEntry REDSTONE_ACTS_AS_THRESHOLD = LangEntry.label("redstone_acts_as_threshold", "Acts as threshold");
+    public static final LangEntry REDSTONE_TRANSFER = LangEntry.label("redstone_transfer", "Transfer");
+    public static final LangEntry REDSTONE_TRANSFER_ALLOWED = LangEntry.label("redstone_transfer_allowed", "Allowed");
+    public static final LangEntry REDSTONE_TRANSFER_BLOCKED = LangEntry.label("redstone_transfer_blocked", "Blocked");
 
     // button labels
     public static final LangEntry BUTTON_RESET_TOTAL = LangEntry.button("reset_total", "Reset Total");
