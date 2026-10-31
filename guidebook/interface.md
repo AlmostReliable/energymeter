@@ -180,6 +180,8 @@ the graph indicates that it is paused, and the icon turns into a play icon. Pres
 
 ## Redstone Panel
 
+<FloatingImage src="assets/redstone_tab.png" align="right"/>
+
 The redstone panel can be accessed by selecting the **Redstone** tab. It allows the <ItemLink id="meter" components="rarity=epic"/> to
 emit a redstone signal based on the current flow rate, or to be switched on and off with a redstone signal.
 
@@ -254,3 +256,5 @@ The output section shows the signal strength that is currently emitted and, for 
 change for the signal to change by one level. For the **Control** function, it is replaced by the input section, which shows the strongest
 signal received and whether the transfer is currently allowed or blocked. With **Throttle**, it shows the effective transfer limit
 instead. It is shown in red if no transfer limit is set.
+
+<br clear="all" />
