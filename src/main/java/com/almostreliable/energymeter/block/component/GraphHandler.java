@@ -72,7 +72,7 @@ public class GraphHandler implements DataHandler {
             pointIndex++;
         }
 
-        snapshot = new PointSnapshot(graphPoints, yLabel);
+        snapshot = new PointSnapshot(graphPoints, yMax, yLabel);
         lastSnapShotTime = gameTime;
         newRateAfterSnapshot = false;
         needsSyncing = true;
@@ -109,6 +109,10 @@ public class GraphHandler implements DataHandler {
         return snapshot.points;
     }
 
+    public double getYMax() {
+        return snapshot.yMax;
+    }
+
     public String getYLabel() {
         return snapshot.yLabel;
     }
@@ -134,15 +138,16 @@ public class GraphHandler implements DataHandler {
         }
     }
 
-    private record PointSnapshot(GraphPoint[] points, String yLabel) {
+    private record PointSnapshot(GraphPoint[] points, double yMax, String yLabel) {
 
-        private static final PointSnapshot EMPTY = new PointSnapshot(new GraphPoint[0], "");
+        private static final PointSnapshot EMPTY = new PointSnapshot(new GraphPoint[0], 1.0, "");
 
         private void encode(FriendlyByteBuf buffer) {
             buffer.writeInt(points.length);
             for (var point : points) {
                 point.encode(buffer);
             }
+            buffer.writeDouble(yMax);
             buffer.writeUtf(yLabel);
         }
 
@@ -153,8 +158,9 @@ public class GraphHandler implements DataHandler {
                 points[i] = GraphPoint.decode(buffer);
             }
 
-            String yLabel = buffer.readUtf();
-            return new PointSnapshot(points, yLabel);
+            var yMax = buffer.readDouble();
+            var yLabel = buffer.readUtf();
+            return new PointSnapshot(points, yMax, yLabel);
         }
     }
 }
