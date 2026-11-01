@@ -3,6 +3,9 @@
 All notable changes to this project will be documented in this file.
 
 ## Unreleased
+- /
+
+## [0.6.0] - 2026-11-01
 
 - added unit suffixes (k, M, G, ...) for number inputs
 - added redstone support to the meter
@@ -99,6 +102,7 @@ The new version is a complete rewrite of the 1.20.1 version.
 
 <!-- Versions -->
 
+[0.6.0]: https://github.com/AlmostReliable/energymeter/releases/tag/v1.21.1-neoforge-0.6.0
 [0.5.3]: https://github.com/AlmostReliable/energymeter/releases/tag/v1.21.1-neoforge-0.5.3
 [0.5.2]: https://github.com/AlmostReliable/energymeter/releases/tag/v1.21.1-neoforge-0.5.2
 [0.5.1]: https://github.com/AlmostReliable/energymeter/releases/tag/v1.21.1-neoforge-0.5.1
