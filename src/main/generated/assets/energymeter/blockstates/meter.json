@@ -1,48 +1,25 @@
 {
   "variants": {
-    "facing=down,redstone=false": {
+    "facing=down": {
       "model": "energymeter:block/meter",
       "x": 90
     },
-    "facing=down,redstone=true": {
-      "model": "energymeter:block/meter",
-      "x": 90
-    },
-    "facing=east,redstone=false": {
+    "facing=east": {
       "model": "energymeter:block/meter",
       "y": 90
     },
-    "facing=east,redstone=true": {
-      "model": "energymeter:block/meter",
-      "y": 90
-    },
-    "facing=north,redstone=false": {
+    "facing=north": {
       "model": "energymeter:block/meter"
     },
-    "facing=north,redstone=true": {
-      "model": "energymeter:block/meter"
-    },
-    "facing=south,redstone=false": {
+    "facing=south": {
       "model": "energymeter:block/meter",
       "y": 180
     },
-    "facing=south,redstone=true": {
-      "model": "energymeter:block/meter",
-      "y": 180
-    },
-    "facing=up,redstone=false": {
+    "facing=up": {
       "model": "energymeter:block/meter",
       "x": 270
     },
-    "facing=up,redstone=true": {
-      "model": "energymeter:block/meter",
-      "x": 270
-    },
-    "facing=west,redstone=false": {
-      "model": "energymeter:block/meter",
-      "y": 270
-    },
-    "facing=west,redstone=true": {
+    "facing=west": {
       "model": "energymeter:block/meter",
       "y": 270
     }

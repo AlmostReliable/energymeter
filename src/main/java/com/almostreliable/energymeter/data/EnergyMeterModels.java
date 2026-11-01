@@ -2,6 +2,7 @@ package com.almostreliable.energymeter.data;
 
 import com.almostreliable.energymeter.ModConstants;
 import com.almostreliable.energymeter.block.FacingEntityBlock;
+import com.almostreliable.energymeter.block.MeterBlock;
 import com.almostreliable.energymeter.block.MonitorBlock;
 import com.almostreliable.energymeter.block.multiblock.MultiblockType;
 import com.almostreliable.energymeter.core.Registration;
@@ -49,7 +50,7 @@ class EnergyMeterModels extends BlockStateProvider {
                     .rotationY(getVerticalRotation(facing, null))
                     .build();
             },
-            FacingEntityBlock.BOTTOM
+            FacingEntityBlock.BOTTOM, MeterBlock.REDSTONE
         );
 
         itemModels().simpleBlockItem(block.get());
