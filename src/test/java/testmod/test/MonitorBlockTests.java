@@ -22,34 +22,42 @@ public class MonitorBlockTests {
 
     @GameTest(template = TestUtils.EMPTY_STRUCTURE, batch = TestUtils.BATCH_MONITOR_TESTS)
     public void form_single(GameTestHelper helper) {
-        assertFormedTypes(helper, new MultiblockType[][]{
-            {NORMAL}
-        });
+        assertFormedTypes(
+            helper, new MultiblockType[][] {
+                {NORMAL}
+            }
+        );
     }
 
     @GameTest(template = TestUtils.EMPTY_STRUCTURE, batch = TestUtils.BATCH_MONITOR_TESTS)
     public void form_row(GameTestHelper helper) {
-        assertFormedTypes(helper, new MultiblockType[][]{
-            {CORNER_L, HORIZONTAL, CORNER_R}
-        });
+        assertFormedTypes(
+            helper, new MultiblockType[][] {
+                {CORNER_L, HORIZONTAL, CORNER_R}
+            }
+        );
     }
 
     @GameTest(template = TestUtils.EMPTY_STRUCTURE, batch = TestUtils.BATCH_MONITOR_TESTS)
     public void form_column(GameTestHelper helper) {
-        assertFormedTypes(helper, new MultiblockType[][]{
-            {CORNER_U},
-            {VERTICAL},
-            {CORNER_D}
-        });
+        assertFormedTypes(
+            helper, new MultiblockType[][] {
+                {CORNER_U},
+                {VERTICAL},
+                {CORNER_D}
+            }
+        );
     }
 
     @GameTest(template = TestUtils.EMPTY_STRUCTURE, batch = TestUtils.BATCH_MONITOR_TESTS)
     public void form_square(GameTestHelper helper) {
-        assertFormedTypes(helper, new MultiblockType[][]{
-            {CORNER_UL, SIDE_U, CORNER_UR},
-            {SIDE_L, MIDDLE, SIDE_R},
-            {CORNER_DL, SIDE_D, CORNER_DR}
-        });
+        assertFormedTypes(
+            helper, new MultiblockType[][] {
+                {CORNER_UL, SIDE_U, CORNER_UR},
+                {SIDE_L, MIDDLE, SIDE_R},
+                {CORNER_DL, SIDE_D, CORNER_DR}
+            }
+        );
     }
 
     private static void assertFormedTypes(GameTestHelper helper, MultiblockType[][] typesByRow) {

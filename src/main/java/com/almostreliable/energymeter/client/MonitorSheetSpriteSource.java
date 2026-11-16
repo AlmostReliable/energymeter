@@ -49,7 +49,12 @@ public record MonitorSheetSpriteSource(ResourceLocation sheet) implements Sprite
         return TYPE;
     }
 
-    private record QuarterLoader(LazyLoadedImage image, ResourceLocation sheetFile, ResourceLocation spriteId, MultiblockType type) implements SpriteSupplier {
+    private record QuarterLoader(
+        LazyLoadedImage image,
+        ResourceLocation sheetFile,
+        ResourceLocation spriteId,
+        MultiblockType type
+    ) implements SpriteSupplier {
 
         private static final int MAX_QUARTERS = 6;
 

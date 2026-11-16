@@ -306,7 +306,10 @@ public class MathExpressionParserTests {
 
     private void assertCompactFormat(GameTestHelper helper, long value, String expected) {
         var formatted = NumberFormatter.formatCompact(value);
-        helper.assertTrue(formatted.equals(expected), "Value " + value + " should format as '" + expected + "' but got '" + formatted + "'");
+        helper.assertTrue(
+            formatted.equals(expected),
+            "Value " + value + " should format as '" + expected + "' but got '" + formatted + "'"
+        );
         assertParseEquals(helper, formatted, BigDecimal.valueOf(value));
     }
 }

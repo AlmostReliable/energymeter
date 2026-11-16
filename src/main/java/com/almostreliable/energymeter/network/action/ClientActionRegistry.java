@@ -123,10 +123,12 @@ public final class ClientActionRegistry {
         );
         ClientActionRegistry.register(
             TOGGLE_REDSTONE_INVERTED_ID,
-            SimpleClientAction.<MeterMenu> decoder(TOGGLE_REDSTONE_INVERTED_ID, menu -> {
-                var redstoneHandler = menu.getBlockEntity().getRedstoneHandler();
-                redstoneHandler.setInverted(!redstoneHandler.isInverted());
-            })
+            SimpleClientAction.<MeterMenu> decoder(
+                TOGGLE_REDSTONE_INVERTED_ID, menu -> {
+                    var redstoneHandler = menu.getBlockEntity().getRedstoneHandler();
+                    redstoneHandler.setInverted(!redstoneHandler.isInverted());
+                }
+            )
         );
     }
 

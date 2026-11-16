@@ -379,7 +379,13 @@ public class MeterRedstoneTests {
         helper.assertValueEqual(expected, redstoneHandler.getOutputSignal(), "signal for rate " + energyRate);
     }
 
-    private static void assertDustConnection(GameTestHelper helper, BlockPos dustPos, Direction direction, RedstoneSide expected, String message) {
+    private static void assertDustConnection(
+        GameTestHelper helper,
+        BlockPos dustPos,
+        Direction direction,
+        RedstoneSide expected,
+        String message
+    ) {
         var dustState = helper.getBlockState(dustPos);
         helper.assertValueEqual(expected, dustState.getValue(RedStoneWireBlock.PROPERTY_BY_DIRECTION.get(direction)), message);
     }

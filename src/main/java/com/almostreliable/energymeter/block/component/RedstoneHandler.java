@@ -61,7 +61,9 @@ public class RedstoneHandler implements INBTSerializable<CompoundTag>, DataHandl
     public void deserializeNBT(HolderLookup.Provider provider, CompoundTag tag) {
         if (tag.contains(Constants.FUNCTION_ID)) function = RedstoneFunction.valueOf(tag.getString(Constants.FUNCTION_ID));
         if (tag.contains(Constants.SCALE_ID)) scale = RedstoneScale.valueOf(tag.getString(Constants.SCALE_ID));
-        if (tag.contains(Constants.CONTROL_BEHAVIOR_ID)) controlBehavior = ControlBehavior.valueOf(tag.getString(Constants.CONTROL_BEHAVIOR_ID));
+        if (tag.contains(Constants.CONTROL_BEHAVIOR_ID)) {
+            controlBehavior = ControlBehavior.valueOf(tag.getString(Constants.CONTROL_BEHAVIOR_ID));
+        }
         if (tag.contains(Constants.LOWER_BOUND_ID)) lowerBound = tag.getLong(Constants.LOWER_BOUND_ID);
         if (tag.contains(Constants.UPPER_BOUND_ID)) upperBound = tag.getLong(Constants.UPPER_BOUND_ID);
         if (tag.contains(Constants.INVERTED_ID)) inverted = tag.getBoolean(Constants.INVERTED_ID);

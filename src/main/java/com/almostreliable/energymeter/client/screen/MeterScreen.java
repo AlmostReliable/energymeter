@@ -158,7 +158,11 @@ public class MeterScreen extends SynchronizedContainerScreen<MeterMenu> {
         var ioConfigComposite = OutlinedCompositeWidget.ofLayout(EnergyMeterLang.HEADER_IO.get(), ioConfigLayout);
         ioConfigComposite.setMinWidth(GLOBAL_INFO_WIDTH);
 
-        var resetButton = new OutlinedButton(GLOBAL_INFO_WIDTH + 8, EnergyMeterLang.BUTTON_RESET_TOTAL.get(), this::onResetTotalButtonClicked);
+        var resetButton = new OutlinedButton(
+            GLOBAL_INFO_WIDTH + 8,
+            EnergyMeterLang.BUTTON_RESET_TOTAL.get(),
+            this::onResetTotalButtonClicked
+        );
         resetButton.setTooltip(TooltipBuilder.create().literal(EnergyMeterLang.BUTTON_RESET_TOTAL_TOOLTIP.get()).build());
 
         var layout = LinearLayout.vertical().spacing(VERTICAL_ELEMENT_SPACING);
@@ -178,7 +182,6 @@ public class MeterScreen extends SynchronizedContainerScreen<MeterMenu> {
             rebuildWidgets();
         }
     }
-
 
     private void initTabs() {
         LinearLayout layout = LinearLayout.horizontal().spacing(1);
