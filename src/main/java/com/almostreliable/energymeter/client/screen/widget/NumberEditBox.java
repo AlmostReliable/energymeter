@@ -80,7 +80,14 @@ public class NumberEditBox extends EditBox implements ClickedOutsideListener {
             var mc = Minecraft.getInstance();
             var posY = getY() - (maxExceeded ? 12 : 0);
             var tooltipWidth = mc.font.width(tooltip.getFirst()) + 16;
-            graphics.setTooltipForNextFrame(mc.font, tooltip, DefaultTooltipPositioner.INSTANCE, getX() + width - tooltipWidth, posY, false);
+            graphics.setTooltipForNextFrame(
+                mc.font,
+                tooltip,
+                DefaultTooltipPositioner.INSTANCE,
+                getX() + width - tooltipWidth,
+                posY,
+                false
+            );
         }
     }
 

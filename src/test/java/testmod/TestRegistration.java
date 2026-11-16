@@ -63,7 +63,11 @@ public final class TestRegistration {
             .title(Component.literal("Testmod"))
             .icon(Items.NETHER_STAR::getDefaultInstance)
             .noScrollBar()
-            .displayItems((_, output) -> output.acceptAll(List.of(ENERGY_EMITTER_BLOCK.toStack(), ENERGY_RECEIVER_BLOCK.toStack(), ENERGY_CABLE_BLOCK.toStack())))
+            .displayItems((_, output) -> output.acceptAll(List.of(
+                ENERGY_EMITTER_BLOCK.toStack(),
+                ENERGY_RECEIVER_BLOCK.toStack(),
+                ENERGY_CABLE_BLOCK.toStack()
+            )))
             .build()
     );
 

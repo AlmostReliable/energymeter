@@ -75,7 +75,7 @@ public final class ModRegistration {
             .title(EnergyMeterLang.LangEntry.of("tab", "main", ModConstants.MOD_NAME).get())
             .icon(METER_BLOCK::toStack)
             .noScrollBar()
-            .displayItems((_, output) ->{
+            .displayItems((_, output) -> {
                 output.acceptAll(getKnownItems());
                 if (EnergyMeter.isModLoaded(Constants.GUIDE_ME)) {
                     var guideStack = getGuideBookStack();

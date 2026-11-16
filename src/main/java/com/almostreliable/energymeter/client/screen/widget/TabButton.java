@@ -51,7 +51,18 @@ public class TabButton extends LayoutPositionedButton {
 
         // tab icon
         int uOffset = tabType.ordinal() * ICON_WIDTH;
-        graphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, getX() + 5, getY() + 3, uOffset, TAB_HEIGHT, ICON_WIDTH, ICON_HEIGHT, TEXTURE_WIDTH, TEXTURE_HEIGHT);
+        graphics.blit(
+            RenderPipelines.GUI_TEXTURED,
+            TEXTURE,
+            getX() + 5,
+            getY() + 3,
+            uOffset,
+            TAB_HEIGHT,
+            ICON_WIDTH,
+            ICON_HEIGHT,
+            TEXTURE_WIDTH,
+            TEXTURE_HEIGHT
+        );
     }
 
     @Override

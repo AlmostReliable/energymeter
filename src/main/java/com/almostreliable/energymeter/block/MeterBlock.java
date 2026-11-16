@@ -84,7 +84,9 @@ public class MeterBlock extends FacingEntityBlock {
     protected int getSignal(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
         if (!isRedstoneFace(state, direction)) return 0;
 
-        return level.getBlockEntity(pos) instanceof MeterBlockEntity meterBlockEntity ? meterBlockEntity.getRedstoneHandler().getOutputSignal() : 0;
+        return level.getBlockEntity(pos) instanceof MeterBlockEntity meterBlockEntity ?
+            meterBlockEntity.getRedstoneHandler().getOutputSignal() :
+            0;
     }
 
     @Override

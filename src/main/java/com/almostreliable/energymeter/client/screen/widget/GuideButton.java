@@ -27,7 +27,14 @@ public class GuideButton extends AbstractButton {
     @Override
     protected void extractContents(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
         var font = Minecraft.getInstance().font;
-        graphics.text(font, getMessage(), getX() + (SIZE - font.width(getMessage())) / 2, getY() + (SIZE - font.lineHeight) / 2, Constants.COLOR_WHITE, false);
+        graphics.text(
+            font,
+            getMessage(),
+            getX() + (SIZE - font.width(getMessage())) / 2,
+            getY() + (SIZE - font.lineHeight) / 2,
+            Constants.COLOR_WHITE,
+            false
+        );
     }
 
     @Override

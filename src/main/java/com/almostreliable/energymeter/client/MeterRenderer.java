@@ -111,6 +111,7 @@ public class MeterRenderer implements BlockEntityRenderer<MeterBlockEntity, Mete
     }
 
     public static class State extends BlockEntityRenderState {
+
         private boolean visible;
         private @Nullable BlockState blockState;
         private String energy = "";

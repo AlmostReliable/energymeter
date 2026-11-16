@@ -34,7 +34,11 @@ public class MonitorBlock extends FacingEntityBlock {
     public static final BooleanProperty CONTROLLER = BooleanProperty.create(Constants.CONTROLLER_PROP);
     public static final EnumProperty<OptionalDirection> HORIZONTAL = OptionalDirectionProperty.HORIZONTAL;
     public static final EnumProperty<OptionalDirection> VERTICAL = OptionalDirectionProperty.VERTICAL;
-    public static final EnumProperty<MultiblockType> TYPE = EnumProperty.create(Constants.MULTIBLOCK_TYPE_PROP, MultiblockType.class, List.of(MultiblockType.values()));
+    public static final EnumProperty<MultiblockType> TYPE = EnumProperty.create(
+        Constants.MULTIBLOCK_TYPE_PROP,
+        MultiblockType.class,
+        List.of(MultiblockType.values())
+    );
 
     public MonitorBlock(Properties properties) {
         super(properties);

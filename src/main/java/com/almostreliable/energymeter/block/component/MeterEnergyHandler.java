@@ -294,7 +294,11 @@ public class MeterEnergyHandler {
         return energyForwarded;
     }
 
-    private int transferEnergyToOutputs(List<EnergyPerOutputEntry> maxEnergyPerOutput, int maxEnergyToForward, TransactionContext transaction) {
+    private int transferEnergyToOutputs(
+        List<EnergyPerOutputEntry> maxEnergyPerOutput,
+        int maxEnergyToForward,
+        TransactionContext transaction
+    ) {
         var energyToForward = maxEnergyToForward;
         var energyForwarded = 0;
 
@@ -333,7 +337,7 @@ public class MeterEnergyHandler {
 
         @Override
         protected long[] createSnapshot() {
-            return new long[]{energyPerInterval, energyPerTick};
+            return new long[] {energyPerInterval, energyPerTick};
         }
 
         @Override

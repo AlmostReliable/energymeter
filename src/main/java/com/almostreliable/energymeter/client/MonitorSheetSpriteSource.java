@@ -46,7 +46,12 @@ public record MonitorSheetSpriteSource(Identifier sheet) implements SpriteSource
         return MAP_CODEC;
     }
 
-    private record QuarterLoader(LazyLoadedImage image, Identifier sheetFile, Identifier spriteId, MultiblockType type) implements DiscardableLoader {
+    private record QuarterLoader(
+        LazyLoadedImage image,
+        Identifier sheetFile,
+        Identifier spriteId,
+        MultiblockType type
+    ) implements DiscardableLoader {
 
         private static final int MAX_QUARTERS = 6;
 

@@ -73,6 +73,17 @@ public final class TexRenderer {
     }
 
     public void render(GuiGraphicsExtractor graphics) {
-        graphics.blit(RenderPipelines.GUI_TEXTURED, texture, targetX, targetY, texX, texY, texWidth, texHeight, textureWidth, textureHeight);
+        graphics.blit(
+            RenderPipelines.GUI_TEXTURED,
+            texture,
+            targetX,
+            targetY,
+            texX,
+            texY,
+            texWidth,
+            texHeight,
+            textureWidth,
+            textureHeight
+        );
     }
 }
